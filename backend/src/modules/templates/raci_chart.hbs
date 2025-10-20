@@ -1,0 +1,66 @@
+# RACI Matrix - {{projectName}}
+
+## Overview
+This RACI chart defines the roles and responsibilities for project activities using the RACI framework:
+- **R** = Responsible (does the work)
+- **A** = Accountable (has final authority)
+- **C** = Consulted (provides input)
+- **I** = Informed (kept in the loop)
+
+---
+
+## Team Members
+{{#each agents}}
+- **{{name}}** - {{orientation}}
+{{/each}}
+
+---
+
+## RACI Chart
+
+{{#each activities}}
+### {{category}}
+
+| Activity | {{#each ../agents}}{{name}} | {{/each}}
+|----------|{{#each ../agents}}---------|{{/each}}
+{{#each tasks}}
+| {{name}} | {{#each ../agents}}{{lookup ../../assignments name @key}} | {{/each}}
+{{/each}}
+
+{{/each}}
+
+---
+
+## Key Decisions & Responsibilities
+
+{{#each keyResponsibilities}}
+### {{area}}
+
+{{#each roles}}
+- **{{role}}**: {{responsibility}}
+{{/each}}
+
+{{/each}}
+
+---
+
+## Escalation Path
+
+{{#each escalationPath}}
+**Level {{level}}:** {{description}}
+{{/each}}
+
+---
+
+## Notes
+
+{{#if notes}}
+{{notes}}
+{{else}}
+No additional notes at this time.
+{{/if}}
+
+---
+
+**Document Version:** {{version}}
+**Last Updated:** {{timestamp}}

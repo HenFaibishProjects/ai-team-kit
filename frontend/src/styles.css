@@ -1,0 +1,207 @@
+/* Global styles */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+  --background-color: #fafafa;
+  --surface-color: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.87);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --border-color: rgba(0, 0, 0, 0.12);
+  --hover-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark-theme {
+  --background-color: #303030;
+  --surface-color: #424242;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --hover-color: rgba(255, 255, 255, 0.04);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+body {
+  margin: 0;
+}
+
+/* Material Design elevation shadows */
+.mat-elevation-z1 {
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+              0 1px 1px 0 rgba(0, 0, 0, 0.14),
+              0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mat-elevation-z2 {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mat-elevation-z4 {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+              0 4px 5px 0 rgba(0, 0, 0, 0.14),
+              0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Role icons color mapping */
+.role-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.role-icon.product-manager {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.role-icon.tech-lead {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.role-icon.developer {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.role-icon.qa-engineer {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.role-icon.designer {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+.role-icon.devops {
+  background-color: #e0f2f1;
+  color: #00796b;
+}
+
+.role-icon.scrum-master {
+  background-color: #fff9c4;
+  color: #f57f17;
+}
+
+.role-icon.architect {
+  background-color: #ede7f6;
+  color: #512da8;
+}
+
+/* Dark theme role icons */
+.dark-theme .role-icon.product-manager {
+  background-color: rgba(25, 118, 210, 0.2);
+  color: #64b5f6;
+}
+
+.dark-theme .role-icon.tech-lead {
+  background-color: rgba(123, 31, 162, 0.2);
+  color: #ba68c8;
+}
+
+.dark-theme .role-icon.developer {
+  background-color: rgba(56, 142, 60, 0.2);
+  color: #81c784;
+}
+
+.dark-theme .role-icon.qa-engineer {
+  background-color: rgba(245, 124, 0, 0.2);
+  color: #ffb74d;
+}
+
+.dark-theme .role-icon.designer {
+  background-color: rgba(194, 24, 91, 0.2);
+  color: #f06292;
+}
+
+.dark-theme .role-icon.devops {
+  background-color: rgba(0, 121, 107, 0.2);
+  color: #4db6ac;
+}
+
+.dark-theme .role-icon.scrum-master {
+  background-color: rgba(245, 127, 23, 0.2);
+  color: #ffd54f;
+}
+
+.dark-theme .role-icon.architect {
+  background-color: rgba(81, 45, 168, 0.2);
+  color: #9575cd;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+/* Snackbar styles */
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.dark-theme .success-snackbar {
+  background-color: #66bb6a !important;
+}
+
+.dark-theme .error-snackbar {
+  background-color: #ef5350 !important;
+}

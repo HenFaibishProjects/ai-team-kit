@@ -1,0 +1,39 @@
+<div class="wizard-container">
+  <mat-horizontal-stepper #stepper linear>
+    <!-- Step 1: Team Setup -->
+    <mat-step [completed]="isTeamSetupValid()">
+      <ng-template matStepLabel>Team Setup</ng-template>
+      <app-team-setup (complete)="onTeamSetupComplete()"></app-team-setup>
+    </mat-step>
+
+    <!-- Step 2: Feature Setup -->
+    <mat-step [completed]="isFeaturesValid()">
+      <ng-template matStepLabel>Feature Setup</ng-template>
+      <app-feature-setup (complete)="onFeatureSetupComplete()"></app-feature-setup>
+    </mat-step>
+
+    <!-- Step 3: Sprint Planning -->
+    <mat-step>
+      <ng-template matStepLabel>Sprint Planning</ng-template>
+      <app-sprint-planning (complete)="onSprintPlanningComplete()"></app-sprint-planning>
+    </mat-step>
+
+    <!-- Step 4: RACI Matrix -->
+    <mat-step>
+      <ng-template matStepLabel>RACI Matrix</ng-template>
+      <app-raci (complete)="onRaciComplete()"></app-raci>
+    </mat-step>
+
+    <!-- Step 5: ADR -->
+    <mat-step>
+      <ng-template matStepLabel>Architecture Decision</ng-template>
+      <app-adr (complete)="onAdrComplete()"></app-adr>
+    </mat-step>
+
+    <!-- Step 6: Export -->
+    <mat-step>
+      <ng-template matStepLabel>Export</ng-template>
+      <app-export></app-export>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

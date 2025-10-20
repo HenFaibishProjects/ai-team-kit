@@ -1,0 +1,11 @@
+.page-container { 
+  max-width: 900px; 
+  margin: 2rem auto; 
+  padding: 0 1rem; 
+}
+
+.actions { 
+  margin-top: 2rem; 
+  display: flex; 
+  justify-content: flex-end; 
+}

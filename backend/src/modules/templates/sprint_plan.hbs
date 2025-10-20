@@ -1,0 +1,69 @@
+# Sprint Planning - {{projectName}}
+
+## Sprint Overview
+**Sprint Duration:** {{sprintDuration}}
+**Sprint Goal:** {{sprintGoal}}
+**Start Date:** {{startDate}}
+**End Date:** {{endDate}}
+
+---
+
+## Team Capacity
+
+{{#each agents}}
+### {{name}}
+- **Role:** {{orientation}}
+- **Availability:** {{availability}}%
+- **Capacity:** {{capacity}} hours
+{{/each}}
+
+---
+
+## Sprint Backlog
+
+{{#each features}}
+### Feature: {{name}}
+
+**Priority:** {{priority}}
+**Estimated Effort:** {{estimatedEffort}} hours
+
+#### Tasks
+
+{{#each tasks}}
+**Task {{@index}}:** {{name}}
+- **Assigned To:** {{assignedTo}}
+- **Estimate:** {{estimate}} hours
+- **Status:** {{status}}
+- **Dependencies:** {{#if dependencies}}{{dependencies}}{{else}}None{{/if}}
+
+{{/each}}
+
+**Acceptance Criteria:**
+{{#each acceptanceCriteria}}
+- {{this}}
+{{/each}}
+
+---
+
+{{/each}}
+
+## Definition of Done
+
+{{#each doneDefinition}}
+- {{this}}
+{{/each}}
+
+## Sprint Risks
+
+{{#if risks}}
+{{#each risks}}
+- **Risk:** {{description}}
+  - **Mitigation:** {{mitigation}}
+{{/each}}
+{{else}}
+No risks identified at this time.
+{{/if}}
+
+---
+
+**Generated on:** {{timestamp}}

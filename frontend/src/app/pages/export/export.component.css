@@ -1,0 +1,106 @@
+.export-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.config-summary {
+  margin: 1rem 0;
+}
+
+.config-summary h3 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.config-summary p {
+  margin: 0.5rem 0;
+  color: var(--text-primary);
+}
+
+mat-divider {
+  margin: 2rem 0;
+}
+
+.optional-content {
+  margin: 2rem 0;
+}
+
+.optional-content h3 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.field-with-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.field-with-copy mat-form-field {
+  flex: 1;
+}
+
+.field-with-copy button {
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+  color: #c62828;
+}
+
+.dark-theme .error-message {
+  background-color: rgba(198, 40, 40, 0.2);
+  color: #ff5252;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  padding: 0 24px;
+  height: 44px;
+}
+
+mat-spinner {
+  margin: 2rem auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .field-with-copy {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .field-with-copy button {
+    margin-top: 0;
+    align-self: flex-end;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

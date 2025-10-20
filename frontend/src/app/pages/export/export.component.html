@@ -1,0 +1,95 @@
+<div class="export-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Export Configuration</mat-card-title>
+      <mat-card-subtitle>Review and export your AI team configuration</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="teamConfig" class="config-summary">
+        <h3>Configuration Summary</h3>
+        <p><strong>Project:</strong> {{ teamConfig.projectName }}</p>
+        <p><strong>Team Members:</strong> {{ teamConfig.agents.length }}</p>
+        <p><strong>Features:</strong> {{ teamConfig.features.length }}</p>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="optional-content">
+        <h3>Optional Content (will be included in export if filled)</h3>
+        
+        <div class="field-with-copy">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Sprint Planning (Optional)</mat-label>
+            <textarea matInput [(ngModel)]="sprintData" rows="4" 
+                      placeholder="Add sprint planning details..."></textarea>
+          </mat-form-field>
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="copySprintPlan()" 
+                  [disabled]="!sprintData"
+                  matTooltip="Copy sprint plan">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+
+        <div class="field-with-copy">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>RACI Matrix (Optional)</mat-label>
+            <textarea matInput [(ngModel)]="raciData" rows="4"
+                      placeholder="Add RACI matrix details..."></textarea>
+          </mat-form-field>
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="copyRaciChart()" 
+                  [disabled]="!raciData"
+                  matTooltip="Copy RACI chart">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+
+        <div class="field-with-copy">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Architecture Decision Record (Optional)</mat-label>
+            <textarea matInput [(ngModel)]="adrData" rows="4"
+                      placeholder="Add ADR details..."></textarea>
+          </mat-form-field>
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="copyAdrDocument()" 
+                  [disabled]="!adrData"
+                  matTooltip="Copy ADR document">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        <mat-icon>error</mat-icon>
+        <span>{{ error }}</span>
+      </div>
+
+      <div class="actions">
+        <button mat-stroked-button 
+                (click)="copyAllConfig()" 
+                [disabled]="!sprintData && !raciData && !adrData"
+                matTooltip="Copy all content to clipboard">
+          <mat-icon>content_copy</mat-icon>
+          Copy All
+        </button>
+
+        <button mat-raised-button color="accent" (click)="onSaveConfig()" [disabled]="loading || !teamConfig">
+          <mat-icon>save</mat-icon>
+          Save Configuration
+        </button>
+
+        <button mat-raised-button color="primary" (click)="onExport()" [disabled]="loading || !teamConfig">
+          <mat-icon>download</mat-icon>
+          Export as ZIP
+        </button>
+      </div>
+
+      <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>

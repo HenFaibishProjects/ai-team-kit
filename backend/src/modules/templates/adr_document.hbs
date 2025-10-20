@@ -1,0 +1,154 @@
+# Architecture Decision Record
+
+## ADR-{{adrNumber}}: {{title}}
+
+**Project:** {{projectName}}
+**Date:** {{date}}
+**Status:** {{status}}
+**Decision Makers:** {{decisionMakers}}
+
+---
+
+## Context
+
+{{context}}
+
+---
+
+## Decision
+
+{{decision}}
+
+---
+
+## Rationale
+
+{{rationale}}
+
+---
+
+## Consequences
+
+### Positive Consequences
+
+{{#each positiveConsequences}}
+- {{this}}
+{{/each}}
+
+### Negative Consequences
+
+{{#if negativeConsequences}}
+{{#each negativeConsequences}}
+- {{this}}
+{{/each}}
+{{else}}
+None identified at this time.
+{{/if}}
+
+---
+
+## Alternatives Considered
+
+{{#each alternatives}}
+### {{name}}
+
+**Description:** {{description}}
+
+**Pros:**
+{{#each pros}}
+- {{this}}
+{{/each}}
+
+**Cons:**
+{{#each cons}}
+- {{this}}
+{{/each}}
+
+**Reason for rejection:** {{rejectionReason}}
+
+---
+
+{{/each}}
+
+---
+
+## Technical Details
+
+{{#if technicalDetails}}
+### Implementation Notes
+
+{{technicalDetails}}
+
+### Architecture Diagrams
+
+{{#if architectureDiagrams}}
+{{#each architectureDiagrams}}
+- {{name}}: {{url}}
+{{/each}}
+{{/if}}
+
+### Dependencies
+
+{{#if dependencies}}
+{{#each dependencies}}
+- {{name}} ({{version}}): {{purpose}}
+{{/each}}
+{{else}}
+No specific dependencies identified.
+{{/if}}
+{{/if}}
+
+---
+
+## Impact Analysis
+
+### Affected Components
+
+{{#each affectedComponents}}
+- **{{name}}**: {{impact}}
+{{/each}}
+
+### Migration Strategy
+
+{{#if migrationStrategy}}
+{{migrationStrategy}}
+{{else}}
+No migration required.
+{{/if}}
+
+---
+
+## References
+
+{{#if references}}
+{{#each references}}
+- [{{title}}]({{url}})
+{{/each}}
+{{else}}
+No references provided.
+{{/if}}
+
+---
+
+## Related ADRs
+
+{{#if relatedADRs}}
+{{#each relatedADRs}}
+- ADR-{{number}}: {{title}} ({{relationship}})
+{{/each}}
+{{else}}
+No related ADRs.
+{{/if}}
+
+---
+
+## Approval
+
+{{#each approvals}}
+- **{{name}}** ({{role}}): {{status}} on {{date}}
+{{/each}}
+
+---
+
+**Last Updated:** {{lastUpdated}}
+**Superseded By:** {{#if supersededBy}}ADR-{{supersededBy}}{{else}}N/A{{/if}}

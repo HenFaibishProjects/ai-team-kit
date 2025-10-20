@@ -1,0 +1,199 @@
+<div class="team-setup-container">
+  <h2 class="page-title">
+    <mat-icon class="title-icon">groups</mat-icon>
+    Team Setup
+  </h2>
+  <p class="page-subtitle">Configure your AI team members and their roles</p>
+
+  <form [formGroup]="teamSetupForm" (ngSubmit)="onSubmit()">
+    <!-- Project Name Card -->
+    <mat-card class="project-card mat-elevation-z2">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Project Name</mat-label>
+          <mat-icon matPrefix>folder</mat-icon>
+          <input matInput formControlName="projectName" placeholder="Enter project name" required>
+          <mat-error *ngIf="teamSetupForm.get('projectName')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Team Members Section -->
+    <div class="section-header">
+      <h3>Team Members</h3>
+      <button mat-raised-button color="accent" type="button" (click)="addAgent()">
+        <mat-icon>add</mat-icon> Add Team Member
+      </button>
+    </div>
+
+    <div formArrayName="agents" class="agents-grid">
+      <mat-card *ngFor="let agent of agents.controls; let i = index" 
+                [formGroupName]="i" 
+                class="agent-card mat-elevation-z2">
+        
+        <!-- Card Header with Icon -->
+        <div class="card-header">
+          <div class="header-content">
+            <div class="role-icon" 
+                 [class]="getRoleClass(agent.get('orientation')?.value)"
+                 *ngIf="agent.get('orientation')?.value">
+              <mat-icon>{{ getRoleIcon(agent.get('orientation')?.value) }}</mat-icon>
+            </div>
+            <div class="header-text">
+              <h4>{{ agent.get('name')?.value || 'New Team Member' }}</h4>
+              <span class="role-label">{{ getOrientationLabel(agent.get('orientation')?.value) || 'Select Role' }}</span>
+            </div>
+          </div>
+          <button mat-icon-button 
+                  type="button" 
+                  color="warn" 
+                  (click)="removeAgent(i)"
+                  [disabled]="agents.length <= 1"
+                  matTooltip="Remove team member">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Card Content -->
+        <mat-card-content>
+          <!-- Basic Info -->
+          <div class="basic-info">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Name</mat-label>
+              <mat-icon matPrefix>person</mat-icon>
+              <input matInput formControlName="name" placeholder="Agent name" required>
+              <mat-error *ngIf="agent.get('name')?.hasError('required')">
+                Name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Role</mat-label>
+              <mat-icon matPrefix>work</mat-icon>
+              <mat-select formControlName="orientation" required>
+                <mat-option *ngFor="let orientation of orientations" [value]="orientation">
+                  <div class="select-option">
+                    <mat-icon class="option-icon">{{ getRoleIcon(orientation) }}</mat-icon>
+                    {{ getOrientationLabel(orientation) }}
+                  </div>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="agent.get('orientation')?.hasError('required')">
+                Role is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-expansion-panel class="details-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>tune</mat-icon>
+                Advanced Configuration
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <!-- Strengths -->
+            <div class="array-field" formArrayName="strengths">
+              <label class="field-label">
+                <mat-icon>star</mat-icon>
+                Strengths
+              </label>
+              <div class="chips-container">
+                <div *ngFor="let strength of getStrengths(i).controls; let j = index" class="chip-input">
+                  <mat-form-field appearance="outline" class="compact-field">
+                    <input matInput [formControlName]="j" placeholder="E.g., System Architecture">
+                  </mat-form-field>
+                  <button mat-icon-button type="button" (click)="removeStrength(i, j)"
+                          [disabled]="getStrengths(i).length <= 1">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <button mat-button type="button" (click)="addStrength(i)" class="add-chip-btn">
+                <mat-icon>add_circle_outline</mat-icon> Add Strength
+              </button>
+            </div>
+
+            <mat-divider class="section-divider"></mat-divider>
+
+            <!-- Constraints -->
+            <div class="array-field" formArrayName="constraints">
+              <label class="field-label">
+                <mat-icon>warning_amber</mat-icon>
+                Constraints
+              </label>
+              <div class="chips-container">
+                <div *ngFor="let constraint of getConstraints(i).controls; let j = index" class="chip-input">
+                  <mat-form-field appearance="outline" class="compact-field">
+                    <input matInput [formControlName]="j" placeholder="E.g., Limited to 20 hours/week">
+                  </mat-form-field>
+                  <button mat-icon-button type="button" (click)="removeConstraint(i, j)"
+                          [disabled]="getConstraints(i).length <= 1">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <button mat-button type="button" (click)="addConstraint(i)" class="add-chip-btn">
+                <mat-icon>add_circle_outline</mat-icon> Add Constraint
+              </button>
+            </div>
+
+            <mat-divider class="section-divider"></mat-divider>
+
+            <!-- Preferences -->
+            <div formGroupName="preferences" class="preferences">
+              <label class="field-label">
+                <mat-icon>tune</mat-icon>
+                Preferences (1-10 scale)
+              </label>
+              
+              <div class="preference-slider">
+                <label>Cost Sensitivity</label>
+                <mat-slider min="1" max="10" step="1" discrete>
+                  <input matSliderThumb formControlName="cost_sensitivity">
+                </mat-slider>
+                <span class="slider-value">{{ getPreferences(i).get('cost_sensitivity')?.value }}</span>
+              </div>
+
+              <div class="preference-slider">
+                <label>Security Rigidity</label>
+                <mat-slider min="1" max="10" step="1" discrete>
+                  <input matSliderThumb formControlName="security_rigidity">
+                </mat-slider>
+                <span class="slider-value">{{ getPreferences(i).get('security_rigidity')?.value }}</span>
+              </div>
+
+              <div class="preference-slider">
+                <label>Maintainability</label>
+                <mat-slider min="1" max="10" step="1" discrete>
+                  <input matSliderThumb formControlName="maintainability">
+                </mat-slider>
+                <span class="slider-value">{{ getPreferences(i).get('maintainability')?.value }}</span>
+              </div>
+
+              <div class="preference-slider">
+                <label>Performance</label>
+                <mat-slider min="1" max="10" step="1" discrete>
+                  <input matSliderThumb formControlName="performance">
+                </mat-slider>
+                <span class="slider-value">{{ getPreferences(i).get('performance')?.value }}</span>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!teamSetupForm.valid">
+        Next: Feature Setup
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,53 @@
+# {{projectName}} - AI Team Prompt Pack
+
+## Project Overview
+**Project Name:** {{projectName}}
+
+---
+
+## Team Members
+
+{{#each agents}}
+### {{name}} ({{orientation}})
+
+**Role:** {{orientation}}
+
+**Strengths:**
+{{#each strengths}}
+- {{this}}
+{{/each}}
+
+**Constraints:**
+{{#each constraints}}
+- {{this}}
+{{/each}}
+
+**Preferences:**
+- Cost Sensitivity: {{preferences.cost_sensitivity}}
+- Security Rigidity: {{preferences.security_rigidity}}
+- Maintainability: {{preferences.maintainability}}
+- Performance: {{preferences.performance}}
+
+---
+
+{{/each}}
+
+## Features
+
+{{#each features}}
+### {{name}}
+
+**Scope:** {{scope}}
+
+**Acceptance Criteria:**
+{{#each acceptanceCriteria}}
+- {{this}}
+{{/each}}
+
+---
+
+{{/each}}
+
+## Prompt Instructions
+
+Use this configuration to guide AI agents in their roles and responsibilities throughout the project lifecycle.

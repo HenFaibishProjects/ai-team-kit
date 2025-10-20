@@ -1,0 +1,110 @@
+<div class="feature-setup-container">
+  <h2 class="page-title">
+    <mat-icon class="title-icon">featured_play_list</mat-icon>
+    Feature Setup
+  </h2>
+  <p class="page-subtitle">Define features and their acceptance criteria for your project</p>
+
+  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
+    <!-- Features Section -->
+    <div class="section-header">
+      <h3>Features</h3>
+      <button mat-raised-button color="accent" type="button" (click)="addFeature()">
+        <mat-icon>add</mat-icon> Add Feature
+      </button>
+    </div>
+
+    <div formArrayName="features" class="features-grid">
+      <mat-card *ngFor="let feature of features.controls; let i = index" 
+                [formGroupName]="i" 
+                class="feature-card mat-elevation-z2">
+        
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="header-content">
+            <div class="feature-icon">
+              <mat-icon>lightbulb</mat-icon>
+            </div>
+            <div class="header-text">
+              <h4>{{ feature.get('name')?.value || 'New Feature' }}</h4>
+              <span class="feature-count">{{ getCriteria(i).length }} acceptance {{ getCriteria(i).length === 1 ? 'criterion' : 'criteria' }}</span>
+            </div>
+          </div>
+          <button mat-icon-button 
+                  type="button" 
+                  color="warn" 
+                  (click)="removeFeature(i)"
+                  [disabled]="features.length <= 1"
+                  matTooltip="Remove feature">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Card Content -->
+        <mat-card-content>
+          <!-- Feature Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Feature Name</mat-label>
+            <mat-icon matPrefix>label</mat-icon>
+            <input matInput formControlName="name" placeholder="E.g., User Authentication" required>
+            <mat-error *ngIf="feature.get('name')?.hasError('required')">
+              Feature name is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Scope -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Scope</mat-label>
+            <mat-icon matPrefix>description</mat-icon>
+            <textarea matInput formControlName="scope" rows="3" 
+                      placeholder="Describe the feature scope and requirements..." required></textarea>
+            <mat-error *ngIf="feature.get('scope')?.hasError('required')">
+              Scope is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Acceptance Criteria -->
+          <div class="criteria-section" formArrayName="acceptanceCriteria">
+            <label class="field-label">
+              <mat-icon>check_circle</mat-icon>
+              Acceptance Criteria
+            </label>
+            
+            <div class="criteria-list">
+              <div *ngFor="let criterion of getCriteria(i).controls; let j = index" class="criterion-item">
+                <div class="criterion-number">{{ j + 1 }}</div>
+                <mat-form-field appearance="outline" class="criterion-field">
+                  <input matInput [formControlName]="j" 
+                         placeholder="E.g., User can log in with email and password" required>
+                  <mat-error *ngIf="criterion.hasError('required')">
+                    Criterion is required
+                  </mat-error>
+                </mat-form-field>
+                <button mat-icon-button type="button" 
+                        (click)="removeCriterion(i, j)"
+                        [disabled]="getCriteria(i).length <= 1"
+                        matTooltip="Remove criterion">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <button mat-button type="button" (click)="addCriterion(i)" class="add-criterion-btn">
+              <mat-icon>add_circle_outline</mat-icon> Add Criterion
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!featureForm.valid">
+        Next Step
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

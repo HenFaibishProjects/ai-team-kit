@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-team-kit-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=3000
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run start:dev
+    depends_on:
+      - postgres
+    networks:
+      - ai-team-kit-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-team-kit-frontend
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+    depends_on:
+      - backend
+    networks:
+      - ai-team-kit-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-team-kit-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-ai_team_kit}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-team-kit-network
+
+networks:
+  ai-team-kit-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
