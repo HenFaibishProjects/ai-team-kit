@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../",
+    "outDir": "../backend/dist",
+    "baseUrl": "./",
+    "deleteOutDir": true
+  },
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }
