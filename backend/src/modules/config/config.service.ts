@@ -32,7 +32,7 @@ export class ConfigService {
   ): Promise<Project> {
     // Ensure user exists (in production, this would be validated by auth middleware)
     let user = await this.userRepository.findOne({ where: { id: userId } });
-    
+
     if (!user) {
       // For now, create a temporary user if not exists
       // In production, this would be handled by your auth system
@@ -44,15 +44,16 @@ export class ConfigService {
       await this.userRepository.save(user);
     }
 
-    const project = this.projectRepository.create({
+    const projectData = {
       userId,
       projectName: teamConfig.projectName,
       teamConfig,
-      sprintPlan: additionalData?.sprintPlan ?? null,
-      raciChart: additionalData?.raciChart ?? null,
-      adrDocument: additionalData?.adrDocument ?? null,
-    });
+      sprintPlan: additionalData?.sprintPlan,
+      raciChart: additionalData?.raciChart,
+      adrDocument: additionalData?.adrDocument,
+    };
 
+    const project = this.projectRepository.create(projectData);
     return await this.projectRepository.save(project);
   }
 

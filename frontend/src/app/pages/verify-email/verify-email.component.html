@@ -1,0 +1,33 @@
+<div class="verify-container">
+  <mat-card class="verify-card">
+    <mat-card-content>
+      <!-- Verifying State -->
+      <div *ngIf="isVerifying" class="status-container">
+        <mat-spinner diameter="60"></mat-spinner>
+        <h2>Verifying Your Email</h2>
+        <p>Please wait while we verify your email address...</p>
+      </div>
+
+      <!-- Success State -->
+      <div *ngIf="isSuccess" class="status-container success">
+        <mat-icon class="status-icon">check_circle</mat-icon>
+        <h2>Email Verified Successfully!</h2>
+        <p>Your email has been verified. You can now log in to your account.</p>
+        <p class="countdown">Redirecting to login in {{ countdown }} seconds...</p>
+        <button mat-raised-button color="primary" (click)="goToLogin()">
+          Go to Login Now
+        </button>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isVerifying && !isSuccess" class="status-container error">
+        <mat-icon class="status-icon">error</mat-icon>
+        <h2>Verification Failed</h2>
+        <p>{{ errorMessage }}</p>
+        <button mat-raised-button color="primary" (click)="goToLogin()">
+          Go to Login
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

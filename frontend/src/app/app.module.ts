@@ -31,10 +31,17 @@ import { RaciComponent } from './pages/raci/raci.component';
 import { AdrComponent } from './pages/adr/adr.component';
 import { ExportComponent } from './pages/export/export.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'wizard', component: WizardComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verify-email', component: VerifyEmailComponent },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 
@@ -48,7 +55,10 @@ const routes: Routes = [
     RaciComponent,
     AdrComponent,
     ExportComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent,
+    RegisterComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +83,7 @@ const routes: Routes = [
     MatSnackBarModule,
     MatTooltipModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

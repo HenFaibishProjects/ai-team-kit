@@ -1,0 +1,71 @@
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.verify-card {
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-content {
+  padding: 40px;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.status-container h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.status-container p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.status-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+}
+
+.success .status-icon {
+  color: #28a745;
+}
+
+.error .status-icon {
+  color: #dc3545;
+}
+
+.countdown {
+  font-weight: 500;
+  color: #667eea;
+}
+
+button {
+  margin-top: 10px;
+  min-width: 200px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+mat-spinner {
+  margin-bottom: 10px;
+}

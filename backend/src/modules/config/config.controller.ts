@@ -150,14 +150,14 @@ export class ConfigController {
       // TODO: Get userId from authenticated session/token
       const user = userId || 'temp-user-id';
       const success = await this.configService.deleteConfig(id, user);
-      
+
       if (!success) {
         throw new HttpException(
           'Configuration not found or unauthorized',
           HttpStatus.NOT_FOUND,
         );
       }
-      
+
       return { success };
     } catch (error) {
       if (error instanceof HttpException) {
