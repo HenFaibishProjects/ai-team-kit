@@ -31,10 +31,10 @@ export class User {
   @Column({ default: false })
   isActive: boolean;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   verificationToken: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   verificationTokenExpiry: Date | null;
 
   @OneToMany(() => Project, (project) => project.user)
