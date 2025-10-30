@@ -65,11 +65,38 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load projects';
+        // Don't show error for empty projects, just show empty state
+        if (err.status === 404 || err.error?.message?.includes('No projects found')) {
+          this.projects = [];
+        } else {
+          this.error = 'Failed to load projects';
+        }
         this.loading = false;
         console.error(err);
       }
     });
+  }
+
+  setupOrganization(): void {
+    // TODO: Navigate to organization setup page
+    // For now, show a message
+    alert('Organization setup coming soon! This will allow you to:\n\n' +
+          '• Configure your organization name and description\n' +
+          '• Define what your organization does\n' +
+          '• Set up organization-wide settings\n' +
+          '• Manage organization members');
+    // this.router.navigate(['/organization/setup']);
+  }
+
+  createTeam(): void {
+    // TODO: Navigate to team creation page
+    // For now, show a message
+    alert('Team creation coming soon! This will allow you to:\n\n' +
+          '• Create teams within your organization\n' +
+          '• Add team members with specific roles\n' +
+          '• Assign skills to team members\n' +
+          '• Manage team assignments to projects');
+    // this.router.navigate(['/teams/create']);
   }
 
   createNewProject(): void {
