@@ -18,13 +18,7 @@
       <app-feature-planning (complete)="onFeaturePlanningComplete()"></app-feature-planning>
     </mat-step>
 
-    <!-- Step 4: RACI Matrix -->
-    <mat-step>
-      <ng-template matStepLabel>RACI Matrix</ng-template>
-      <app-raci (complete)="onRaciComplete()"></app-raci>
-    </mat-step>
-
-    <!-- Step 5: ADR -->
+    <!-- Step 4: ADR -->
     <mat-step>
       <ng-template matStepLabel>Architecture Decision</ng-template>
       <app-adr (complete)="onAdrComplete()"></app-adr>

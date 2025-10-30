@@ -38,10 +38,6 @@ export class WizardComponent implements OnInit {
     this.stepper.next();
   }
 
-  onRaciComplete(): void {
-    this.stepper.next();
-  }
-
   onAdrComplete(): void {
     // Navigate to feature management/dashboard after completing the wizard
     this.router.navigate(['/dashboard']);
