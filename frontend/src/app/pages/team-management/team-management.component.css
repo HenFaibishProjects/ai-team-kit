@@ -233,20 +233,48 @@
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
+.avatar-mobile {
+  background: linear-gradient(135deg, #fa8bff 0%, #2bd2ff 100%);
+}
+
 .avatar-devops {
   background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.avatar-sre {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
 .avatar-qa {
   background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
 
+.avatar-security {
+  background: linear-gradient(135deg, #f83600 0%, #f9d423 100%);
+}
+
+.avatar-data_engineer {
+  background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
+}
+
 .avatar-architect {
   background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
 }
 
+.avatar-tech_lead {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+}
+
 .avatar-pm {
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.avatar-scrum_master {
+  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+}
+
+.avatar-business_analyst {
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
 }
 
 .avatar-designer {

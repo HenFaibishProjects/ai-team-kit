@@ -222,7 +222,14 @@ export class TeamManagementComponent implements OnInit {
       'qa': 'bug_report',
       'architect': 'architecture',
       'pm': 'manage_accounts',
-      'designer': 'palette'
+      'designer': 'palette',
+      'tech_lead': 'stars',
+      'mobile': 'smartphone',
+      'data_engineer': 'analytics',
+      'scrum_master': 'groups_2',
+      'security': 'security',
+      'sre': 'settings_applications',
+      'business_analyst': 'assessment'
     };
     return icons[orientation] || 'person';
   }
@@ -236,7 +243,14 @@ export class TeamManagementComponent implements OnInit {
       'qa': 'QA Engineer',
       'architect': 'Software Architect',
       'pm': 'Product Manager',
-      'designer': 'UI/UX Designer'
+      'designer': 'UI/UX Designer',
+      'tech_lead': 'Tech Lead',
+      'mobile': 'Mobile Developer',
+      'data_engineer': 'Data Engineer',
+      'scrum_master': 'Scrum Master',
+      'security': 'Security Engineer',
+      'sre': 'Site Reliability Engineer',
+      'business_analyst': 'Business Analyst'
     };
     return labels[orientation] || orientation;
   }
