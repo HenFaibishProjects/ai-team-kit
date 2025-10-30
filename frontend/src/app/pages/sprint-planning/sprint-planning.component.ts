@@ -7,7 +7,7 @@ interface Task {
   name: string;
   description: string;
   assignedTo: string;
-  estimatedHours: number;
+  estimatedDays?: number;
 }
 
 interface FeatureWithTasks extends FeatureConfig {
@@ -73,7 +73,7 @@ export class FeaturePlanningComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       assignedTo: ['', Validators.required],
-      estimatedHours: [0, [Validators.required, Validators.min(0)]]
+      estimatedDays: [null, [Validators.min(0)]]
     });
     this.getTasks(featureIndex).push(taskGroup);
   }
@@ -91,9 +91,9 @@ export class FeaturePlanningComponent implements OnInit {
     }
   }
 
-  getTotalHours(featureIndex: number): number {
+  getTotalDays(featureIndex: number): number {
     const tasks = this.getTasks(featureIndex).value;
-    return tasks.reduce((sum: number, task: Task) => sum + (task.estimatedHours || 0), 0);
+    return tasks.reduce((sum: number, task: Task) => sum + (task.estimatedDays || 0), 0);
   }
 
   getAgentName(agentId: string): string {

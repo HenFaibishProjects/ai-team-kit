@@ -17,7 +17,7 @@
               <span>{{ features[i].name }}</span>
               <mat-chip class="task-count-chip">{{ getTasks(i).length }} tasks</mat-chip>
               <mat-chip class="hours-chip" *ngIf="getTasks(i).length > 0">
-                {{ getTotalHours(i) }}h total
+                {{ getTotalDays(i) }} days total
               </mat-chip>
             </div>
           </mat-panel-title>
@@ -91,13 +91,10 @@
                   </mat-form-field>
 
                   <mat-form-field appearance="outline" class="hours-field">
-                    <mat-label>Estimated Hours</mat-label>
-                    <input matInput type="number" formControlName="estimatedHours" 
-                           min="0" step="0.5" required>
-                    <mat-error *ngIf="task.get('estimatedHours')?.hasError('required')">
-                      Hours required
-                    </mat-error>
-                    <mat-error *ngIf="task.get('estimatedHours')?.hasError('min')">
+                    <mat-label>Estimated Days (Optional)</mat-label>
+                    <input matInput type="number" formControlName="estimatedDays" 
+                           min="0" step="0.5">
+                    <mat-error *ngIf="task.get('estimatedDays')?.hasError('min')">
                       Must be positive
                     </mat-error>
                   </mat-form-field>
