@@ -1,81 +1,77 @@
 <div class="adr-container">
   <h2 class="page-title">
     <mat-icon class="title-icon">architecture</mat-icon>
-    Architecture Decision
+    Architecture Decision Record
   </h2>
   <p class="page-subtitle">Choose your architecture approach</p>
 
   <!-- Mode Selection -->
-  <div *ngIf="!selectionMode" class="mode-selection">
+  <div class="mode-selection" *ngIf="!selectionMode">
     <mat-card class="mode-card" (click)="selectMode('manual')">
-      <mat-card-content>
-        <mat-icon class="mode-icon">edit</mat-icon>
-        <h3>Manual Selection</h3>
-        <p>Choose an architecture pattern yourself based on your knowledge and requirements</p>
-        <button mat-raised-button color="primary">
-          Select Manually
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card-content>
+      <mat-icon class="mode-icon">touch_app</mat-icon>
+      <h3>Manual Selection</h3>
+      <p>Choose from a comprehensive list of architecture patterns</p>
     </mat-card>
 
     <mat-card class="mode-card" (click)="selectMode('ai')">
-      <mat-card-content>
-        <mat-icon class="mode-icon">psychology</mat-icon>
-        <h3>AI-Assisted</h3>
-        <p>Generate a detailed prompt for your LLM to recommend the best architecture</p>
-        <button mat-raised-button color="accent">
-          Generate AI Prompt
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card-content>
+      <mat-icon class="mode-icon">psychology</mat-icon>
+      <h3>AI-Assisted</h3>
+      <p>Generate a detailed prompt for AI architecture recommendations</p>
     </mat-card>
   </div>
 
   <!-- Manual Selection Mode -->
-  <div *ngIf="selectionMode === 'manual'" class="manual-mode">
-    <div class="mode-header">
-      <button mat-icon-button (click)="selectionMode = null">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <h3>Select Architecture Pattern</h3>
+  <div class="manual-selection" *ngIf="selectionMode === 'manual'">
+    <button mat-button class="back-button" (click)="selectionMode = null">
+      <mat-icon>arrow_back</mat-icon> Back to Mode Selection
+    </button>
+
+    <div class="patterns-container">
+      <div *ngFor="let category of patternCategories" class="pattern-category">
+        <div class="category-header">
+          <h3>{{ category.name }}</h3>
+          <p class="category-description">{{ category.description }}</p>
+        </div>
+
+        <div class="patterns-grid">
+          <mat-card 
+            *ngFor="let pattern of category.patterns"
+            class="pattern-card"
+            [class.selected]="selectedArchitecture === pattern.id"
+            (click)="selectArchitecture(pattern.id)">
+            <div class="pattern-icon-wrapper">
+              <mat-icon class="pattern-icon">{{ pattern.icon }}</mat-icon>
+            </div>
+            <h4 class="pattern-name">{{ pattern.name }}</h4>
+            <p class="pattern-description">{{ pattern.description }}</p>
+            <div class="pattern-tags">
+              <mat-chip *ngFor="let tag of pattern.bestFor" class="pattern-tag">
+                {{ tag }}
+              </mat-chip>
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </div>
 
-    <div class="architecture-grid">
-      <mat-card *ngFor="let pattern of architecturePatterns" 
-                class="architecture-card"
-                [class.selected]="selectedArchitecture === pattern.id"
-                (click)="selectArchitecture(pattern.id)">
-        <mat-card-content>
-          <mat-icon class="architecture-icon">{{ pattern.icon }}</mat-icon>
-          <h4>{{ pattern.name }}</h4>
-          <p class="description">{{ pattern.description }}</p>
-          <div class="best-for">
-            <strong>Best for:</strong>
-            <ul>
-              <li *ngFor="let item of pattern.bestFor">{{ item }}</li>
-            </ul>
-          </div>
-          <mat-icon class="check-icon" *ngIf="selectedArchitecture === pattern.id">check_circle</mat-icon>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <form [formGroup]="adrForm" (ngSubmit)="onSubmit()" class="adr-form">
+    <!-- Selected Architecture Details -->
+    <div class="architecture-details" *ngIf="selectedArchitecture">
       <mat-card class="details-card">
-        <mat-card-header>
-          <mat-card-title>Architecture Decision Details</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Selected Architecture</mat-label>
-            <input matInput [value]="getArchitectureDetails(selectedArchitecture)?.name || 'None selected'" readonly>
-          </mat-form-field>
-
+        <h3>
+          <mat-icon>{{ getArchitectureDetails(selectedArchitecture)?.icon }}</mat-icon>
+          {{ getArchitectureDetails(selectedArchitecture)?.name }}
+        </h3>
+        
+        <form [formGroup]="adrForm" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Rationale</mat-label>
-            <textarea matInput formControlName="rationale" rows="4" 
-                      placeholder="Explain why you chose this architecture..." required></textarea>
+            <textarea 
+              matInput 
+              formControlName="rationale" 
+              rows="4"
+              placeholder="Explain why this architecture is suitable for your project..."
+              required>
+            </textarea>
             <mat-error *ngIf="adrForm.get('rationale')?.hasError('required')">
               Rationale is required
             </mat-error>
@@ -83,78 +79,100 @@
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Consequences (Optional)</mat-label>
-            <textarea matInput formControlName="consequences" rows="4" 
-                      placeholder="Describe the expected consequences, trade-offs, and considerations..."></textarea>
+            <textarea 
+              matInput 
+              formControlName="consequences" 
+              rows="4"
+              placeholder="Document any trade-offs, benefits, or challenges...">
+            </textarea>
           </mat-form-field>
-        </mat-card-content>
-      </mat-card>
 
-      <div class="form-actions">
-        <button mat-raised-button type="button" (click)="selectionMode = null">
-          <mat-icon>arrow_back</mat-icon>
-          Back
-        </button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!adrForm.valid">
-          Complete Setup
-          <mat-icon>check_circle</mat-icon>
-        </button>
-      </div>
-    </form>
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!adrForm.valid">
+              Complete Setup
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
   </div>
 
   <!-- AI-Assisted Mode -->
-  <div *ngIf="selectionMode === 'ai'" class="ai-mode">
-    <div class="mode-header">
-      <button mat-icon-button (click)="selectionMode = null">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <h3>AI-Assisted Architecture Decision</h3>
-    </div>
+  <div class="ai-assisted" *ngIf="selectionMode === 'ai'">
+    <button mat-button class="back-button" (click)="selectionMode = null">
+      <mat-icon>arrow_back</mat-icon> Back to Mode Selection
+    </button>
 
     <mat-card class="prompt-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>psychology</mat-icon>
-          Generated AI Prompt
-        </mat-card-title>
-        <mat-card-subtitle>Copy this prompt and paste it into your preferred LLM (ChatGPT, Claude, etc.)</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="prompt-container">
-          <pre class="prompt-text">{{ generatedPrompt }}</pre>
-        </div>
-        <div class="prompt-actions">
-          <button mat-raised-button color="accent" (click)="copyPrompt()">
-            <mat-icon>content_copy</mat-icon>
-            Copy Prompt
-          </button>
-        </div>
+      <div class="prompt-header">
+        <h3>
+          <mat-icon>auto_awesome</mat-icon>
+          AI Architecture Recommendation Prompt
+        </h3>
+        <p>Copy this prompt and paste it into your preferred AI assistant (ChatGPT, Claude, etc.) to get architecture recommendations</p>
+      </div>
 
-        <div class="instructions">
-          <mat-icon>info</mat-icon>
-          <div>
-            <h4>How to use this prompt:</h4>
-            <ol>
-              <li>Click "Copy Prompt" to copy the generated prompt</li>
-              <li>Open your preferred AI assistant (ChatGPT, Claude, Gemini, etc.)</li>
-              <li>Paste the prompt and send it</li>
-              <li>Review the AI's recommendation</li>
-              <li>Return here and manually select the recommended architecture</li>
-            </ol>
-          </div>
-        </div>
-      </mat-card-content>
+      <div class="prompt-content">
+        <pre>{{ generatedPrompt }}</pre>
+      </div>
+
+      <div class="prompt-actions">
+        <button mat-raised-button color="accent" (click)="copyPrompt()">
+          <mat-icon>content_copy</mat-icon>
+          Copy Prompt
+        </button>
+      </div>
     </mat-card>
 
-    <div class="form-actions">
-      <button mat-raised-button (click)="selectionMode = null">
-        <mat-icon>arrow_back</mat-icon>
-        Back to Selection
-      </button>
-      <button mat-raised-button color="primary" (click)="selectionMode = 'manual'">
-        Continue to Manual Selection
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </div>
+    <mat-card class="manual-entry-card">
+      <h3>After Getting AI Recommendations</h3>
+      <p>Once you receive the AI's architecture recommendation, document it below:</p>
+
+      <form [formGroup]="adrForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Recommended Architecture</mat-label>
+          <input 
+            matInput 
+            formControlName="architecture" 
+            placeholder="e.g., Microservices with Event-Driven Communication"
+            required>
+          <mat-error *ngIf="adrForm.get('architecture')?.hasError('required')">
+            Architecture name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>AI Rationale</mat-label>
+          <textarea 
+            matInput 
+            formControlName="rationale" 
+            rows="6"
+            placeholder="Paste the AI's rationale and recommendations here..."
+            required>
+          </textarea>
+          <mat-error *ngIf="adrForm.get('rationale')?.hasError('required')">
+            Rationale is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Consequences & Trade-offs</mat-label>
+          <textarea 
+            matInput 
+            formControlName="consequences" 
+            rows="4"
+            placeholder="Document any consequences, trade-offs, or implementation notes...">
+          </textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!adrForm.valid">
+            Complete Setup
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card>
   </div>
 </div>
