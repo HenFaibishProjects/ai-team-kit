@@ -33,6 +33,7 @@ export interface FeatureConfig {
 
 export interface TeamConfig {
   projectName: string;
+  projectType?: 'new' | 'existing';
   agents: Agent[];
   features: FeatureConfig[];
   githubProjectUrl?: string;

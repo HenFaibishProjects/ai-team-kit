@@ -31,6 +31,9 @@ export class FeatureSetupComponent implements OnInit {
   selectProjectType(type: 'new' | 'existing'): void {
     this.projectType = type;
     
+    // Save project type to service
+    this.teamService.setProjectType(type);
+    
     // For both new and existing projects, start with empty features array
     this.addFeature();
   }

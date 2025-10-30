@@ -11,6 +11,7 @@ export class TeamService {
   
   private teamConfigSubject = new BehaviorSubject<Partial<TeamConfig>>({
     projectName: '',
+    projectType: 'new',
     agents: [],
     features: [],
     githubProjectUrl: '',
@@ -73,6 +74,20 @@ export class TeamService {
   }
 
   /**
+   * Set project type (new or existing)
+   */
+  setProjectType(projectType: 'new' | 'existing'): void {
+    this.setTeamConfig({ projectType });
+  }
+
+  /**
+   * Get project type
+   */
+  getProjectType(): 'new' | 'existing' {
+    return this.teamConfigSubject.value.projectType || 'new';
+  }
+
+  /**
    * Save configuration to backend
    */
   saveConfig(teamConfig: TeamConfig): Observable<{ id: string }> {
@@ -125,6 +140,7 @@ export class TeamService {
   resetConfig(): void {
     this.teamConfigSubject.next({
       projectName: '',
+      projectType: 'new',
       agents: [],
       features: [],
       githubProjectUrl: '',
