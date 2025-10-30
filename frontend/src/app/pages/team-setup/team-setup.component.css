@@ -136,6 +136,12 @@ mat-card-content {
   gap: 8px;
 }
 
+.details-panel mat-panel-description {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
 .array-field {
   margin: 16px 0;
 }
@@ -154,6 +160,68 @@ mat-card-content {
   font-size: 20px;
   width: 20px;
   height: 20px;
+}
+
+.inherited-badge {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background-color: rgba(33, 150, 243, 0.1);
+  color: #2196f3;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.readonly-chips {
+  margin-bottom: 0.75rem;
+}
+
+.readonly-chips mat-chip {
+  background-color: var(--hover-color) !important;
+  color: var(--text-secondary) !important;
+}
+
+.info-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0;
+  font-style: italic;
+}
+
+.info-text mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.preference-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  background-color: var(--hover-color);
+  border-radius: 8px;
+}
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pref-label {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.pref-value {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--mdc-theme-primary, #1976d2);
 }
 
 .chips-container {

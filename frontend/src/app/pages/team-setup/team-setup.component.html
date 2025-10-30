@@ -110,97 +110,90 @@
           <mat-expansion-panel class="details-panel">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>tune</mat-icon>
-                Advanced Configuration
+                <mat-icon>visibility</mat-icon>
+                View Configuration
               </mat-panel-title>
+              <mat-panel-description>
+                Inherited from team member profile
+              </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <!-- Strengths -->
+            <!-- Strengths (Read-only) -->
             <div class="array-field" formArrayName="strengths">
               <label class="field-label">
                 <mat-icon>star</mat-icon>
                 Strengths
+                <span class="inherited-badge">From Team Member</span>
               </label>
-              <div class="chips-container">
-                <div *ngFor="let strength of getStrengths(i).controls; let j = index" class="chip-input">
-                  <mat-form-field appearance="outline" class="compact-field">
-                    <input matInput [formControlName]="j" placeholder="E.g., System Architecture">
-                  </mat-form-field>
-                  <button mat-icon-button type="button" (click)="removeStrength(i, j)"
-                          [disabled]="getStrengths(i).length <= 1">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
+              <div class="readonly-chips">
+                <mat-chip-set>
+                  <mat-chip *ngFor="let strength of getStrengths(i).controls" 
+                            [disabled]="true">
+                    {{ strength.value || 'Not specified' }}
+                  </mat-chip>
+                </mat-chip-set>
               </div>
-              <button mat-button type="button" (click)="addStrength(i)" class="add-chip-btn">
-                <mat-icon>add_circle_outline</mat-icon> Add Strength
-              </button>
+              <p class="info-text">
+                <mat-icon>info</mat-icon>
+                To modify strengths, edit the team member in Team Management
+              </p>
             </div>
 
             <mat-divider class="section-divider"></mat-divider>
 
-            <!-- Constraints -->
+            <!-- Constraints (Read-only) -->
             <div class="array-field" formArrayName="constraints">
               <label class="field-label">
                 <mat-icon>warning_amber</mat-icon>
                 Constraints
+                <span class="inherited-badge">From Team Member</span>
               </label>
-              <div class="chips-container">
-                <div *ngFor="let constraint of getConstraints(i).controls; let j = index" class="chip-input">
-                  <mat-form-field appearance="outline" class="compact-field">
-                    <input matInput [formControlName]="j" placeholder="E.g., Limited to 20 hours/week">
-                  </mat-form-field>
-                  <button mat-icon-button type="button" (click)="removeConstraint(i, j)"
-                          [disabled]="getConstraints(i).length <= 1">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
+              <div class="readonly-chips">
+                <mat-chip-set>
+                  <mat-chip *ngFor="let constraint of getConstraints(i).controls" 
+                            [disabled]="true">
+                    {{ constraint.value || 'Not specified' }}
+                  </mat-chip>
+                </mat-chip-set>
               </div>
-              <button mat-button type="button" (click)="addConstraint(i)" class="add-chip-btn">
-                <mat-icon>add_circle_outline</mat-icon> Add Constraint
-              </button>
+              <p class="info-text">
+                <mat-icon>info</mat-icon>
+                To modify constraints, edit the team member in Team Management
+              </p>
             </div>
 
             <mat-divider class="section-divider"></mat-divider>
 
-            <!-- Preferences -->
+            <!-- Preferences (Read-only) -->
             <div formGroupName="preferences" class="preferences">
               <label class="field-label">
                 <mat-icon>tune</mat-icon>
                 Preferences (1-10 scale)
+                <span class="inherited-badge">From Team Member</span>
               </label>
               
-              <div class="preference-slider">
-                <label>Cost Sensitivity</label>
-                <mat-slider min="1" max="10" step="1" discrete>
-                  <input matSliderThumb formControlName="cost_sensitivity">
-                </mat-slider>
-                <span class="slider-value">{{ getPreferences(i).get('cost_sensitivity')?.value }}</span>
+              <div class="preference-display">
+                <div class="preference-item">
+                  <span class="pref-label">Cost Sensitivity:</span>
+                  <span class="pref-value">{{ getPreferences(i).get('cost_sensitivity')?.value }}/10</span>
+                </div>
+                <div class="preference-item">
+                  <span class="pref-label">Security Rigidity:</span>
+                  <span class="pref-value">{{ getPreferences(i).get('security_rigidity')?.value }}/10</span>
+                </div>
+                <div class="preference-item">
+                  <span class="pref-label">Maintainability:</span>
+                  <span class="pref-value">{{ getPreferences(i).get('maintainability')?.value }}/10</span>
+                </div>
+                <div class="preference-item">
+                  <span class="pref-label">Performance:</span>
+                  <span class="pref-value">{{ getPreferences(i).get('performance')?.value }}/10</span>
+                </div>
               </div>
-
-              <div class="preference-slider">
-                <label>Security Rigidity</label>
-                <mat-slider min="1" max="10" step="1" discrete>
-                  <input matSliderThumb formControlName="security_rigidity">
-                </mat-slider>
-                <span class="slider-value">{{ getPreferences(i).get('security_rigidity')?.value }}</span>
-              </div>
-
-              <div class="preference-slider">
-                <label>Maintainability</label>
-                <mat-slider min="1" max="10" step="1" discrete>
-                  <input matSliderThumb formControlName="maintainability">
-                </mat-slider>
-                <span class="slider-value">{{ getPreferences(i).get('maintainability')?.value }}</span>
-              </div>
-
-              <div class="preference-slider">
-                <label>Performance</label>
-                <mat-slider min="1" max="10" step="1" discrete>
-                  <input matSliderThumb formControlName="performance">
-                </mat-slider>
-                <span class="slider-value">{{ getPreferences(i).get('performance')?.value }}</span>
-              </div>
+              <p class="info-text">
+                <mat-icon>info</mat-icon>
+                To modify preferences, edit the team member in Team Management
+              </p>
             </div>
           </mat-expansion-panel>
         </mat-card-content>

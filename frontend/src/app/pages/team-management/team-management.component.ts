@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -7,6 +7,15 @@ interface TeamMember {
   name: string;
   orientation: string;
   skills: string[];
+  avatar: string;
+  strengths: string[];
+  constraints: string[];
+  preferences: {
+    cost_sensitivity: number;
+    security_rigidity: number;
+    maintainability: number;
+    performance: number;
+  };
 }
 
 @Component({
@@ -33,12 +42,64 @@ export class TeamManagementComponent implements OnInit {
     this.loadTeamMembers();
   }
 
+  avatarOptions = [
+    { value: 'person', label: 'Default', icon: 'person' },
+    { value: 'man', label: 'Man', icon: 'man' },
+    { value: 'woman', label: 'Woman', icon: 'woman' },
+    { value: 'person_2', label: 'Person 2', icon: 'person_2' },
+    { value: 'person_3', label: 'Person 3', icon: 'person_3' },
+    { value: 'person_4', label: 'Person 4', icon: 'person_4' },
+    { value: 'face', label: 'Face', icon: 'face' },
+    { value: 'face_2', label: 'Face 2', icon: 'face_2' },
+    { value: 'face_3', label: 'Face 3', icon: 'face_3' },
+    { value: 'engineering', label: 'Engineer', icon: 'engineering' },
+    { value: 'science', label: 'Scientist', icon: 'science' },
+    { value: 'psychology', label: 'Creative', icon: 'psychology' }
+  ];
+
   private initializeForm(): void {
     this.memberForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       orientation: ['', Validators.required],
-      skills: ['']
+      skills: [''],
+      avatar: ['person', Validators.required],
+      strengths: this.fb.array([this.fb.control('')]),
+      constraints: this.fb.array([this.fb.control('')]),
+      preferences: this.fb.group({
+        cost_sensitivity: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
+        security_rigidity: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
+        maintainability: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
+        performance: [5, [Validators.required, Validators.min(1), Validators.max(10)]]
+      })
     });
+  }
+
+  get strengths(): FormArray {
+    return this.memberForm.get('strengths') as FormArray;
+  }
+
+  get constraints(): FormArray {
+    return this.memberForm.get('constraints') as FormArray;
+  }
+
+  addStrength(): void {
+    this.strengths.push(this.fb.control(''));
+  }
+
+  removeStrength(index: number): void {
+    if (this.strengths.length > 1) {
+      this.strengths.removeAt(index);
+    }
+  }
+
+  addConstraint(): void {
+    this.constraints.push(this.fb.control(''));
+  }
+
+  removeConstraint(index: number): void {
+    if (this.constraints.length > 1) {
+      this.constraints.removeAt(index);
+    }
   }
 
   private loadTeamMembers(): void {
@@ -72,7 +133,11 @@ export class TeamManagementComponent implements OnInit {
       const member: TeamMember = {
         name: formValue.name,
         orientation: formValue.orientation,
-        skills: formValue.skills ? formValue.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s) : []
+        skills: formValue.skills ? formValue.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [],
+        avatar: formValue.avatar,
+        strengths: formValue.strengths.filter((s: string) => s && s.trim() !== ''),
+        constraints: formValue.constraints.filter((c: string) => c && c.trim() !== ''),
+        preferences: formValue.preferences
       };
 
       if (this.editingIndex !== null) {
@@ -89,9 +154,17 @@ export class TeamManagementComponent implements OnInit {
         this.saving = false;
         this.showAddForm = false;
         this.editingIndex = null;
-        this.memberForm.reset();
+        this.memberForm.reset({ avatar: 'person' });
+        this.resetFormArrays();
       }, 500);
     }
+  }
+
+  private resetFormArrays(): void {
+    this.strengths.clear();
+    this.strengths.push(this.fb.control(''));
+    this.constraints.clear();
+    this.constraints.push(this.fb.control(''));
   }
 
   editMember(index: number): void {
@@ -99,10 +172,33 @@ export class TeamManagementComponent implements OnInit {
     this.editingIndex = index;
     this.showAddForm = true;
     
+    // Clear and populate strengths
+    this.strengths.clear();
+    if (member.strengths && member.strengths.length > 0) {
+      member.strengths.forEach(s => this.strengths.push(this.fb.control(s)));
+    } else {
+      this.strengths.push(this.fb.control(''));
+    }
+
+    // Clear and populate constraints
+    this.constraints.clear();
+    if (member.constraints && member.constraints.length > 0) {
+      member.constraints.forEach(c => this.constraints.push(this.fb.control(c)));
+    } else {
+      this.constraints.push(this.fb.control(''));
+    }
+    
     this.memberForm.patchValue({
       name: member.name,
       orientation: member.orientation,
-      skills: member.skills.join(', ')
+      skills: member.skills.join(', '),
+      avatar: member.avatar || 'person',
+      preferences: member.preferences || {
+        cost_sensitivity: 5,
+        security_rigidity: 5,
+        maintainability: 5,
+        performance: 5
+      }
     });
   }
 

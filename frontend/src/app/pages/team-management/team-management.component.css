@@ -51,6 +51,106 @@
   width: 100%;
 }
 
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.section-heading mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.avatar-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.advanced-panel {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.subsection-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.subsection-heading mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.array-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.array-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.array-field {
+  flex: 1;
+}
+
+.add-array-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.section-divider {
+  margin: 1.5rem 0;
+}
+
+.preference-slider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.preference-slider label {
+  min-width: 150px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.preference-slider mat-slider {
+  flex: 1;
+}
+
+.slider-value {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

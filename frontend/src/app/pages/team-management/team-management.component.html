@@ -9,56 +9,181 @@
     </div>
   </div>
 
-  <!-- Add New Member Form -->
+  <!-- Add/Edit Member Form -->
   <mat-card class="add-member-card" *ngIf="showAddForm">
     <mat-card-header>
       <mat-card-title>
-        <mat-icon>person_add</mat-icon>
-        Add New Team Member
+        <mat-icon>{{ editingIndex !== null ? 'edit' : 'person_add' }}</mat-icon>
+        {{ editingIndex !== null ? 'Edit Team Member' : 'Add New Team Member' }}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="memberForm" (ngSubmit)="saveMember()">
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Name</mat-label>
-            <mat-icon matPrefix>person</mat-icon>
-            <input matInput formControlName="name" placeholder="e.g., John Doe" required>
-            <mat-error *ngIf="memberForm.get('name')?.hasError('required')">
-              Name is required
-            </mat-error>
-          </mat-form-field>
+        <!-- Basic Info Section -->
+        <div class="form-section">
+          <h3 class="section-heading">
+            <mat-icon>badge</mat-icon>
+            Basic Information
+          </h3>
+
+          <!-- Avatar Selection -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Avatar Icon</mat-label>
+              <mat-icon matPrefix>face</mat-icon>
+              <mat-select formControlName="avatar" required>
+                <mat-option *ngFor="let avatar of avatarOptions" [value]="avatar.value">
+                  <div class="avatar-option">
+                    <mat-icon>{{ avatar.icon }}</mat-icon>
+                    <span>{{ avatar.label }}</span>
+                  </div>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Name</mat-label>
+              <mat-icon matPrefix>person</mat-icon>
+              <input matInput formControlName="name" placeholder="e.g., John Doe" required>
+              <mat-error *ngIf="memberForm.get('name')?.hasError('required')">
+                Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Role/Orientation</mat-label>
+              <mat-icon matPrefix>work</mat-icon>
+              <mat-select formControlName="orientation" required>
+                <mat-option value="backend">Backend Developer</mat-option>
+                <mat-option value="frontend">Frontend Developer</mat-option>
+                <mat-option value="fullstack">Full Stack Developer</mat-option>
+                <mat-option value="devops">DevOps Engineer</mat-option>
+                <mat-option value="qa">QA Engineer</mat-option>
+                <mat-option value="architect">Software Architect</mat-option>
+                <mat-option value="pm">Product Manager</mat-option>
+                <mat-option value="designer">UI/UX Designer</mat-option>
+              </mat-select>
+              <mat-error *ngIf="memberForm.get('orientation')?.hasError('required')">
+                Role is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Skills (comma-separated)</mat-label>
+              <mat-icon matPrefix>stars</mat-icon>
+              <input matInput formControlName="skills" 
+                     placeholder="e.g., TypeScript, Angular, Node.js">
+              <mat-hint>Enter skills separated by commas</mat-hint>
+            </mat-form-field>
+          </div>
         </div>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Role/Orientation</mat-label>
-            <mat-icon matPrefix>work</mat-icon>
-            <mat-select formControlName="orientation" required>
-              <mat-option value="backend">Backend Developer</mat-option>
-              <mat-option value="frontend">Frontend Developer</mat-option>
-              <mat-option value="fullstack">Full Stack Developer</mat-option>
-              <mat-option value="devops">DevOps Engineer</mat-option>
-              <mat-option value="qa">QA Engineer</mat-option>
-              <mat-option value="architect">Software Architect</mat-option>
-              <mat-option value="pm">Product Manager</mat-option>
-              <mat-option value="designer">UI/UX Designer</mat-option>
-            </mat-select>
-            <mat-error *ngIf="memberForm.get('orientation')?.hasError('required')">
-              Role is required
-            </mat-error>
-          </mat-form-field>
-        </div>
+        <!-- Advanced Configuration Section -->
+        <mat-expansion-panel class="advanced-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>tune</mat-icon>
+              Advanced Configuration
+            </mat-panel-title>
+            <mat-panel-description>
+              Strengths, constraints, and preferences
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Skills (comma-separated)</mat-label>
-            <mat-icon matPrefix>stars</mat-icon>
-            <input matInput formControlName="skills" 
-                   placeholder="e.g., TypeScript, Angular, Node.js">
-            <mat-hint>Enter skills separated by commas</mat-hint>
-          </mat-form-field>
-        </div>
+          <!-- Strengths -->
+          <div class="form-section" formArrayName="strengths">
+            <h4 class="subsection-heading">
+              <mat-icon>star</mat-icon>
+              Strengths
+            </h4>
+            <div class="array-inputs">
+              <div *ngFor="let strength of strengths.controls; let i = index" class="array-input-row">
+                <mat-form-field appearance="outline" class="array-field">
+                  <input matInput [formControlName]="i" placeholder="E.g., System Architecture">
+                </mat-form-field>
+                <button mat-icon-button type="button" (click)="removeStrength(i)"
+                        [disabled]="strengths.length <= 1" matTooltip="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-button type="button" (click)="addStrength()" class="add-array-btn">
+              <mat-icon>add_circle_outline</mat-icon> Add Strength
+            </button>
+          </div>
+
+          <mat-divider class="section-divider"></mat-divider>
+
+          <!-- Constraints -->
+          <div class="form-section" formArrayName="constraints">
+            <h4 class="subsection-heading">
+              <mat-icon>warning_amber</mat-icon>
+              Constraints
+            </h4>
+            <div class="array-inputs">
+              <div *ngFor="let constraint of constraints.controls; let i = index" class="array-input-row">
+                <mat-form-field appearance="outline" class="array-field">
+                  <input matInput [formControlName]="i" placeholder="E.g., Limited to 20 hours/week">
+                </mat-form-field>
+                <button mat-icon-button type="button" (click)="removeConstraint(i)"
+                        [disabled]="constraints.length <= 1" matTooltip="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button mat-button type="button" (click)="addConstraint()" class="add-array-btn">
+              <mat-icon>add_circle_outline</mat-icon> Add Constraint
+            </button>
+          </div>
+
+          <mat-divider class="section-divider"></mat-divider>
+
+          <!-- Preferences -->
+          <div class="form-section" formGroupName="preferences">
+            <h4 class="subsection-heading">
+              <mat-icon>tune</mat-icon>
+              Preferences (1-10 scale)
+            </h4>
+            
+            <div class="preference-slider">
+              <label>Cost Sensitivity</label>
+              <mat-slider min="1" max="10" step="1" discrete>
+                <input matSliderThumb formControlName="cost_sensitivity">
+              </mat-slider>
+              <span class="slider-value">{{ memberForm.get('preferences.cost_sensitivity')?.value }}</span>
+            </div>
+
+            <div class="preference-slider">
+              <label>Security Rigidity</label>
+              <mat-slider min="1" max="10" step="1" discrete>
+                <input matSliderThumb formControlName="security_rigidity">
+              </mat-slider>
+              <span class="slider-value">{{ memberForm.get('preferences.security_rigidity')?.value }}</span>
+            </div>
+
+            <div class="preference-slider">
+              <label>Maintainability</label>
+              <mat-slider min="1" max="10" step="1" discrete>
+                <input matSliderThumb formControlName="maintainability">
+              </mat-slider>
+              <span class="slider-value">{{ memberForm.get('preferences.maintainability')?.value }}</span>
+            </div>
+
+            <div class="preference-slider">
+              <label>Performance</label>
+              <mat-slider min="1" max="10" step="1" discrete>
+                <input matSliderThumb formControlName="performance">
+              </mat-slider>
+              <span class="slider-value">{{ memberForm.get('preferences.performance')?.value }}</span>
+            </div>
+          </div>
+        </mat-expansion-panel>
 
         <div class="form-actions">
           <button mat-stroked-button type="button" (click)="cancelAdd()">
@@ -67,7 +192,7 @@
           </button>
           <button mat-raised-button color="primary" type="submit" [disabled]="!memberForm.valid || saving">
             <mat-icon>save</mat-icon>
-            {{ saving ? 'Saving...' : 'Save Member' }}
+            {{ saving ? 'Saving...' : (editingIndex !== null ? 'Update Member' : 'Save Member') }}
           </button>
         </div>
       </form>
@@ -94,7 +219,7 @@
         <mat-card-header>
           <div class="member-header">
             <div class="member-avatar" [class]="'avatar-' + member.orientation">
-              <mat-icon>{{ getRoleIcon(member.orientation) }}</mat-icon>
+              <mat-icon>{{ member.avatar || 'person' }}</mat-icon>
             </div>
             <div class="member-info">
               <h3>{{ member.name }}</h3>

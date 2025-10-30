@@ -7,6 +7,15 @@ interface AvailableTeamMember {
   name: string;
   orientation: string;
   skills: string[];
+  avatar: string;
+  strengths: string[];
+  constraints: string[];
+  preferences: {
+    cost_sensitivity: number;
+    security_rigidity: number;
+    maintainability: number;
+    performance: number;
+  };
 }
 
 @Component({
@@ -96,15 +105,37 @@ export class TeamSetupComponent implements OnInit {
         orientation: this.mapOrientationToType(member.orientation)
       });
       
-      // Set strengths from skills
+      // Set strengths from member's strengths (or skills if no strengths)
       const strengthsArray = agent.get('strengths') as FormArray;
       strengthsArray.clear();
-      if (member.skills && member.skills.length > 0) {
-        member.skills.forEach(skill => {
-          strengthsArray.push(this.fb.control(skill));
+      const strengthsToUse = member.strengths && member.strengths.length > 0 
+        ? member.strengths 
+        : member.skills;
+      
+      if (strengthsToUse && strengthsToUse.length > 0) {
+        strengthsToUse.forEach(strength => {
+          strengthsArray.push(this.fb.control(strength));
         });
       } else {
         strengthsArray.push(this.fb.control(''));
+      }
+
+      // Set constraints from member
+      const constraintsArray = agent.get('constraints') as FormArray;
+      constraintsArray.clear();
+      if (member.constraints && member.constraints.length > 0) {
+        member.constraints.forEach(constraint => {
+          constraintsArray.push(this.fb.control(constraint));
+        });
+      } else {
+        constraintsArray.push(this.fb.control(''));
+      }
+
+      // Set preferences from member
+      if (member.preferences) {
+        agent.patchValue({
+          preferences: member.preferences
+        });
       }
     }
   }
