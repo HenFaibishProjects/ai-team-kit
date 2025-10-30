@@ -62,10 +62,29 @@
         <mat-card-content>
           <!-- Basic Info -->
           <div class="basic-info">
+            <mat-form-field appearance="outline" class="full-width-field">
+              <mat-label>Select Team Member</mat-label>
+              <mat-icon matPrefix>person_search</mat-icon>
+              <mat-select formControlName="selectedMember" 
+                          (selectionChange)="onMemberSelected(i, $event.value)"
+                          required>
+                <mat-option value="">-- Select a team member --</mat-option>
+                <mat-option *ngFor="let member of availableMembers" [value]="member.name">
+                  {{ member.name }} ({{ member.orientation }})
+                </mat-option>
+              </mat-select>
+              <mat-hint *ngIf="availableMembers.length === 0">
+                No team members available. Please create team members first in Team Management.
+              </mat-hint>
+              <mat-error *ngIf="agent.get('selectedMember')?.hasError('required')">
+                Please select a team member
+              </mat-error>
+            </mat-form-field>
+
             <mat-form-field appearance="outline" class="half-width">
               <mat-label>Name</mat-label>
               <mat-icon matPrefix>person</mat-icon>
-              <input matInput formControlName="name" placeholder="Agent name" required>
+              <input matInput formControlName="name" placeholder="Agent name" required readonly>
               <mat-error *ngIf="agent.get('name')?.hasError('required')">
                 Name is required
               </mat-error>

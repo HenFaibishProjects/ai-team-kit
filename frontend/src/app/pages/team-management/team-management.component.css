@@ -6,15 +6,13 @@
 
 .management-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .back-button {
-  margin-right: 1rem;
+  flex-shrink: 0;
 }
 
 .header-content {
@@ -31,6 +29,56 @@
   margin: 0.5rem 0 0;
   color: var(--text-secondary);
   font-size: 1rem;
+}
+
+/* Add Member Form */
+.add-member-card {
+  margin-bottom: 2rem;
+}
+
+.add-member-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.form-row {
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Add Button Container */
+.add-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* Team Members Section */
+.team-members-section {
+  margin-top: 2rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
 }
 
 .team-members-grid {
@@ -59,27 +107,64 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--mdc-theme-primary, #1976d2);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
+  flex-shrink: 0;
 }
 
 .member-avatar mat-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+/* Avatar colors by role */
+.avatar-backend {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.avatar-frontend {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.avatar-fullstack {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.avatar-devops {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.avatar-qa {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.avatar-architect {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.avatar-pm {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.avatar-designer {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
 }
 
 .member-info {
   flex: 1;
+  min-width: 0;
 }
 
 .member-info h3 {
   margin: 0;
   font-size: 1.1rem;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .member-role {
@@ -87,13 +172,20 @@
   font-size: 0.9rem;
 }
 
+.edit-btn,
 .delete-btn {
   opacity: 0;
   transition: opacity 0.2s;
+  flex-shrink: 0;
 }
 
+.member-card:hover .edit-btn,
 .member-card:hover .delete-btn {
   opacity: 1;
+}
+
+.edit-btn:hover {
+  color: var(--mdc-theme-primary, #1976d2);
 }
 
 .delete-btn:hover {
@@ -102,6 +194,14 @@
 
 .member-skills {
   margin-top: 1rem;
+}
+
+.skills-label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 /* Empty State */
@@ -133,6 +233,7 @@
   color: var(--text-secondary);
   margin-bottom: 2rem;
   font-size: 1.1rem;
+  max-width: 500px;
 }
 
 @media (max-width: 768px) {
@@ -142,14 +243,26 @@
 
   .management-header {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
   }
 
-  .management-header button {
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
     width: 100%;
   }
 
   .team-members-grid {
     grid-template-columns: 1fr;
+  }
+
+  .add-button-container {
+    width: 100%;
+  }
+
+  .add-button-container button {
+    width: 100%;
   }
 }

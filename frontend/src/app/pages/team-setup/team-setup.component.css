@@ -99,12 +99,18 @@ mat-card-content {
 
 .basic-info {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.full-width-field {
+  flex: 1 1 100%;
 }
 
 .half-width {
-  flex: 1;
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 250px;
 }
 
 .select-option {

@@ -3,6 +3,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
 import type { Agent, Orientation } from '../../../../../shared/types';
 
+interface AvailableTeamMember {
+  name: string;
+  orientation: string;
+  skills: string[];
+}
+
 @Component({
   selector: 'app-team-setup',
   templateUrl: './team-setup.component.html',
@@ -12,6 +18,7 @@ import type { Agent, Orientation } from '../../../../../shared/types';
 export class TeamSetupComponent implements OnInit {
   @Output() complete = new EventEmitter<void>();
   teamSetupForm: FormGroup;
+  availableMembers: AvailableTeamMember[] = [];
   
   orientations: Orientation[] = [
     'lead_architect_scrummaster',
@@ -44,7 +51,19 @@ export class TeamSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadAvailableMembers();
     this.addAgent();
+  }
+
+  private loadAvailableMembers(): void {
+    const saved = localStorage.getItem('teamMembers');
+    if (saved) {
+      try {
+        this.availableMembers = JSON.parse(saved);
+      } catch (error) {
+        console.error('Error loading team members:', error);
+      }
+    }
   }
 
   get agents(): FormArray {
@@ -54,6 +73,7 @@ export class TeamSetupComponent implements OnInit {
   createAgentForm(): FormGroup {
     return this.fb.group({
       id: [this.generateId()],
+      selectedMember: ['', Validators.required],
       name: ['', Validators.required],
       orientation: ['', Validators.required],
       strengths: this.fb.array([this.fb.control('')]),
@@ -65,6 +85,42 @@ export class TeamSetupComponent implements OnInit {
         performance: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
       }),
     });
+  }
+
+  onMemberSelected(agentIndex: number, memberName: string): void {
+    const member = this.availableMembers.find(m => m.name === memberName);
+    if (member) {
+      const agent = this.agents.at(agentIndex);
+      agent.patchValue({
+        name: member.name,
+        orientation: this.mapOrientationToType(member.orientation)
+      });
+      
+      // Set strengths from skills
+      const strengthsArray = agent.get('strengths') as FormArray;
+      strengthsArray.clear();
+      if (member.skills && member.skills.length > 0) {
+        member.skills.forEach(skill => {
+          strengthsArray.push(this.fb.control(skill));
+        });
+      } else {
+        strengthsArray.push(this.fb.control(''));
+      }
+    }
+  }
+
+  private mapOrientationToType(orientation: string): Orientation {
+    const mapping: { [key: string]: Orientation } = {
+      'backend': 'fullstack_backend',
+      'frontend': 'fullstack_frontend',
+      'fullstack': 'fullstack_backend',
+      'devops': 'devops',
+      'qa': 'qa_automation',
+      'architect': 'lead_architect_scrummaster',
+      'pm': 'lead_architect_scrummaster',
+      'designer': 'ux_ui'
+    };
+    return mapping[orientation] || 'fullstack_backend';
   }
 
   addAgent(): void {
