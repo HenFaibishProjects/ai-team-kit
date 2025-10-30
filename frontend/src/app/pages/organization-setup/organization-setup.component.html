@@ -1,0 +1,114 @@
+<div class="organization-setup-container">
+  <div class="setup-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1>Organization Setup</h1>
+      <p class="subtitle">Configure your organization settings and define what your team does</p>
+    </div>
+  </div>
+
+  <mat-card class="setup-card">
+    <mat-card-content>
+      <form [formGroup]="organizationForm" (ngSubmit)="saveOrganization()">
+        
+        <!-- Organization Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Organization Name</mat-label>
+          <input matInput formControlName="name" placeholder="e.g., Acme Corporation" required>
+          <mat-icon matPrefix>business</mat-icon>
+          <mat-error *ngIf="organizationForm.get('name')?.hasError('required')">
+            Organization name is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Organization Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" 
+                    placeholder="Describe what your organization does..."
+                    rows="4"
+                    required></textarea>
+          <mat-icon matPrefix>description</mat-icon>
+          <mat-error *ngIf="organizationForm.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Industry/Domain -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Industry/Domain</mat-label>
+          <mat-select formControlName="industry" required>
+            <mat-option value="technology">Technology</mat-option>
+            <mat-option value="finance">Finance</mat-option>
+            <mat-option value="healthcare">Healthcare</mat-option>
+            <mat-option value="education">Education</mat-option>
+            <mat-option value="retail">Retail</mat-option>
+            <mat-option value="manufacturing">Manufacturing</mat-option>
+            <mat-option value="consulting">Consulting</mat-option>
+            <mat-option value="other">Other</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>category</mat-icon>
+          <mat-error *ngIf="organizationForm.get('industry')?.hasError('required')">
+            Industry is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Organization Size -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Organization Size</mat-label>
+          <mat-select formControlName="size" required>
+            <mat-option value="1-10">1-10 employees</mat-option>
+            <mat-option value="11-50">11-50 employees</mat-option>
+            <mat-option value="51-200">51-200 employees</mat-option>
+            <mat-option value="201-500">201-500 employees</mat-option>
+            <mat-option value="501+">501+ employees</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>groups</mat-icon>
+          <mat-error *ngIf="organizationForm.get('size')?.hasError('required')">
+            Organization size is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Website (Optional) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Website (Optional)</mat-label>
+          <input matInput formControlName="website" placeholder="https://example.com" type="url">
+          <mat-icon matPrefix>language</mat-icon>
+          <mat-error *ngIf="organizationForm.get('website')?.hasError('pattern')">
+            Please enter a valid URL
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button mat-stroked-button type="button" (click)="goBack()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!organizationForm.valid || saving">
+            <mat-icon>save</mat-icon>
+            {{ saving ? 'Saving...' : 'Save Organization' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Info Card -->
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-icon>info</mat-icon>
+      <h3>Why Organization Setup?</h3>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>Helps AI understand your business context</li>
+        <li>Enables better project recommendations</li>
+        <li>Organizes teams and projects under one umbrella</li>
+        <li>Provides analytics and insights specific to your industry</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

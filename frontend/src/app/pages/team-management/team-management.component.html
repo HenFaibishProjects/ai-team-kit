@@ -1,0 +1,53 @@
+<div class="team-management-container">
+  <div class="management-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1>Team Management</h1>
+      <p class="subtitle">Add and manage team members with their roles and skills</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="addTeamMember()">
+      <mat-icon>person_add</mat-icon>
+      Add Team Member
+    </button>
+  </div>
+
+  <!-- Team Members List -->
+  <div class="team-members-grid" *ngIf="teamMembers.length > 0">
+    <mat-card *ngFor="let member of teamMembers; let i = index" class="member-card">
+      <mat-card-header>
+        <div class="member-header">
+          <div class="member-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="member-info">
+            <h3>{{ member.name }}</h3>
+            <span class="member-role">{{ member.role }}</span>
+          </div>
+          <button mat-icon-button (click)="removeTeamMember(i)" class="delete-btn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="member-skills">
+          <mat-chip-set>
+            <mat-chip *ngFor="let skill of member.skills">{{ skill }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="teamMembers.length === 0">
+    <mat-icon>groups</mat-icon>
+    <h2>No Team Members Yet</h2>
+    <p>Start building your team by adding members with their roles and skills</p>
+    <button mat-raised-button color="primary" (click)="addTeamMember()">
+      <mat-icon>person_add</mat-icon>
+      Add First Team Member
+    </button>
+  </div>
+</div>

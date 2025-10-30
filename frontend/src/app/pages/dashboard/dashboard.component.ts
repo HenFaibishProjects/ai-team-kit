@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TeamService } from '../../services/team.service';
+import { AuthService } from '../../services/auth.service';
 
 export enum ProjectStatus {
   NOT_STARTED = 'not_started',
@@ -35,7 +36,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -43,15 +45,18 @@ export class DashboardComponent implements OnInit {
   }
 
   loadProjects(): void {
-    // TODO: When authentication is implemented, get userId from auth service
-    const userId = 'temp-user-id';
+    const currentUser = this.authService.getCurrentUser();
+    
+    if (!currentUser) {
+      this.error = 'User not authenticated';
+      this.loading = false;
+      return;
+    }
     
     this.loading = true;
     this.error = null;
 
-    // TODO: Replace with actual API call to get user projects
-    // For now, we'll use mock data or check if there's a stored config
-    this.teamService.getUserProjects(userId).subscribe({
+    this.teamService.getUserProjects(currentUser.id).subscribe({
       next: (projects) => {
         this.projects = projects.map(p => ({
           id: p.id,
@@ -78,25 +83,11 @@ export class DashboardComponent implements OnInit {
   }
 
   setupOrganization(): void {
-    // TODO: Navigate to organization setup page
-    // For now, show a message
-    alert('Organization setup coming soon! This will allow you to:\n\n' +
-          '• Configure your organization name and description\n' +
-          '• Define what your organization does\n' +
-          '• Set up organization-wide settings\n' +
-          '• Manage organization members');
-    // this.router.navigate(['/organization/setup']);
+    this.router.navigate(['/organization/setup']);
   }
 
   createTeam(): void {
-    // TODO: Navigate to team creation page
-    // For now, show a message
-    alert('Team creation coming soon! This will allow you to:\n\n' +
-          '• Create teams within your organization\n' +
-          '• Add team members with specific roles\n' +
-          '• Assign skills to team members\n' +
-          '• Manage team assignments to projects');
-    // this.router.navigate(['/teams/create']);
+    this.router.navigate(['/teams/manage']);
   }
 
   createNewProject(): void {
@@ -146,9 +137,14 @@ export class DashboardComponent implements OnInit {
   deleteProject(projectId: string, event: Event): void {
     event.stopPropagation();
     
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      this.error = 'User not authenticated';
+      return;
+    }
+    
     if (confirm('Are you sure you want to delete this project?')) {
-      // TODO: Call API to delete project
-      this.teamService.deleteProject(projectId, 'temp-user-id').subscribe({
+      this.teamService.deleteProject(projectId, currentUser.id).subscribe({
         next: () => {
           this.projects = this.projects.filter(p => p.id !== projectId);
         },

@@ -34,6 +34,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
+import { OrganizationSetupComponent } from './pages/organization-setup/organization-setup.component';
+import { TeamManagementComponent } from './pages/team-management/team-management.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -41,6 +43,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'organization/setup', component: OrganizationSetupComponent, canActivate: [AuthGuard] },
+  { path: 'teams/manage', component: TeamManagementComponent, canActivate: [AuthGuard] },
   { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
@@ -58,7 +62,9 @@ const routes: Routes = [
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    OrganizationSetupComponent,
+    TeamManagementComponent
   ],
   imports: [
     BrowserModule,
