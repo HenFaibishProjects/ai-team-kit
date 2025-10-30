@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 import { TeamService } from '../../services/team.service';
 import type { TeamConfig } from '../../../../../shared/types';
@@ -14,7 +15,10 @@ export class WizardComponent implements OnInit {
   
   teamConfig: Partial<TeamConfig> = {};
   
-  constructor(private teamService: TeamService) {}
+  constructor(
+    private teamService: TeamService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.teamService.teamConfig$.subscribe(config => {
@@ -30,7 +34,7 @@ export class WizardComponent implements OnInit {
     this.stepper.next();
   }
 
-  onSprintPlanningComplete(): void {
+  onFeaturePlanningComplete(): void {
     this.stepper.next();
   }
 
@@ -39,7 +43,8 @@ export class WizardComponent implements OnInit {
   }
 
   onAdrComplete(): void {
-    this.stepper.next();
+    // Navigate to feature management/dashboard after completing the wizard
+    this.router.navigate(['/dashboard']);
   }
 
   isTeamSetupValid(): boolean {

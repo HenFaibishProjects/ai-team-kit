@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
 import { WizardComponent } from './pages/wizard/wizard.component';
 import { TeamSetupComponent } from './pages/team-setup/team-setup.component';
 import { FeatureSetupComponent } from './pages/feature-setup/feature-setup.component';
-import { SprintPlanningComponent } from './pages/sprint-planning/sprint-planning.component';
+import { FeaturePlanningComponent } from './pages/sprint-planning/sprint-planning.component';
 import { RaciComponent } from './pages/raci/raci.component';
 import { AdrComponent } from './pages/adr/adr.component';
 import { ExportComponent } from './pages/export/export.component';
@@ -55,7 +55,7 @@ const routes: Routes = [
     WizardComponent,
     TeamSetupComponent,
     FeatureSetupComponent,
-    SprintPlanningComponent,
+    FeaturePlanningComponent,
     RaciComponent,
     AdrComponent,
     ExportComponent,

@@ -35,6 +35,7 @@ export interface TeamConfig {
   projectName: string;
   agents: Agent[];
   features: FeatureConfig[];
+  githubProjectUrl?: string;
 }
 
 export interface ExportOptions {

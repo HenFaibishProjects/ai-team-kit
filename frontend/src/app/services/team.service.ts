@@ -13,6 +13,7 @@ export class TeamService {
     projectName: '',
     agents: [],
     features: [],
+    githubProjectUrl: '',
   });
   
   public teamConfig$ = this.teamConfigSubject.asObservable();
@@ -55,6 +56,20 @@ export class TeamService {
    */
   setFeatures(features: FeatureConfig[]): void {
     this.setTeamConfig({ features });
+  }
+
+  /**
+   * Set GitHub project URL
+   */
+  setGithubProjectUrl(url: string): void {
+    this.setTeamConfig({ githubProjectUrl: url });
+  }
+
+  /**
+   * Get GitHub project URL
+   */
+  getGithubProjectUrl(): string {
+    return this.teamConfigSubject.value.githubProjectUrl || '';
   }
 
   /**
@@ -112,6 +127,7 @@ export class TeamService {
       projectName: '',
       agents: [],
       features: [],
+      githubProjectUrl: '',
     });
   }
 

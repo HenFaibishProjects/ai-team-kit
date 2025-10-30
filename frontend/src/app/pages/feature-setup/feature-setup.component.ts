@@ -12,6 +12,8 @@ import type { FeatureConfig } from '../../../../../shared/types';
 export class FeatureSetupComponent implements OnInit {
   @Output() complete = new EventEmitter<void>();
   featureForm: FormGroup;
+  projectType: 'new' | 'existing' | null = null;
+  githubProjectUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -23,7 +25,63 @@ export class FeatureSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addFeature();
+    // Don't add feature automatically - wait for project type selection
+  }
+
+  selectProjectType(type: 'new' | 'existing'): void {
+    this.projectType = type;
+    
+    if (type === 'new') {
+      // Set default features for new projects
+      this.setDefaultFeatures();
+    } else {
+      // For existing projects, start with empty features array
+      // User will link to GitHub project
+      this.addFeature();
+    }
+  }
+
+  setDefaultFeatures(): void {
+    // Clear existing features
+    while (this.features.length > 0) {
+      this.features.removeAt(0);
+    }
+
+    // Add default features for new projects
+    const defaultFeatures = [
+      {
+        name: 'User Authentication',
+        scope: 'Implement secure user authentication system with login, registration, and password reset functionality',
+        acceptanceCriteria: [
+          'Users can register with email and password',
+          'Users can log in with valid credentials',
+          'Users can reset their password via email',
+          'Session management is secure and persistent'
+        ]
+      },
+      {
+        name: 'Dashboard',
+        scope: 'Create a main dashboard for users to view and manage their data',
+        acceptanceCriteria: [
+          'Dashboard displays key metrics and statistics',
+          'Users can navigate to different sections from dashboard',
+          'Dashboard is responsive and mobile-friendly'
+        ]
+      }
+    ];
+
+    defaultFeatures.forEach(feature => {
+      const featureGroup = this.fb.group({
+        name: [feature.name, Validators.required],
+        scope: [feature.scope, Validators.required],
+        acceptanceCriteria: this.fb.array(
+          feature.acceptanceCriteria.map(criterion => 
+            this.fb.control(criterion, Validators.required)
+          )
+        )
+      });
+      this.features.push(featureGroup);
+    });
   }
 
   get features(): FormArray {
@@ -66,8 +124,26 @@ export class FeatureSetupComponent implements OnInit {
   onSubmit(): void {
     if (this.featureForm.valid) {
       const features: FeatureConfig[] = this.featureForm.value.features;
+      
+      // Store GitHub project URL if it's an existing project
+      if (this.projectType === 'existing' && this.githubProjectUrl) {
+        this.teamService.setGithubProjectUrl(this.githubProjectUrl);
+      }
+      
       this.teamService.setFeatures(features);
       this.complete.emit();
     }
+  }
+
+  isFormValid(): boolean {
+    if (!this.projectType) {
+      return false;
+    }
+    
+    if (this.projectType === 'existing' && !this.githubProjectUrl.trim()) {
+      return false;
+    }
+    
+    return this.featureForm.valid;
   }
 }

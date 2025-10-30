@@ -5,7 +5,51 @@
   </h2>
   <p class="page-subtitle">Define features and their acceptance criteria for your project</p>
 
-  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
+  <!-- Project Type Selection -->
+  <div *ngIf="!projectType" class="project-type-selection">
+    <h3>Is this a new project or an existing one?</h3>
+    <div class="project-type-cards">
+      <mat-card class="project-type-card" (click)="selectProjectType('new')">
+        <mat-card-content>
+          <mat-icon class="project-type-icon">add_circle</mat-icon>
+          <h4>New Project</h4>
+          <p>Start with default features that you can customize</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="project-type-card" (click)="selectProjectType('existing')">
+        <mat-card-content>
+          <mat-icon class="project-type-icon">link</mat-icon>
+          <h4>Existing Project</h4>
+          <p>Link to your GitHub project and define custom features</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- GitHub Project Link (for existing projects) -->
+  <div *ngIf="projectType === 'existing'" class="github-link-section">
+    <mat-card class="github-card mat-elevation-z2">
+      <mat-card-content>
+        <h3>
+          <mat-icon>link</mat-icon>
+          Link GitHub Project
+        </h3>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>GitHub Project URL</mat-label>
+          <mat-icon matPrefix>code</mat-icon>
+          <input matInput 
+                 [(ngModel)]="githubProjectUrl" 
+                 [ngModelOptions]="{standalone: true}"
+                 placeholder="https://github.com/username/repository"
+                 required>
+          <mat-hint>Enter the URL of your GitHub repository</mat-hint>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <form *ngIf="projectType" [formGroup]="featureForm" (ngSubmit)="onSubmit()">
     <!-- Features Section -->
     <div class="section-header">
       <h3>Features</h3>
@@ -101,7 +145,14 @@
 
     <!-- Form Actions -->
     <div class="form-actions">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!featureForm.valid">
+      <button mat-raised-button 
+              type="button" 
+              (click)="projectType = null"
+              *ngIf="projectType">
+        <mat-icon>arrow_back</mat-icon>
+        Change Project Type
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()">
         Next Step
         <mat-icon>arrow_forward</mat-icon>
       </button>

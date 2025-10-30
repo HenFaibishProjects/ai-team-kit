@@ -1,17 +1,120 @@
-<div class="page-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Sprint Planning</mat-card-title>
-      <mat-card-subtitle>Plan your sprint backlog and priorities</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Sprint planning features coming soon. For now, you can add sprint details in the export page.</p>
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="complete.emit()">
-          Continue to RACI
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<div class="planning-container">
+  <h2 class="page-title">
+    <mat-icon class="title-icon">assignment</mat-icon>
+    Feature Planning & Task Assignment
+  </h2>
+  <p class="page-subtitle">Define tasks and assign responsibilities for each feature</p>
+
+  <form [formGroup]="planningForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="features" class="features-container">
+      <mat-expansion-panel *ngFor="let featureGroup of featureGroups.controls; let i = index" 
+                           [formGroupName]="i"
+                           class="feature-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="panel-title-content">
+              <mat-icon>lightbulb</mat-icon>
+              <span>{{ features[i].name }}</span>
+              <mat-chip class="task-count-chip">{{ getTasks(i).length }} tasks</mat-chip>
+              <mat-chip class="hours-chip" *ngIf="getTasks(i).length > 0">
+                {{ getTotalHours(i) }}h total
+              </mat-chip>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="feature-content">
+          <!-- Feature Details -->
+          <div class="feature-details">
+            <p class="feature-scope"><strong>Scope:</strong> {{ features[i].scope }}</p>
+            <div class="acceptance-criteria">
+              <strong>Acceptance Criteria:</strong>
+              <ul>
+                <li *ngFor="let criterion of features[i].acceptanceCriteria">{{ criterion }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tasks Section -->
+          <div class="tasks-section" formArrayName="tasks">
+            <div class="section-header">
+              <h4>Tasks</h4>
+              <button mat-raised-button color="accent" type="button" (click)="addTask(i)">
+                <mat-icon>add</mat-icon> Add Task
+              </button>
+            </div>
+
+            <div *ngIf="getTasks(i).length === 0" class="no-tasks-message">
+              <mat-icon>info</mat-icon>
+              <p>No tasks defined yet. Click "Add Task" to create tasks for this feature.</p>
+            </div>
+
+            <div class="tasks-grid">
+              <mat-card *ngFor="let task of getTasks(i).controls; let j = index" 
+                        [formGroupName]="j"
+                        class="task-card">
+                <div class="task-header">
+                  <span class="task-number">Task {{ j + 1 }}</span>
+                  <button mat-icon-button type="button" color="warn" (click)="removeTask(i, j)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Task Name</mat-label>
+                  <input matInput formControlName="name" placeholder="E.g., Implement login API" required>
+                  <mat-error *ngIf="task.get('name')?.hasError('required')">
+                    Task name is required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput formControlName="description" rows="2" 
+                            placeholder="Describe what needs to be done..." required></textarea>
+                  <mat-error *ngIf="task.get('description')?.hasError('required')">
+                    Description is required
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="task-row">
+                  <mat-form-field appearance="outline" class="assign-field">
+                    <mat-label>Assigned To</mat-label>
+                    <mat-select formControlName="assignedTo" required>
+                      <mat-option *ngFor="let agent of agents" [value]="agent.id">
+                        {{ agent.name }} ({{ agent.orientation }})
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="task.get('assignedTo')?.hasError('required')">
+                      Assignment is required
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="hours-field">
+                    <mat-label>Estimated Hours</mat-label>
+                    <input matInput type="number" formControlName="estimatedHours" 
+                           min="0" step="0.5" required>
+                    <mat-error *ngIf="task.get('estimatedHours')?.hasError('required')">
+                      Hours required
+                    </mat-error>
+                    <mat-error *ngIf="task.get('estimatedHours')?.hasError('min')">
+                      Must be positive
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!planningForm.valid">
+        Continue to RACI
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </form>
 </div>
