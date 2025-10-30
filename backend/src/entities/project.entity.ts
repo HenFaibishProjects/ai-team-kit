@@ -5,9 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Organization } from './organization.entity';
+import { Team } from './team.entity';
+import { Sprint } from './sprint.entity';
 import type { TeamConfig } from '../shared/types';
 import { ProjectStatus } from './project-status.enum';
 
@@ -22,6 +26,20 @@ export class Project {
   @ManyToOne(() => User, (user) => user.projects, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @Column({ name: 'organization_id', nullable: true })
+  organizationId: string;
+
+  @ManyToOne(() => Organization, (organization) => organization.projects)
+  @JoinColumn({ name: 'organization_id' })
+  organization: Organization;
+
+  @Column({ name: 'team_id', nullable: true })
+  teamId: string;
+
+  @ManyToOne(() => Team, (team) => team.projects)
+  @JoinColumn({ name: 'team_id' })
+  team: Team;
 
   @Column()
   projectName: string;
@@ -44,6 +62,9 @@ export class Project {
     default: ProjectStatus.NOT_STARTED,
   })
   status: ProjectStatus;
+
+  @OneToMany(() => Sprint, (sprint) => sprint.project)
+  sprints: Sprint[];
 
   @CreateDateColumn()
   createdAt: Date;
