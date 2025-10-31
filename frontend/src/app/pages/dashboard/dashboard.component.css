@@ -13,16 +13,47 @@
   gap: 1rem;
 }
 
-.header-content h1 {
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.header-left h1 {
   margin: 0;
   font-size: 2rem;
   color: var(--text-primary);
 }
 
-.header-content .subtitle {
+.header-left .subtitle {
   margin: 0.5rem 0 0;
   color: var(--text-secondary);
   font-size: 1rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.logout-btn:hover {
+  color: var(--text-primary);
+}
+
+.logout-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .dashboard-header button {
