@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
+import { GithubService, GitHubRepository, RepositoryDetails } from '../../services/github.service';
 import type { FeatureConfig } from '../../../../../shared/types';
 
 @Component({
@@ -15,9 +16,21 @@ export class FeatureSetupComponent implements OnInit {
   projectType: 'new' | 'existing' | null = null;
   githubProjectUrl: string = '';
 
+  // GitHub integration properties
+  showGithubAuth = false;
+  githubToken = '';
+  githubConnected = false;
+  githubUser: any = null;
+  repositories: GitHubRepository[] = [];
+  selectedRepository: GitHubRepository | null = null;
+  repositoryDetails: RepositoryDetails | null = null;
+  loadingRepositories = false;
+  loadingDetails = false;
+
   constructor(
     private fb: FormBuilder,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private githubService: GithubService
   ) {
     this.featureForm = this.fb.group({
       features: this.fb.array([])
@@ -25,17 +38,121 @@ export class FeatureSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Don't add feature automatically - wait for project type selection
+    // Check if already connected to GitHub
+    if (this.githubService.isAuthenticated()) {
+      this.githubConnected = true;
+      this.githubUser = this.githubService.getUser();
+    }
   }
 
   selectProjectType(type: 'new' | 'existing'): void {
     this.projectType = type;
-    
-    // Save project type to service
     this.teamService.setProjectType(type);
-    
-    // For both new and existing projects, start with empty features array
-    this.addFeature();
+
+    if (type === 'new') {
+      // For new projects, show GitHub URL input
+      // Don't add feature yet - wait for URL confirmation
+    } else {
+      // For existing projects, show GitHub authentication
+      this.showGithubAuth = true;
+    }
+  }
+
+  confirmGithubUrl(): void {
+    if (this.githubProjectUrl.trim()) {
+      this.teamService.setGithubProjectUrl(this.githubProjectUrl);
+      this.addFeature();
+    }
+  }
+
+  /**
+   * Connect to GitHub with Personal Access Token
+   */
+  connectGithub(): void {
+    if (!this.githubToken.trim()) {
+      return;
+    }
+
+    this.loadingRepositories = true;
+    this.githubService.verifyToken(this.githubToken).subscribe({
+      next: (response) => {
+        this.githubConnected = true;
+        this.githubUser = response.user;
+        this.loadRepositories();
+      },
+      error: () => {
+        alert('Failed to connect to GitHub. Please check your token.');
+        this.loadingRepositories = false;
+      },
+    });
+  }
+
+  /**
+   * Load user's repositories
+   */
+  loadRepositories(): void {
+    this.loadingRepositories = true;
+    this.githubService.getRepositories().subscribe({
+      next: (repos) => {
+        this.repositories = repos;
+        this.loadingRepositories = false;
+      },
+      error: () => {
+        alert('Failed to load repositories');
+        this.loadingRepositories = false;
+      },
+    });
+  }
+
+  /**
+   * Select a repository
+   */
+  selectRepository(repo: GitHubRepository): void {
+    this.selectedRepository = repo;
+    this.loadRepositoryDetails(repo);
+  }
+
+  /**
+   * Load repository details
+   */
+  loadRepositoryDetails(repo: GitHubRepository): void {
+    this.loadingDetails = true;
+    const [owner, repoName] = repo.full_name.split('/');
+
+    this.githubService.getRepositoryDetails(owner, repoName).subscribe({
+      next: (details) => {
+        this.repositoryDetails = details;
+        this.loadingDetails = false;
+      },
+      error: () => {
+        alert('Failed to load repository details');
+        this.loadingDetails = false;
+      },
+    });
+  }
+
+  /**
+   * Confirm repository selection and continue
+   */
+  confirmRepository(): void {
+    if (this.selectedRepository) {
+      this.teamService.setGithubProjectUrl(this.selectedRepository.html_url);
+      this.githubProjectUrl = this.selectedRepository.html_url;
+      this.addFeature();
+    }
+  }
+
+  /**
+   * Disconnect from GitHub
+   */
+  disconnectGithub(): void {
+    this.githubService.logout();
+    this.githubConnected = false;
+    this.githubUser = null;
+    this.repositories = [];
+    this.selectedRepository = null;
+    this.repositoryDetails = null;
+    this.githubToken = '';
   }
 
 

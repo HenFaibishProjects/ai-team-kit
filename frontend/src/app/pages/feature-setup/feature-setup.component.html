@@ -7,49 +7,252 @@
 
   <!-- Project Type Selection -->
   <div *ngIf="!projectType" class="project-type-selection">
-    <h3>Is this a new project or an existing one?</h3>
+    <h3>Select Project Type</h3>
     <div class="project-type-cards">
       <mat-card class="project-type-card" (click)="selectProjectType('new')">
         <mat-card-content>
           <mat-icon class="project-type-icon">add_circle</mat-icon>
           <h4>New Project</h4>
-          <p>Start with default features that you can customize</p>
+          <p>Start a new project from scratch</p>
         </mat-card-content>
       </mat-card>
       
       <mat-card class="project-type-card" (click)="selectProjectType('existing')">
         <mat-card-content>
-          <mat-icon class="project-type-icon">link</mat-icon>
+          <mat-icon class="project-type-icon">folder_open</mat-icon>
           <h4>Existing Project</h4>
-          <p>Link to your GitHub project and define custom features</p>
+          <p>Connect to an existing GitHub repository</p>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 
-  <!-- GitHub Project Link (for existing projects) -->
-  <div *ngIf="projectType === 'existing'" class="github-link-section">
-    <mat-card class="github-card mat-elevation-z2">
+  <!-- New Project Instructions -->
+  <div *ngIf="projectType === 'new' && !githubProjectUrl" class="github-instructions">
+    <mat-card class="instruction-card mat-elevation-z2">
+      <mat-card-header>
+        <mat-icon class="header-icon">info</mat-icon>
+        <mat-card-title>Create GitHub Repository</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
-        <h3>
-          <mat-icon>link</mat-icon>
-          Link GitHub Project
-        </h3>
+        <p>Before continuing, please create a new repository on GitHub:</p>
+        <ol class="instruction-list">
+          <li>Go to <a href="https://github.com/new" target="_blank" rel="noopener">GitHub</a> and create a new repository</li>
+          <li>Choose a name for your repository</li>
+          <li>Set it to Public or Private based on your preference</li>
+          <li>Initialize with a README (recommended)</li>
+          <li>Copy the repository URL</li>
+        </ol>
+
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>GitHub Project URL</mat-label>
-          <mat-icon matPrefix>code</mat-icon>
+          <mat-label>GitHub Repository URL</mat-label>
+          <mat-icon matPrefix>link</mat-icon>
           <input matInput 
                  [(ngModel)]="githubProjectUrl" 
                  [ngModelOptions]="{standalone: true}"
-                 placeholder="https://github.com/username/repository"
-                 required>
-          <mat-hint>Enter the URL of your GitHub repository</mat-hint>
+                 placeholder="https://github.com/username/repo">
         </mat-form-field>
+
+        <div class="button-group">
+          <button mat-button (click)="projectType = null">
+            <mat-icon>arrow_back</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button color="primary" 
+                  (click)="confirmGithubUrl()" 
+                  [disabled]="!githubProjectUrl">
+            Continue
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <form *ngIf="projectType" [formGroup]="featureForm" (ngSubmit)="onSubmit()">
+  <!-- Existing Project - GitHub Authentication -->
+  <div *ngIf="projectType === 'existing' && showGithubAuth && !githubConnected" class="github-auth">
+    <mat-card class="auth-card mat-elevation-z2">
+      <mat-card-header>
+        <mat-icon class="header-icon">vpn_key</mat-icon>
+        <mat-card-title>Connect to GitHub</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>To connect to your existing GitHub repository, you need a Personal Access Token:</p>
+        
+        <div class="token-instructions">
+          <h4>How to get your token:</h4>
+          <ol>
+            <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Settings → Developer settings → Personal access tokens</a></li>
+            <li>Click "Generate new token (classic)"</li>
+            <li>Give it a name (e.g., "AI Team Kit")</li>
+            <li>Select the <strong>repo</strong> scope</li>
+            <li>Click "Generate token"</li>
+            <li>Copy the token and paste it below</li>
+          </ol>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>GitHub Personal Access Token</mat-label>
+          <mat-icon matPrefix>key</mat-icon>
+          <input matInput type="password" 
+                 [(ngModel)]="githubToken" 
+                 [ngModelOptions]="{standalone: true}"
+                 placeholder="ghp_...">
+          <mat-hint>Your token will be stored securely in your browser</mat-hint>
+        </mat-form-field>
+
+        <div class="button-group">
+          <button mat-button (click)="projectType = null">
+            <mat-icon>arrow_back</mat-icon>
+            Back
+          </button>
+          <button mat-raised-button color="primary" 
+                  (click)="connectGithub()" 
+                  [disabled]="!githubToken || loadingRepositories">
+            <mat-icon>link</mat-icon>
+            Connect to GitHub
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Repository Selection -->
+  <div *ngIf="projectType === 'existing' && githubConnected && !selectedRepository" class="repository-selection">
+    <mat-card class="repos-card mat-elevation-z2">
+      <mat-card-header>
+        <div class="header-with-user">
+          <div class="header-left">
+            <mat-icon class="header-icon">folder_special</mat-icon>
+            <mat-card-title>Select Repository</mat-card-title>
+          </div>
+          <div class="github-user">
+            <img [src]="githubUser?.avatar_url" alt="Avatar" class="user-avatar">
+            <span class="user-name">{{ githubUser?.login }}</span>
+            <button mat-icon-button (click)="disconnectGithub()" matTooltip="Disconnect">
+              <mat-icon>logout</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="loadingRepositories" class="loading-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading repositories...</p>
+        </div>
+
+        <div *ngIf="!loadingRepositories && repositories.length === 0" class="empty-state">
+          <mat-icon>inbox</mat-icon>
+          <p>No repositories found</p>
+        </div>
+
+        <div *ngIf="!loadingRepositories && repositories.length > 0" class="repositories-list">
+          <mat-card *ngFor="let repo of repositories" 
+                    class="repo-card" 
+                    (click)="selectRepository(repo)">
+            <div class="repo-header">
+              <h4>{{ repo.name }}</h4>
+              <mat-chip [class.private-chip]="repo.private">
+                {{ repo.private ? 'Private' : 'Public' }}
+              </mat-chip>
+            </div>
+            <p class="repo-description">{{ repo.description || 'No description' }}</p>
+            <div class="repo-meta">
+              <span *ngIf="repo.language" class="meta-item">
+                <mat-icon>code</mat-icon>
+                {{ repo.language }}
+              </span>
+              <span class="meta-item">
+                <mat-icon>update</mat-icon>
+                Updated {{ repo.updated_at | date:'short' }}
+              </span>
+            </div>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Repository Details -->
+  <div *ngIf="selectedRepository && repositoryDetails" class="repository-details">
+    <mat-card class="details-card mat-elevation-z2">
+      <mat-card-header>
+        <div class="header-with-close">
+          <div class="header-left">
+            <mat-icon class="header-icon">info</mat-icon>
+            <mat-card-title>{{ selectedRepository.name }}</mat-card-title>
+          </div>
+          <button mat-icon-button (click)="selectedRepository = null; repositoryDetails = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="loadingDetails" class="loading-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading repository details...</p>
+        </div>
+
+        <div *ngIf="!loadingDetails" class="details-grid">
+          <div class="detail-section">
+            <h4><mat-icon>info_outline</mat-icon> Repository Info</h4>
+            <p><strong>Description:</strong> {{ repositoryDetails.repository.description || 'N/A' }}</p>
+            <p><strong>Language:</strong> {{ repositoryDetails.repository.language || 'N/A' }}</p>
+            <p><strong>Size:</strong> {{ repositoryDetails.repository.size }} KB</p>
+            <p><strong>Stars:</strong> {{ repositoryDetails.repository.stargazers_count }}</p>
+          </div>
+
+          <div class="detail-section">
+            <h4><mat-icon>code</mat-icon> Languages Used</h4>
+            <div class="languages">
+              <mat-chip *ngFor="let lang of repositoryDetails.languages | keyvalue">
+                {{ lang.key }}: {{ lang.value }}
+              </mat-chip>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h4><mat-icon>commit</mat-icon> Recent Commits ({{ repositoryDetails.commits.length }})</h4>
+            <div class="commits-list">
+              <div *ngFor="let commit of repositoryDetails.commits" class="commit-item">
+                <p class="commit-message">{{ commit.message }}</p>
+                <p class="commit-meta">{{ commit.author }} - {{ commit.date | date:'short' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h4><mat-icon>people</mat-icon> Contributors ({{ repositoryDetails.contributors.length }})</h4>
+            <div class="contributors">
+              <div *ngFor="let contributor of repositoryDetails.contributors" class="contributor">
+                <img [src]="contributor.avatar_url" [alt]="contributor.login" class="contributor-avatar">
+                <span>{{ contributor.login }} ({{ contributor.contributions }})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group" *ngIf="!loadingDetails">
+          <button mat-button (click)="selectedRepository = null; repositoryDetails = null">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Repositories
+          </button>
+          <button mat-raised-button color="primary" (click)="confirmRepository()">
+            Use This Repository
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Features Form (shown after project type selection and GitHub setup) -->
+  <form *ngIf="(projectType === 'new' && githubProjectUrl) || (projectType === 'existing' && selectedRepository)" 
+        [formGroup]="featureForm" 
+        (ngSubmit)="onSubmit()">
+    
     <!-- Features Section -->
     <div class="section-header">
       <h3>Features</h3>
@@ -147,8 +350,7 @@
     <div class="form-actions">
       <button mat-raised-button 
               type="button" 
-              (click)="projectType = null"
-              *ngIf="projectType">
+              (click)="projectType = null; githubProjectUrl = ''; selectedRepository = null; repositoryDetails = null">
         <mat-icon>arrow_back</mat-icon>
         Change Project Type
       </button>
