@@ -41,6 +41,10 @@ export class WizardComponent implements OnInit {
     setTimeout(() => this.stepper.next(), 0); // Move to next step after change detection
   }
 
+  onFeatureSetupBack(): void {
+    this.stepper.previous();
+  }
+
   onFeaturePlanningComplete(): void {
     this.stepper.next();
   }

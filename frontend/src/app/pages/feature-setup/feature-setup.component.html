@@ -350,9 +350,9 @@
     <div class="form-actions">
       <button mat-raised-button 
               type="button" 
-              (click)="projectType = null; githubProjectUrl = ''; selectedRepository = null; repositoryDetails = null">
+              (click)="onBack()">
         <mat-icon>arrow_back</mat-icon>
-        Change Project Type
+        Back
       </button>
       <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()">
         Next Step

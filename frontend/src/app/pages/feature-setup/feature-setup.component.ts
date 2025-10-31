@@ -12,6 +12,7 @@ import type { FeatureConfig } from '../../../../../shared/types';
 })
 export class FeatureSetupComponent implements OnInit {
   @Output() complete = new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
   featureForm: FormGroup;
   projectType: 'new' | 'existing' | null = null;
   githubProjectUrl: string = '';
@@ -217,5 +218,9 @@ export class FeatureSetupComponent implements OnInit {
     }
     
     return this.featureForm.valid;
+  }
+
+  onBack(): void {
+    this.back.emit();
   }
 }

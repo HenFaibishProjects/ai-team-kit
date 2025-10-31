@@ -9,7 +9,7 @@
     <!-- Step 2: Feature Setup -->
     <mat-step [completed]="isFeaturesValid()">
       <ng-template matStepLabel>Feature Setup</ng-template>
-      <app-feature-setup (complete)="onFeatureSetupComplete()"></app-feature-setup>
+      <app-feature-setup (complete)="onFeatureSetupComplete()" (back)="onFeatureSetupBack()"></app-feature-setup>
     </mat-step>
 
     <!-- Step 3: Feature Planning -->
