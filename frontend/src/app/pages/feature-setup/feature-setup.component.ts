@@ -81,8 +81,10 @@ export class FeatureSetupComponent implements OnInit {
         this.githubUser = response.user;
         this.loadRepositories();
       },
-      error: () => {
-        alert('Failed to connect to GitHub. Please check your token.');
+      error: (error) => {
+        console.error('GitHub connection error:', error);
+        const errorMessage = error.error?.message || error.message || 'Failed to connect to GitHub';
+        alert(`Failed to connect to GitHub: ${errorMessage}\n\nPlease check:\n- Token is valid and not expired\n- Token has 'repo' scope\n- You're using a classic token or fine-grained token with repository permissions`);
         this.loadingRepositories = false;
       },
     });
@@ -98,8 +100,10 @@ export class FeatureSetupComponent implements OnInit {
         this.repositories = repos;
         this.loadingRepositories = false;
       },
-      error: () => {
-        alert('Failed to load repositories');
+      error: (error) => {
+        console.error('Failed to load repositories:', error);
+        const errorMessage = error.error?.message || error.message || 'Failed to load repositories';
+        alert(`Failed to load repositories: ${errorMessage}`);
         this.loadingRepositories = false;
       },
     });
@@ -125,8 +129,10 @@ export class FeatureSetupComponent implements OnInit {
         this.repositoryDetails = details;
         this.loadingDetails = false;
       },
-      error: () => {
-        alert('Failed to load repository details');
+      error: (error) => {
+        console.error('Failed to load repository details:', error);
+        const errorMessage = error.error?.message || error.message || 'Failed to load repository details';
+        alert(`Failed to load repository details: ${errorMessage}`);
         this.loadingDetails = false;
       },
     });

@@ -19,8 +19,13 @@ export class GithubService {
           avatar_url: data.avatar_url,
         },
       };
-    } catch {
-      throw new HttpException('Invalid GitHub token', HttpStatus.UNAUTHORIZED);
+    } catch (error) {
+      console.error('GitHub token verification error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Invalid GitHub token';
+      throw new HttpException(
+        `GitHub authentication failed: ${errorMessage}`,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
   }
 
@@ -47,8 +52,10 @@ export class GithubService {
         language: repo.language,
         default_branch: repo.default_branch,
       }));
-    } catch {
-      throw new HttpException('Failed to fetch repositories', HttpStatus.BAD_REQUEST);
+    } catch (error) {
+      console.error('Failed to fetch repositories:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch repositories';
+      throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -132,8 +139,10 @@ export class GithubService {
           avatar_url: contributor.avatar_url,
         })),
       };
-    } catch {
-      throw new HttpException('Failed to fetch repository details', HttpStatus.BAD_REQUEST);
+    } catch (error) {
+      console.error('Failed to fetch repository details:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch repository details';
+      throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -160,8 +169,10 @@ export class GithubService {
       }
 
       return data;
-    } catch {
-      throw new HttpException('Failed to fetch directory structure', HttpStatus.BAD_REQUEST);
+    } catch (error) {
+      console.error('Failed to fetch directory structure:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch directory structure';
+      throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
     }
   }
 
