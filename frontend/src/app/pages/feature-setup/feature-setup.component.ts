@@ -59,6 +59,15 @@ export class FeatureSetupComponent implements OnInit {
     }
   }
 
+  /**
+   * Skip GitHub linking and continue without repository
+   */
+  skipGithubLinking(): void {
+    this.githubProjectUrl = 'N/A';
+    this.teamService.setGithubProjectUrl('');
+    this.addFeature();
+  }
+
   confirmGithubUrl(): void {
     if (this.githubProjectUrl.trim()) {
       this.teamService.setGithubProjectUrl(this.githubProjectUrl);

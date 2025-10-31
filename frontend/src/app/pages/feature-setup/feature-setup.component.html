@@ -58,6 +58,9 @@
             <mat-icon>arrow_back</mat-icon>
             Back
           </button>
+          <button mat-button (click)="skipGithubLinking()">
+            Skip GitHub
+          </button>
           <button mat-raised-button color="primary" 
                   (click)="confirmGithubUrl()" 
                   [disabled]="!githubProjectUrl">
@@ -105,6 +108,9 @@
           <button mat-button (click)="projectType = null">
             <mat-icon>arrow_back</mat-icon>
             Back
+          </button>
+          <button mat-button (click)="skipGithubLinking()">
+            Skip GitHub
           </button>
           <button mat-raised-button color="primary" 
                   (click)="connectGithub()" 
