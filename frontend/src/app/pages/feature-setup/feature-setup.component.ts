@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
 import { GithubService, GitHubRepository, RepositoryDetails } from '../../services/github.service';
-import type { FeatureConfig } from '../../../../../shared/types';
+import type { FeatureConfig, Agent } from '../../../../../shared/types';
 
 @Component({
   selector: 'app-feature-setup',
@@ -28,6 +28,9 @@ export class FeatureSetupComponent implements OnInit {
   loadingRepositories = false;
   loadingDetails = false;
 
+  // Team members for assignment
+  teamMembers: Agent[] = [];
+
   constructor(
     private fb: FormBuilder,
     private teamService: TeamService,
@@ -44,6 +47,9 @@ export class FeatureSetupComponent implements OnInit {
       this.githubConnected = true;
       this.githubUser = this.githubService.getUser();
     }
+
+    // Load team members for assignment
+    this.teamMembers = this.teamService.getAgents();
   }
 
   selectProjectType(type: 'new' | 'existing'): void {
@@ -180,7 +186,8 @@ export class FeatureSetupComponent implements OnInit {
     return this.fb.group({
       name: ['', Validators.required],
       scope: ['', Validators.required],
-      acceptanceCriteria: this.fb.array([this.fb.control('', Validators.required)])
+      acceptanceCriteria: this.fb.array([this.fb.control('', Validators.required)]),
+      assignedTo: [[] as string[]] // Array of agent IDs
     });
   }
 
@@ -207,6 +214,58 @@ export class FeatureSetupComponent implements OnInit {
     if (criteria.length > 1) {
       criteria.removeAt(criterionIndex);
     }
+  }
+
+  /**
+   * Toggle agent assignment for a feature
+   */
+  toggleAgentAssignment(featureIndex: number, agentId: string): void {
+    const feature = this.features.at(featureIndex);
+    const assignedTo = feature.get('assignedTo')?.value as string[] || [];
+    
+    const index = assignedTo.indexOf(agentId);
+    if (index > -1) {
+      // Remove agent
+      assignedTo.splice(index, 1);
+    } else {
+      // Add agent
+      assignedTo.push(agentId);
+    }
+    
+    feature.patchValue({ assignedTo });
+  }
+
+  /**
+   * Check if agent is assigned to feature
+   */
+  isAgentAssigned(featureIndex: number, agentId: string): boolean {
+    const feature = this.features.at(featureIndex);
+    const assignedTo = feature.get('assignedTo')?.value as string[] || [];
+    return assignedTo.includes(agentId);
+  }
+
+  /**
+   * Get assigned agents for a feature
+   */
+  getAssignedAgents(featureIndex: number): Agent[] {
+    const feature = this.features.at(featureIndex);
+    const assignedTo = feature.get('assignedTo')?.value as string[] || [];
+    return this.teamMembers.filter(agent => assignedTo.includes(agent.id));
+  }
+
+  /**
+   * Format agent orientation for display
+   */
+  formatOrientation(orientation: string): string {
+    return orientation.replace(/_/g, ' ');
+  }
+
+  /**
+   * Get assigned agents names as comma-separated string
+   */
+  getAssignedAgentsNames(featureIndex: number): string {
+    const agents = this.getAssignedAgents(featureIndex);
+    return agents.map(a => a.name).join(', ');
   }
 
   onSubmit(): void {

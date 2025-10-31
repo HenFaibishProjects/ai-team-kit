@@ -29,6 +29,7 @@ export interface FeatureConfig {
   name: string;
   scope: string;
   acceptanceCriteria: string[];
+  assignedTo?: string[]; // Array of agent IDs assigned to this feature
 }
 
 export interface TeamConfig {

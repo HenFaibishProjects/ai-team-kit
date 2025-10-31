@@ -582,3 +582,58 @@ mat-card-content {
 .dark-theme .criterion-number {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+/* Team Assignment Section */
+.assignment-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hover-color);
+}
+
+.team-members-list {
+  margin-top: 12px;
+}
+
+.team-members-list mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.team-members-list mat-chip-option {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.team-members-list mat-chip-option mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+
+.agent-role {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-left: 4px;
+  text-transform: capitalize;
+}
+
+.assigned-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: var(--hover-color);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.summary-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.summary-text strong {
+  color: var(--primary-color);
+}

@@ -348,6 +348,34 @@
               <mat-icon>add_circle_outline</mat-icon> Add Criterion
             </button>
           </div>
+
+          <!-- Team Assignment -->
+          <div class="assignment-section" *ngIf="teamMembers.length > 0">
+            <label class="field-label">
+              <mat-icon>people</mat-icon>
+              Assign Team Members
+            </label>
+            
+            <div class="team-members-list">
+              <mat-chip-listbox>
+                <mat-chip-option 
+                  *ngFor="let agent of teamMembers"
+                  [selected]="isAgentAssigned(i, agent.id)"
+                  (click)="toggleAgentAssignment(i, agent.id)">
+                  <mat-icon *ngIf="isAgentAssigned(i, agent.id)">check</mat-icon>
+                  {{ agent.name }}
+                  <span class="agent-role">({{ formatOrientation(agent.orientation) }})</span>
+                </mat-chip-option>
+              </mat-chip-listbox>
+            </div>
+
+            <div class="assigned-summary" *ngIf="getAssignedAgents(i).length > 0">
+              <p class="summary-text">
+                <strong>Assigned to:</strong> 
+                {{ getAssignedAgentsNames(i) }}
+              </p>
+            </div>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>

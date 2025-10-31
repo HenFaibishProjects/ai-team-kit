@@ -53,6 +53,13 @@ export class TeamService {
   }
 
   /**
+   * Get agents
+   */
+  getAgents(): Agent[] {
+    return this.teamConfigSubject.value.agents || [];
+  }
+
+  /**
    * Update features
    */
   setFeatures(features: FeatureConfig[]): void {
