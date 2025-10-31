@@ -37,7 +37,7 @@
           <mat-card 
             *ngFor="let pattern of category.patterns"
             class="pattern-card"
-            [class.selected]="selectedArchitecture === pattern.id"
+            [class.selected]="isArchitectureSelected(pattern.id)"
             (click)="selectArchitecture(pattern.id)">
             <div class="pattern-icon-wrapper">
               <mat-icon class="pattern-icon">{{ pattern.icon }}</mat-icon>
@@ -55,12 +55,21 @@
     </div>
 
     <!-- Selected Architecture Details -->
-    <div class="architecture-details" *ngIf="selectedArchitecture">
+    <div class="architecture-details" *ngIf="selectedArchitectures.length > 0">
       <mat-card class="details-card">
         <h3>
-          <mat-icon>{{ getArchitectureDetails(selectedArchitecture)?.icon }}</mat-icon>
-          {{ getArchitectureDetails(selectedArchitecture)?.name }}
+          <mat-icon>architecture</mat-icon>
+          Selected Architecture Patterns ({{ selectedArchitectures.length }})
         </h3>
+        
+        <div class="selected-patterns-list">
+          <mat-chip-set>
+            <mat-chip *ngFor="let archId of selectedArchitectures" class="selected-pattern-chip">
+              <mat-icon>{{ getArchitectureDetails(archId)?.icon }}</mat-icon>
+              {{ getArchitectureDetails(archId)?.name }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
         
         <form [formGroup]="adrForm" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" class="full-width">

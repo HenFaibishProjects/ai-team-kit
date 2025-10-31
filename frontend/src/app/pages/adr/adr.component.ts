@@ -361,7 +361,7 @@ export class AdrComponent implements OnInit {
   
   architecturePatterns: ArchitecturePattern[] = [];
   
-  selectedArchitecture: string = '';
+  selectedArchitectures: string[] = [];
   generatedPrompt: string = '';
   
   // Project data
@@ -399,8 +399,25 @@ export class AdrComponent implements OnInit {
   }
 
   selectArchitecture(architectureId: string): void {
-    this.selectedArchitecture = architectureId;
-    this.adrForm.patchValue({ architecture: architectureId });
+    const index = this.selectedArchitectures.indexOf(architectureId);
+    if (index > -1) {
+      // Deselect if already selected
+      this.selectedArchitectures.splice(index, 1);
+    } else {
+      // Select if not already selected
+      this.selectedArchitectures.push(architectureId);
+    }
+    
+    // Update form with comma-separated list of selected architectures
+    const architectureNames = this.selectedArchitectures
+      .map(id => this.getArchitectureDetails(id)?.name)
+      .filter(name => name)
+      .join(', ');
+    this.adrForm.patchValue({ architecture: architectureNames });
+  }
+
+  isArchitectureSelected(architectureId: string): boolean {
+    return this.selectedArchitectures.includes(architectureId);
   }
 
   generateAIPrompt(): void {
