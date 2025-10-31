@@ -33,7 +33,6 @@
     <div class="getting-started-cards">
       <mat-card class="action-card">
         <mat-card-header>
-          <mat-icon>business</mat-icon>
           <h3>Set Up Organization</h3>
         </mat-card-header>
         <mat-card-content>
@@ -41,14 +40,12 @@
         </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="primary" (click)="setupOrganization()">
-            <mat-icon>settings</mat-icon>
             Configure Organization
           </button>
         </mat-card-actions>
       </mat-card>
 
       <mat-card class="action-card">
-        <mat-icon>groups</mat-icon>
         <mat-card-header>
           <h3>Create Team</h3>
         </mat-card-header>
@@ -57,14 +54,12 @@
         </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="primary" (click)="createTeam()">
-            <mat-icon>group_add</mat-icon>
             Add Team Members
           </button>
         </mat-card-actions>
       </mat-card>
 
       <mat-card class="action-card">
-        <mat-icon>folder_special</mat-icon>
         <mat-card-header>
           <h3>Start Project</h3>
         </mat-card-header>
@@ -73,7 +68,6 @@
         </mat-card-content>
         <mat-card-actions>
           <button mat-raised-button color="accent" (click)="createNewProject()">
-            <mat-icon>add</mat-icon>
             Create Project
           </button>
         </mat-card-actions>
@@ -81,7 +75,6 @@
     </div>
 
     <div class="quick-tips">
-      <h3><mat-icon>lightbulb</mat-icon> Quick Tips</h3>
       <ul>
         <li>Start by setting up your organization to define your team's purpose</li>
         <li>Add team members with their specific roles (Developer, Designer, QA, etc.)</li>
@@ -101,7 +94,6 @@
                   (click)="deleteProject(project.id, $event)"
                   class="delete-btn"
                   matTooltip="Delete project">
-            <mat-icon>delete</mat-icon>
           </button>
         </div>
       </mat-card-header>
@@ -114,7 +106,6 @@
 
         <div class="project-stats">
           <div class="stat">
-            <mat-icon>group</mat-icon>
             <span>{{ project.teamMemberCount }} Team Members</span>
           </div>
           <div class="stat">

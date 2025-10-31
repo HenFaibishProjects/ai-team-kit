@@ -28,18 +28,18 @@
 
           <!-- Avatar Selection -->
           <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Avatar Icon</mat-label>
+            <mat-form-field appearance="outline" >
+
               <mat-icon matPrefix>face</mat-icon>
-              <mat-select formControlName="avatar" required>
-                <mat-option *ngFor="let avatar of avatarOptions" [value]="avatar.value">
+              <mat-select formControlName="avatar">
+                <mat-option *ngFor="let avatar of avatarOptions">
                   <div class="avatar-option">
                     <mat-icon>{{ avatar.icon }}</mat-icon>
-                    <span>{{ avatar.label }}</span>
                   </div>
                 </mat-option>
               </mat-select>
             </mat-form-field>
+              <span>     Team Member Avatar</span>
           </div>
 
           <div class="form-row">

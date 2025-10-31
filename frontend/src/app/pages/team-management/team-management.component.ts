@@ -43,18 +43,12 @@ export class TeamManagementComponent implements OnInit {
   }
 
   avatarOptions = [
-    { value: 'person', label: 'Default', icon: 'person' },
-    { value: 'man', label: 'Man', icon: 'man' },
-    { value: 'woman', label: 'Woman', icon: 'woman' },
-    { value: 'person_2', label: 'Person 2', icon: 'person_2' },
-    { value: 'person_3', label: 'Person 3', icon: 'person_3' },
-    { value: 'person_4', label: 'Person 4', icon: 'person_4' },
-    { value: 'face', label: 'Face', icon: 'face' },
-    { value: 'face_2', label: 'Face 2', icon: 'face_2' },
-    { value: 'face_3', label: 'Face 3', icon: 'face_3' },
-    { value: 'engineering', label: 'Engineer', icon: 'engineering' },
-    { value: 'science', label: 'Scientist', icon: 'science' },
-    { value: 'psychology', label: 'Creative', icon: 'psychology' }
+    { value: 'face_1', icon: 'face' },
+    { value: 'face_2', icon: 'face_2' },
+    { value: 'face_3', icon: 'face_3' },
+    { value: 'face_4',  icon: 'face_4' },
+    { value: 'face_5',  icon: 'face_5' },
+    { value: 'face_6',  icon: 'face_6' },
   ];
 
   private initializeForm(): void {
@@ -62,7 +56,7 @@ export class TeamManagementComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       orientation: ['', Validators.required],
       skills: [''],
-      avatar: ['person', Validators.required],
+      avatar: ['person'],
       strengths: this.fb.array([this.fb.control('')]),
       constraints: this.fb.array([this.fb.control('')]),
       preferences: this.fb.group({
