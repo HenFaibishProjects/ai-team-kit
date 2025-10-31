@@ -42,15 +42,6 @@ export class TeamManagementComponent implements OnInit {
     this.loadTeamMembers();
   }
 
-  avatarOptions = [
-    { value: 'face_1', icon: 'face' },
-    { value: 'face_2', icon: 'face_2' },
-    { value: 'face_3', icon: 'face_3' },
-    { value: 'face_4',  icon: 'face_4' },
-    { value: 'face_5',  icon: 'face_5' },
-    { value: 'face_6',  icon: 'face_6' },
-  ];
-
   private initializeForm(): void {
     this.memberForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
