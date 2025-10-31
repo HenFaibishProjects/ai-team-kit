@@ -7,6 +7,7 @@ import { ExportModule } from './modules/export/export.module';
 import { ConfigModule } from './modules/config/config.module';
 import { TemplateModule } from './modules/templates/template.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { GithubModule } from './modules/github/github.module';
 import { getDatabaseConfig } from './config/database.config';
 
 @Module({
@@ -20,6 +21,7 @@ import { getDatabaseConfig } from './config/database.config';
     ExportModule,
     ConfigModule,
     TemplateModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],
