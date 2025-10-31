@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 import { TeamService } from '../../services/team.service';
@@ -19,7 +19,8 @@ export class WizardComponent implements OnInit {
   
   constructor(
     private teamService: TeamService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -30,12 +31,14 @@ export class WizardComponent implements OnInit {
 
   onTeamSetupComplete(): void {
     this.teamSetupCompleted = true;
-    this.stepper.next();
+    this.cdr.detectChanges(); // Ensure the completed state is updated
+    setTimeout(() => this.stepper.next(), 0); // Move to next step after change detection
   }
 
   onFeatureSetupComplete(): void {
     this.featureSetupCompleted = true;
-    this.stepper.next();
+    this.cdr.detectChanges(); // Ensure the completed state is updated
+    setTimeout(() => this.stepper.next(), 0); // Move to next step after change detection
   }
 
   onFeaturePlanningComplete(): void {
