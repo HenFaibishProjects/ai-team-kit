@@ -14,6 +14,8 @@ export class WizardComponent implements OnInit {
   @ViewChild('stepper') stepper!: MatStepper;
   
   teamConfig: Partial<TeamConfig> = {};
+  teamSetupCompleted = false;
+  featureSetupCompleted = false;
   
   constructor(
     private teamService: TeamService,
@@ -27,10 +29,12 @@ export class WizardComponent implements OnInit {
   }
 
   onTeamSetupComplete(): void {
+    this.teamSetupCompleted = true;
     this.stepper.next();
   }
 
   onFeatureSetupComplete(): void {
+    this.featureSetupCompleted = true;
     this.stepper.next();
   }
 
@@ -44,10 +48,10 @@ export class WizardComponent implements OnInit {
   }
 
   isTeamSetupValid(): boolean {
-    return !!(this.teamConfig.projectName && this.teamConfig.agents && this.teamConfig.agents.length > 0);
+    return this.teamSetupCompleted || !!(this.teamConfig.projectName && this.teamConfig.agents && this.teamConfig.agents.length > 0);
   }
 
   isFeaturesValid(): boolean {
-    return !!(this.teamConfig.features && this.teamConfig.features.length > 0);
+    return this.featureSetupCompleted || !!(this.teamConfig.features && this.teamConfig.features.length > 0);
   }
 }
