@@ -7,7 +7,6 @@ interface AvailableTeamMember {
   name: string;
   orientation: string;
   skills: string[];
-  avatar: string;
   strengths: string[];
   constraints: string[];
   preferences: {

@@ -7,7 +7,6 @@ interface TeamMember {
   name: string;
   orientation: string;
   skills: string[];
-  avatar: string;
   strengths: string[];
   constraints: string[];
   preferences: {
@@ -47,7 +46,6 @@ export class TeamManagementComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       orientation: ['', Validators.required],
       skills: [''],
-      avatar: ['person'],
       strengths: this.fb.array([this.fb.control('')]),
       constraints: this.fb.array([this.fb.control('')]),
       preferences: this.fb.group({
@@ -119,7 +117,6 @@ export class TeamManagementComponent implements OnInit {
         name: formValue.name,
         orientation: formValue.orientation,
         skills: formValue.skills ? formValue.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [],
-        avatar: formValue.avatar,
         strengths: formValue.strengths.filter((s: string) => s && s.trim() !== ''),
         constraints: formValue.constraints.filter((c: string) => c && c.trim() !== ''),
         preferences: formValue.preferences
@@ -177,7 +174,6 @@ export class TeamManagementComponent implements OnInit {
       name: member.name,
       orientation: member.orientation,
       skills: member.skills.join(', '),
-      avatar: member.avatar || 'person',
       preferences: member.preferences || {
         cost_sensitivity: 5,
         security_rigidity: 5,
@@ -196,27 +192,6 @@ export class TeamManagementComponent implements OnInit {
 
   private saveToStorage(): void {
     localStorage.setItem('teamMembers', JSON.stringify(this.teamMembers));
-  }
-
-  getRoleIcon(orientation: string): string {
-    const icons: { [key: string]: string } = {
-      'backend': 'storage',
-      'frontend': 'web',
-      'fullstack': 'code',
-      'devops': 'cloud',
-      'qa': 'bug_report',
-      'architect': 'architecture',
-      'pm': 'manage_accounts',
-      'designer': 'palette',
-      'tech_lead': 'stars',
-      'mobile': 'smartphone',
-      'data_engineer': 'analytics',
-      'scrum_master': 'groups_2',
-      'security': 'security',
-      'sre': 'settings_applications',
-      'business_analyst': 'assessment'
-    };
-    return icons[orientation] || 'person';
   }
 
   getRoleLabel(orientation: string): string {

@@ -209,9 +209,6 @@
       <mat-card *ngFor="let member of teamMembers; let i = index" class="member-card">
         <mat-card-header>
           <div class="member-header">
-            <div class="member-avatar" [class]="'avatar-' + member.orientation">
-              <mat-icon>{{ member.avatar || 'person' }}</mat-icon>
-            </div>
             <div class="member-info">
               <h3>{{ member.name }}</h3>
               <span class="member-role">{{ getRoleLabel(member.orientation) }}</span>
