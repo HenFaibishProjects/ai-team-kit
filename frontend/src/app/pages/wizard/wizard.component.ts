@@ -43,8 +43,8 @@ export class WizardComponent implements OnInit {
   }
 
   onAdrComplete(): void {
-    // Navigate to feature management/dashboard after completing the wizard
-    this.router.navigate(['/dashboard']);
+    // Navigate to project details page after completing the wizard
+    this.router.navigate(['/project-details']);
   }
 
   isTeamSetupValid(): boolean {

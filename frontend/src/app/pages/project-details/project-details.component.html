@@ -1,0 +1,114 @@
+<div class="project-details-container">
+  <div class="header">
+    <div class="header-content">
+      <h1 class="project-title">
+        <mat-icon class="title-icon">folder_open</mat-icon>
+        {{ projectName }}
+      </h1>
+      <div class="project-meta">
+        <mat-chip class="project-type-chip">
+          <mat-icon>{{ projectType === 'new' ? 'fiber_new' : 'update' }}</mat-icon>
+          {{ projectType === 'new' ? 'New Project' : 'Existing Project' }}
+        </mat-chip>
+        <a *ngIf="githubUrl" [href]="githubUrl" target="_blank" class="github-link">
+          <mat-icon>link</mat-icon>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="editProject()">
+        <mat-icon>edit</mat-icon>
+        Edit Project
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- Team Section -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="card-icon">group</mat-icon>
+        <mat-card-title>Team Members</mat-card-title>
+        <mat-card-subtitle>{{ agents.length }} team member{{ agents.length !== 1 ? 's' : '' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="agents-list">
+          <div *ngFor="let agent of agents" class="agent-item">
+            <div class="agent-header">
+              <mat-icon class="agent-icon">person</mat-icon>
+              <div class="agent-info">
+                <h4>{{ agent.name }}</h4>
+                <p class="agent-role">{{ agent.orientation }}</p>
+              </div>
+            </div>
+            <div class="agent-strengths">
+              <mat-chip *ngFor="let strength of agent.strengths" class="strength-chip">
+                {{ strength }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Features Section -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="card-icon">extension</mat-icon>
+        <mat-card-title>Features</mat-card-title>
+        <mat-card-subtitle>{{ features.length }} feature{{ features.length !== 1 ? 's' : '' }} defined</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="features-list">
+          <div *ngFor="let feature of features; let i = index" class="feature-item">
+            <div class="feature-header">
+              <span class="feature-number">{{ i + 1 }}</span>
+              <h4>{{ feature.name }}</h4>
+            </div>
+            <p class="feature-scope">{{ feature.scope }}</p>
+            <div class="feature-criteria">
+              <h5>Acceptance Criteria:</h5>
+              <ul>
+                <li *ngFor="let criterion of feature.acceptanceCriteria">{{ criterion }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>
+      <mat-icon>bolt</mat-icon>
+      Quick Actions
+    </h2>
+    <div class="actions-grid">
+      <mat-card class="action-card" (click)="navigateToSprintPlanning()">
+        <mat-icon class="action-icon">calendar_today</mat-icon>
+        <h3>Sprint Planning</h3>
+        <p>Plan your sprints and tasks</p>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="navigateToRaci()">
+        <mat-icon class="action-icon">assignment_ind</mat-icon>
+        <h3>RACI Matrix</h3>
+        <p>Define roles and responsibilities</p>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="navigateToExport()">
+        <mat-icon class="action-icon">download</mat-icon>
+        <h3>Export</h3>
+        <p>Export project documentation</p>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="navigateToDashboard()">
+        <mat-icon class="action-icon">dashboard</mat-icon>
+        <h3>Dashboard</h3>
+        <p>View project overview</p>
+      </mat-card>
+    </div>
+  </div>
+</div>

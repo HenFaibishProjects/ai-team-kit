@@ -36,6 +36,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { OrganizationSetupComponent } from './pages/organization-setup/organization-setup.component';
 import { TeamManagementComponent } from './pages/team-management/team-management.component';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -46,6 +47,11 @@ const routes: Routes = [
   { path: 'organization/setup', component: OrganizationSetupComponent, canActivate: [AuthGuard] },
   { path: 'teams/manage', component: TeamManagementComponent, canActivate: [AuthGuard] },
   { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
+  { path: 'project-details', component: ProjectDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'sprint-planning', component: FeaturePlanningComponent, canActivate: [AuthGuard] },
+  { path: 'raci', component: RaciComponent, canActivate: [AuthGuard] },
+  { path: 'export', component: ExportComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 
@@ -64,7 +70,8 @@ const routes: Routes = [
     RegisterComponent,
     VerifyEmailComponent,
     OrganizationSetupComponent,
-    TeamManagementComponent
+    TeamManagementComponent,
+    ProjectDetailsComponent
   ],
   imports: [
     BrowserModule,
