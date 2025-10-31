@@ -54,14 +54,14 @@
         </mat-form-field>
 
         <div class="button-group">
-          <button mat-button (click)="projectType = null">
+          <button mat-button type="button" (click)="projectType = null">
             <mat-icon>arrow_back</mat-icon>
             Back
           </button>
-          <button mat-button (click)="skipGithubLinking()">
+          <button mat-button type="button" (click)="skipGithubLinking()">
             Skip GitHub
           </button>
-          <button mat-raised-button color="primary" 
+          <button mat-raised-button color="primary" type="button"
                   (click)="confirmGithubUrl()" 
                   [disabled]="!githubProjectUrl">
             Continue
@@ -105,14 +105,14 @@
         </mat-form-field>
 
         <div class="button-group">
-          <button mat-button (click)="projectType = null">
+          <button mat-button type="button" (click)="projectType = null">
             <mat-icon>arrow_back</mat-icon>
             Back
           </button>
-          <button mat-button (click)="skipGithubLinking()">
+          <button mat-button type="button" (click)="skipGithubLinking()">
             Skip GitHub
           </button>
-          <button mat-raised-button color="primary" 
+          <button mat-raised-button color="primary" type="button"
                   (click)="connectGithub()" 
                   [disabled]="!githubToken || loadingRepositories">
             <mat-icon>link</mat-icon>
