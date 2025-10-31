@@ -85,10 +85,14 @@ export class AuthService {
 
   private loadUserProfile(): void {
     this.getProfile().subscribe({
-      error: () => {
-        // If profile load fails, clear token
-        this.removeToken();
-        this.currentUserSubject.next(null);
+      error: (error) => {
+        // Only clear token if it's actually invalid (401), not for network errors
+        if (error.status === 401) {
+          this.removeToken();
+          this.currentUserSubject.next(null);
+        }
+        // For other errors (network, 500, etc.), keep the token
+        // User will be prompted to login again when they try to use the app
       }
     });
   }
