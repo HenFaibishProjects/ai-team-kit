@@ -5,13 +5,14 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { EmailService } from './email.service';
-import { JwtStrategy } from './jwt.strategy';
 import { User } from '../../entities/user.entity';
+import { Project } from '../../entities/project.entity';
+import { JwtStrategy } from './jwt.strategy';
+import { EmailService } from './email.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Project]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

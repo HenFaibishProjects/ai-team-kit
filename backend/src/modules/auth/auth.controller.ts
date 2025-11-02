@@ -49,4 +49,23 @@ export class AuthController {
     // With JWT, logout is handled client-side by removing the token
     return { message: 'Logged out successfully' };
   }
+
+  @Get('projects')
+  @UseGuards(JwtAuthGuard)
+  async getUserProjects(@Request() req: any) {
+    return this.authService.getUserProjects(req.user.userId);
+  }
+
+  @Get('organization/users')
+  @UseGuards(JwtAuthGuard)
+  async getOrganizationUsers(@Request() req: any) {
+    return this.authService.getOrganizationUsers(req.user.userId);
+  }
+
+  @Get('users/:userId/projects')
+  @UseGuards(JwtAuthGuard)
+  async getUserProjectsById(@Request() req: any, @Query('userId') userId: string) {
+    // Verify the requesting user is from the same organization
+    return this.authService.getUserProjectsById(req.user.userId, userId);
+  }
 }

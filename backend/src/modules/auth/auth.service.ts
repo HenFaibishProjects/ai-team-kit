@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { User } from '../../entities/user.entity';
+import { Project } from '../../entities/project.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { EmailService } from './email.service';
@@ -22,6 +23,8 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Project)
+    private projectRepository: Repository<Project>,
     private jwtService: JwtService,
     private emailService: EmailService,
   ) {}
@@ -176,5 +179,90 @@ export class AuthService {
       intendedUse: user.intendedUse,
       createdAt: user.createdAt,
     };
+  }
+
+  async getUserProjects(userId: string): Promise<any[]> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const projects = await this.projectRepository.find({
+      where: { userId },
+      order: { updatedAt: 'DESC' },
+    });
+
+    return projects.map((project) => ({
+      id: project.id,
+      projectName: project.teamConfig.projectName,
+      status: project.status,
+      teamMemberCount: project.teamConfig.agents.length,
+      featureCount: project.teamConfig.features.length,
+      githubUrl: (project.teamConfig as any).githubUrl || null,
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+    }));
+  }
+
+  async getOrganizationUsers(userId: string): Promise<any[]> {
+    const currentUser = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!currentUser) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Get all users from the same organization
+    const users = await this.userRepository.find({
+      where: { organizationName: currentUser.organizationName },
+      order: { username: 'ASC' },
+    });
+
+    return users.map((user) => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    }));
+  }
+
+  async getUserProjectsById(
+    requestingUserId: string,
+    targetUserId: string,
+  ): Promise<any[]> {
+    const requestingUser = await this.userRepository.findOne({
+      where: { id: requestingUserId },
+    });
+    const targetUser = await this.userRepository.findOne({
+      where: { id: targetUserId },
+    });
+
+    if (!requestingUser || !targetUser) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Verify both users are from the same organization
+    if (requestingUser.organizationName !== targetUser.organizationName) {
+      throw new UnauthorizedException(
+        'Cannot access projects from different organization',
+      );
+    }
+
+    const projects = await this.projectRepository.find({
+      where: { userId: targetUserId },
+      order: { updatedAt: 'DESC' },
+    });
+
+    return projects.map((project) => ({
+      id: project.id,
+      projectName: project.teamConfig.projectName,
+      status: project.status,
+      teamMemberCount: project.teamConfig.agents.length,
+      featureCount: project.teamConfig.features.length,
+      githubUrl: (project.teamConfig as any).githubUrl || null,
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+    }));
   }
 }
