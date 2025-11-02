@@ -35,6 +35,8 @@ export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private authInitialized = new BehaviorSubject<boolean>(false);
+  public authInitialized$ = this.authInitialized.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -44,6 +46,9 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       this.loadUserProfile();
+    } else {
+      // No token, mark as initialized
+      this.authInitialized.next(true);
     }
   }
 
@@ -85,6 +90,9 @@ export class AuthService {
 
   private loadUserProfile(): void {
     this.getProfile().subscribe({
+      next: () => {
+        this.authInitialized.next(true);
+      },
       error: (error) => {
         // Only clear token if it's actually invalid (401), not for network errors
         if (error.status === 401) {
@@ -93,6 +101,7 @@ export class AuthService {
         }
         // For other errors (network, 500, etc.), keep the token
         // User will be prompted to login again when they try to use the app
+        this.authInitialized.next(true);
       }
     });
   }
