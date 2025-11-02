@@ -160,6 +160,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/projects']);
   }
 
+  viewUserProjects(): void {
+    this.router.navigate(['/user-projects']);
+  }
+
   logout(): void {
     this.authService.logout();
   }

@@ -131,4 +131,16 @@ export class AuthService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any[]>(`${this.apiUrl}/projects`, { headers });
   }
+
+  getOrganizationUsers(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/organization/users`, { headers });
+  }
+
+  getUserProjectsById(userId: string): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/users/${userId}/projects`, { headers });
+  }
 }

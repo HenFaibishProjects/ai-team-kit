@@ -40,6 +40,7 @@ import { OrganizationSetupComponent } from './pages/organization-setup/organizat
 import { TeamManagementComponent } from './pages/team-management/team-management.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
+import { UserProjectsComponent } from './pages/user-projects/user-projects.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'organization/setup', component: OrganizationSetupComponent, canActivate: [AuthGuard] },
   { path: 'teams/manage', component: TeamManagementComponent, canActivate: [AuthGuard] },
   { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'user-projects', component: UserProjectsComponent, canActivate: [AuthGuard] },
   { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
   { path: 'project-details', component: ProjectDetailsComponent, canActivate: [AuthGuard] },
   { path: 'sprint-planning', component: FeaturePlanningComponent, canActivate: [AuthGuard] },
@@ -77,7 +79,8 @@ const routes: Routes = [
     OrganizationSetupComponent,
     TeamManagementComponent,
     ProjectDetailsComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    UserProjectsComponent
   ],
   imports: [
     BrowserModule,

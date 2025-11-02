@@ -1,0 +1,198 @@
+<div class="user-projects-container">
+  <!-- Header -->
+  <div class="projects-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1>User Projects</h1>
+      <p class="subtitle">View projects by team member</p>
+    </div>
+  </div>
+
+  <!-- User Selection -->
+  <mat-card class="user-selection-card">
+    <mat-card-content>
+      <div class="user-selector">
+        <mat-form-field appearance="outline" class="user-dropdown">
+          <mat-label>Select Team Member</mat-label>
+          <mat-select [(ngModel)]="selectedUserId" (selectionChange)="onUserChange()">
+            <mat-option value="">-- Select a user --</mat-option>
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.username }} ({{ user.email }})
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+        
+        <div *ngIf="selectedUser" class="selected-user-info">
+          <mat-icon>info</mat-icon>
+          <span>Viewing projects for: <strong>{{ selectedUser.username }}</strong></span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Loading Users State -->
+  <div *ngIf="loadingUsers" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading team members...</p>
+  </div>
+
+  <!-- Loading Projects State -->
+  <div *ngIf="loadingProjects && selectedUserId" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading projects...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loadingUsers && !loadingProjects" class="error-container">
+    <mat-icon>error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-stroked-button (click)="selectedUserId ? loadUserProjects() : loadUsers()">
+      <mat-icon>refresh</mat-icon>
+      Try Again
+    </button>
+  </div>
+
+  <!-- Filters and Search -->
+  <mat-card class="filters-card" *ngIf="!loadingUsers && !loadingProjects && !error && selectedUserId">
+    <div class="filters-container">
+      <!-- Status Filter Chips -->
+      <div class="status-filters">
+        <mat-chip-listbox>
+          <mat-chip-option (click)="filterProjects('all')" [selected]="filterStatus === 'all'">
+            All ({{ getProjectCount('all') }})
+          </mat-chip-option>
+          <mat-chip-option (click)="filterProjects('in_progress')" [selected]="filterStatus === 'in_progress'">
+            <mat-icon>autorenew</mat-icon>
+            In Progress ({{ getProjectCount('in_progress') }})
+          </mat-chip-option>
+          <mat-chip-option (click)="filterProjects('not_started')" [selected]="filterStatus === 'not_started'">
+            <mat-icon>schedule</mat-icon>
+            Not Started ({{ getProjectCount('not_started') }})
+          </mat-chip-option>
+          <mat-chip-option (click)="filterProjects('on_hold')" [selected]="filterStatus === 'on_hold'">
+            <mat-icon>pause_circle</mat-icon>
+            On Hold ({{ getProjectCount('on_hold') }})
+          </mat-chip-option>
+          <mat-chip-option (click)="filterProjects('completed')" [selected]="filterStatus === 'completed'">
+            <mat-icon>check_circle</mat-icon>
+            Completed ({{ getProjectCount('completed') }})
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+      <!-- Search -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search projects</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Search by name or description">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <!-- Projects Grid -->
+  <div class="projects-grid" *ngIf="!loadingUsers && !loadingProjects && !error && selectedUserId && filteredProjects.length > 0">
+    <mat-card *ngFor="let project of filteredProjects" class="project-card" (click)="viewProject(project)">
+      <mat-card-header>
+        <div class="project-header">
+          <div class="project-title-section">
+            <h3>{{ project.name }}</h3>
+            <span class="status-badge" [ngClass]="getStatusClass(project.status)">
+              <mat-icon>{{ getStatusIcon(project.status) }}</mat-icon>
+              {{ getStatusLabel(project.status) }}
+            </span>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="project-description">{{ project.description }}</p>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span class="progress-label">Progress</span>
+            <span class="progress-value">{{ project.progress }}%</span>
+          </div>
+          <mat-progress-bar 
+            mode="determinate" 
+            [value]="project.progress"
+            [color]="project.status === 'completed' ? 'primary' : 'accent'">
+          </mat-progress-bar>
+        </div>
+
+        <!-- Project Info -->
+        <div class="project-info">
+          <div class="info-item">
+            <mat-icon>groups</mat-icon>
+            <span>{{ project.teamSize }} members</span>
+          </div>
+          <div class="info-item" *ngIf="project.githubUrl">
+            <mat-icon>code</mat-icon>
+            <span>GitHub</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>update</mat-icon>
+            <span>{{ formatDate(project.lastUpdated) }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="viewProject(project); $event.stopPropagation()">
+          <mat-icon>visibility</mat-icon>
+          View Details
+        </button>
+        <button mat-button *ngIf="project.githubUrl" (click)="$event.stopPropagation()" 
+                [attr.href]="project.githubUrl" target="_blank">
+          <mat-icon>open_in_new</mat-icon>
+          GitHub
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State - No User Selected -->
+  <div class="empty-state" *ngIf="!loadingUsers && !loadingProjects && !error && !selectedUserId">
+    <mat-icon>person_search</mat-icon>
+    <h2>Select a Team Member</h2>
+    <p>Choose a team member from the dropdown above to view their projects</p>
+  </div>
+
+  <!-- Empty State - No Projects -->
+  <div class="empty-state" *ngIf="!loadingUsers && !loadingProjects && !error && selectedUserId && filteredProjects.length === 0">
+    <mat-icon>folder_open</mat-icon>
+    <h2>No projects found</h2>
+    <p *ngIf="searchTerm || filterStatus !== 'all'">
+      Try adjusting your filters or search term
+    </p>
+    <p *ngIf="!searchTerm && filterStatus === 'all' && selectedUser">
+      {{ selectedUser.username }} has no projects yet
+    </p>
+  </div>
+
+  <!-- Summary Stats -->
+  <mat-card class="stats-card" *ngIf="!loadingUsers && !loadingProjects && !error && selectedUserId && projects.length > 0">
+    <h3>{{ selectedUser?.username }}'s Project Statistics</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">{{ projects.length }}</div>
+        <div class="stat-label">Total Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ getProjectCount('in_progress') }}</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ getProjectCount('completed') }}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ getAverageProgress() }}%</div>
+        <div class="stat-label">Avg Progress</div>
+      </div>
+    </div>
+  </mat-card>
+</div>
