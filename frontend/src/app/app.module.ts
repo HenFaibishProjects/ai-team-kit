@@ -43,6 +43,7 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { UserProjectsComponent } from './pages/user-projects/user-projects.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import {MatMenuModule} from "@angular/material/menu";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -106,7 +107,8 @@ const routes: Routes = [
     MatSnackBarModule,
     MatTooltipModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatMenuModule  // ADD THIS LINE
   ],
   providers: [
     AuthGuard,

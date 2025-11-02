@@ -1,13 +1,84 @@
 <div class="app-container">
-  <mat-toolbar color="primary" class="app-toolbar">
-    <span class="app-title">{{ title }}</span>
-    <span class="spacer"></span>
-    <button mat-icon-button (click)="toggleTheme()" [attr.aria-label]="(isDarkMode$ | async) ? 'Switch to light mode' : 'Switch to dark mode'">
-      <mat-icon>{{ (isDarkMode$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
-    </button>
-  </mat-toolbar>
-  
-  <div class="app-content">
-    <router-outlet></router-outlet>
-  </div>
+    <mat-toolbar color="primary" class="app-toolbar">
+        <div class="brand-section">
+            <img src="assets/lida-logo.png" alt="Lida Software" class="company-logo">
+            <div class="brand-text">
+                <span class="app-title">Virtual Team Kit</span>
+            </div>
+            <span class="app-subtitle">AI-Powered Project Management</span>
+        </div>
+
+        <div class="help-section">
+            <span class="help-label">Learn How:</span>
+            <nav class="nav-buttons">
+                <button mat-button routerLink="/how1" routerLinkActive="active-link" class="nav-item help-link">
+                    <mat-icon>person_add</mat-icon>
+                    <span class="nav-text">Team Members</span>
+                </button>
+                <button mat-button routerLink="/how2" routerLinkActive="active-link" class="nav-item help-link">
+                    <mat-icon>integration_instructions</mat-icon>
+                    <span class="nav-text">GitHub</span>
+                </button>
+                <button mat-button routerLink="/how3" routerLinkActive="active-link" class="nav-item help-link">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <span class="nav-text">New Project</span>
+                </button>
+                <button mat-button routerLink="/how4" routerLinkActive="active-link" class="nav-item help-link">
+                    <mat-icon>analytics</mat-icon>
+                    <span class="nav-text">Progress</span>
+                </button>
+            </nav>
+        </div>
+
+        <span class="spacer"></span>
+
+        <button mat-icon-button (click)="toggleTheme()"
+                class="theme-toggle"
+                [attr.aria-label]="(isDarkMode$ | async) ? 'Switch to light mode' : 'Switch to dark mode'">
+            <mat-icon>{{ (isDarkMode$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="settingsMenu" class="settings-button">
+            <mat-icon>settings</mat-icon>
+        </button>
+
+        <mat-menu #settingsMenu="matMenu" class="settings-menu">
+            <div class="settings-header">
+                <div class="menu-company-info">
+                    <span class="menu-app-name">Virtual Team Kit</span>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item>
+                <mat-icon>account_circle</mat-icon>
+                <span>Profile</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>tune</mat-icon>
+                <span>Preferences</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>notifications</mat-icon>
+                <span>Notifications</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item>
+                <mat-icon>help_outline</mat-icon>
+                <span>Help & Support</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>info</mat-icon>
+                <span>About</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item class="logout-item">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+
+    <div class="app-content">
+        <router-outlet></router-outlet>
+    </div>
 </div>
