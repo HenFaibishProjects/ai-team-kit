@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-organization-setup',
@@ -17,7 +18,8 @@ export class OrganizationSetupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -63,15 +65,26 @@ export class OrganizationSetupComponent implements OnInit {
       // Simulate API call
       setTimeout(() => {
         this.saving = false;
+        
+        // Show beautiful success notification
         const message = isNew 
-          ? 'Organization saved successfully!\n\nYou can now proceed to create teams and add team members.'
-          : 'Organization updated successfully!';
-        alert(message);
+          ? '✓ Organization saved successfully! You can now proceed to create teams and add team members.'
+          : '✓ Organization updated successfully!';
+        
+        this.snackBar.open(message, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['success-snackbar']
+        });
         
         // Mark as no longer new after first save
         this.isNewOrganization = false;
         
-        this.router.navigate(['/dashboard']);
+        // Navigate after a short delay to let user see the message
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1500);
       }, 1000);
     }
   }

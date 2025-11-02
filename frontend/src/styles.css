@@ -189,19 +189,39 @@ body {
 
 /* Snackbar styles */
 .success-snackbar {
-  background-color: #4caf50 !important;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%) !important;
   color: white !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4) !important;
+  border-radius: 8px !important;
+}
+
+.success-snackbar .mat-simple-snack-bar-content {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.success-snackbar .mat-simple-snackbar-action {
+  color: white !important;
+  font-weight: 600 !important;
 }
 
 .error-snackbar {
-  background-color: #f44336 !important;
+  background: linear-gradient(135deg, #f44336 0%, #ef5350 100%) !important;
   color: white !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4) !important;
+  border-radius: 8px !important;
 }
 
 .dark-theme .success-snackbar {
-  background-color: #66bb6a !important;
+  background: linear-gradient(135deg, #66bb6a 0%, #81c784 100%) !important;
+  box-shadow: 0 4px 20px rgba(102, 187, 106, 0.5) !important;
 }
 
 .dark-theme .error-snackbar {
-  background-color: #ef5350 !important;
+  background: linear-gradient(135deg, #ef5350 0%, #e57373 100%) !important;
+  box-shadow: 0 4px 20px rgba(239, 83, 80, 0.5) !important;
 }
