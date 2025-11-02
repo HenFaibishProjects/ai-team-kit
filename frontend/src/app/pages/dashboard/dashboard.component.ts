@@ -156,6 +156,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  viewAllProjects(): void {
+    this.router.navigate(['/projects']);
+  }
+
   logout(): void {
     this.authService.logout();
   }

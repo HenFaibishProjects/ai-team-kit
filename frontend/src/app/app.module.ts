@@ -22,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppComponent } from './app.component';
 import { WizardComponent, ExitWizardDialogComponent } from './pages/wizard/wizard.component';
@@ -38,6 +39,7 @@ import { VerifyEmailComponent } from './pages/verify-email/verify-email.componen
 import { OrganizationSetupComponent } from './pages/organization-setup/organization-setup.component';
 import { TeamManagementComponent } from './pages/team-management/team-management.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -47,6 +49,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'organization/setup', component: OrganizationSetupComponent, canActivate: [AuthGuard] },
   { path: 'teams/manage', component: TeamManagementComponent, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
   { path: 'project-details', component: ProjectDetailsComponent, canActivate: [AuthGuard] },
   { path: 'sprint-planning', component: FeaturePlanningComponent, canActivate: [AuthGuard] },
@@ -73,7 +76,8 @@ const routes: Routes = [
     VerifyEmailComponent,
     OrganizationSetupComponent,
     TeamManagementComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +101,8 @@ const routes: Routes = [
     MatChipsModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

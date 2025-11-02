@@ -6,6 +6,10 @@
         <p class="subtitle">Manage your AI team projects</p>
       </div>
       <div class="header-right">
+        <button mat-raised-button color="primary" (click)="viewAllProjects()" class="view-all-btn">
+          <mat-icon>view_list</mat-icon>
+          View All Projects
+        </button>
         <button mat-button (click)="logout()" class="logout-btn">
           <mat-icon>logout</mat-icon>
           Logout
