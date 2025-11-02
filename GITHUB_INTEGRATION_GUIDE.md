@@ -1,6 +1,6 @@
 # GitHub Integration Implementation Guide
 
-This document provides a complete implementation guide for integrating GitHub API into the AI Team Kit project.
+This document provides a complete implementation guide for integrating GitHub API into the Virtual Team Kit project.
 
 ## Overview
 
@@ -741,7 +741,7 @@ Replace the existing project type selection section with:
         <ol>
           <li>Go to <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Developer settings → Personal access tokens</a></li>
           <li>Click "Generate new token (classic)"</li>
-          <li>Give it a name (e.g., "AI Team Kit")</li>
+          <li>Give it a name (e.g., "Virtual Team Kit")</li>
           <li>Select the <strong>repo</strong> scope</li>
           <li>Click "Generate token"</li>
           <li>Copy the token and paste it below</li>

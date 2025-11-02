@@ -1,6 +1,6 @@
 # Future Enhancements
 
-This document outlines planned improvements and feature additions for the AI Team Kit application.
+This document outlines planned improvements and feature additions for the Virtual Team Kit application.
 
 ## 1. PDF Generation via pdfmake
 

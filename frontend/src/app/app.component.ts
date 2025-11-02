@@ -8,7 +8,7 @@ import { ThemeService } from './services/theme.service';
   standalone: false
 })
 export class AppComponent {
-  title = 'AI Team Kit';
+  title = 'Virtual Team Kit';
   isDarkMode$ = this.themeService.darkMode$;
 
   constructor(public themeService: ThemeService) {}

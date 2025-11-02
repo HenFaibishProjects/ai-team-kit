@@ -1,4 +1,4 @@
-// Core type definitions for AI Team Kit
+// Core type definitions for Virtual Team Kit
 
 export type Orientation =
   | 'lead_architect_scrummaster'

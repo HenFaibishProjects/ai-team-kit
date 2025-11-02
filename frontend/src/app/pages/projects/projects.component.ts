@@ -43,7 +43,7 @@ export class ProjectsComponent implements OnInit {
       this.projects = [
         {
           id: '1',
-          name: 'AI Team Kit',
+          name: 'Virtual Team Kit',
           description: 'AI-powered team management and project planning tool',
           status: 'in_progress',
           githubUrl: 'https://github.com/example/ai-team-kit',

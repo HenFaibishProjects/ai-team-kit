@@ -26,7 +26,7 @@ export class EmailService {
     const mailOptions = {
       from: this.configService.get('EMAIL_FROM'),
       to: email,
-      subject: 'Verify Your Email - AI Team Kit',
+      subject: 'Verify Your Email - Virtual Team Kit',
       html: `
         <!DOCTYPE html>
         <html>
@@ -43,21 +43,21 @@ export class EmailService {
         <body>
           <div class="container">
             <div class="header">
-              <h1>Welcome to AI Team Kit!</h1>
+              <h1>Welcome to Virtual Team Kit!</h1>
             </div>
             <div class="content">
               <h2>Verify Your Email Address</h2>
-              <p>Thank you for registering with AI Team Kit. To complete your registration, please verify your email address by clicking the button below:</p>
+              <p>Thank you for registering with Virtual Team Kit. To complete your registration, please verify your email address by clicking the button below:</p>
               <div style="text-align: center;">
                 <a href="${verificationUrl}" class="button">Verify Email</a>
               </div>
               <p>Or copy and paste this link into your browser:</p>
               <p style="word-break: break-all; color: #4CAF50;">${verificationUrl}</p>
               <p><strong>This link will expire in 24 hours.</strong></p>
-              <p>If you didn't create an account with AI Team Kit, please ignore this email.</p>
+              <p>If you didn't create an account with Virtual Team Kit, please ignore this email.</p>
             </div>
             <div class="footer">
-              <p>&copy; 2025 AI Team Kit. All rights reserved.</p>
+              <p>&copy; 2025 Virtual Team Kit. All rights reserved.</p>
             </div>
           </div>
         </body>

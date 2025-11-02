@@ -1,6 +1,6 @@
 # PostgreSQL Database Setup Guide
 
-This guide explains how to set up and use PostgreSQL with the AI Team Kit application.
+This guide explains how to set up and use PostgreSQL with the Virtual Team Kit application.
 
 ## Overview
 

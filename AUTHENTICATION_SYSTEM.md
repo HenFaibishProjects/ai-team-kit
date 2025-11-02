@@ -1,7 +1,7 @@
 # Authentication System Implementation
 
 ## Overview
-A complete JWT-based authentication system has been implemented for the AI Team Kit application, featuring user registration, email verification, login, and protected routes.
+A complete JWT-based authentication system has been implemented for the Virtual Team Kit application, featuring user registration, email verification, login, and protected routes.
 
 ## Backend Implementation (NestJS)
 

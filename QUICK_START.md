@@ -1,4 +1,4 @@
-# Quick Start Guide - AI Team Kit
+# Quick Start Guide - Virtual Team Kit
 
 ## Prerequisites
 
@@ -100,7 +100,7 @@ The frontend will start on **http://localhost:4200**
 ## Accessing the Application
 
 1. Open your browser to **http://localhost:4200**
-2. You'll see the AI Team Kit application
+2. You'll see the Virtual Team Kit application
 3. Register a new account at **/register**
 4. Login at **/login**
 5. Access the dashboard and other features

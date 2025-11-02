@@ -1,7 +1,7 @@
 # Enhanced Features Roadmap
 
 ## Overview
-This document outlines the comprehensive enhancement plan for transforming the AI Team Kit into a full-featured project management system with organization, team, sprint, and task management capabilities.
+This document outlines the comprehensive enhancement plan for transforming the Virtual Team Kit into a full-featured project management system with organization, team, sprint, and task management capabilities.
 
 ## Phase 1: Organization & Team Management
 
