@@ -33,33 +33,25 @@ import { RaciComponent } from './pages/raci/raci.component';
 import { AdrComponent } from './pages/adr/adr.component';
 import { ExportComponent } from './pages/export/export.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { OrganizationSetupComponent } from './pages/organization-setup/organization-setup.component';
 import { TeamManagementComponent } from './pages/team-management/team-management.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { UserProjectsComponent } from './pages/user-projects/user-projects.component';
-import { AuthGuard } from './guards/auth.guard';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 import {MatMenuModule} from "@angular/material/menu";
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'verify-email', component: VerifyEmailComponent },
-  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'organization/setup', component: OrganizationSetupComponent, canActivate: [AuthGuard] },
-  { path: 'teams/manage', component: TeamManagementComponent, canActivate: [AuthGuard] },
-  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
-  { path: 'user-projects', component: UserProjectsComponent, canActivate: [AuthGuard] },
-  { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
-  { path: 'project-details', component: ProjectDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'sprint-planning', component: FeaturePlanningComponent, canActivate: [AuthGuard] },
-  { path: 'raci', component: RaciComponent, canActivate: [AuthGuard] },
-  { path: 'export', component: ExportComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: '', component: DashboardComponent },
+  { path: 'organization/setup', component: OrganizationSetupComponent },
+  { path: 'teams/manage', component: TeamManagementComponent },
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'user-projects', component: UserProjectsComponent },
+  { path: 'wizard', component: WizardComponent },
+  { path: 'project-details', component: ProjectDetailsComponent },
+  { path: 'sprint-planning', component: FeaturePlanningComponent },
+  { path: 'raci', component: RaciComponent },
+  { path: 'export', component: ExportComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -75,9 +67,6 @@ const routes: Routes = [
     AdrComponent,
     ExportComponent,
     DashboardComponent,
-    LoginComponent,
-    RegisterComponent,
-    VerifyEmailComponent,
     OrganizationSetupComponent,
     TeamManagementComponent,
     ProjectDetailsComponent,
@@ -110,14 +99,7 @@ const routes: Routes = [
     MatProgressBarModule,
     MatMenuModule  // ADD THIS LINE
   ],
-  providers: [
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

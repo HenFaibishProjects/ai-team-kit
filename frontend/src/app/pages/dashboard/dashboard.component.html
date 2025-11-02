@@ -1,13 +1,32 @@
 <div class="dashboard-container">
   <!-- Professional Header with Logo -->
+  <header class="professional-header">
+    <div class="header-brand">
+      <div class="logo-container">
+        <!-- Replace this div with your logo image -->
+        <div class="logo-placeholder">
+          <mat-icon>business</mat-icon>
+        </div>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-title">Virtual Team Kit</h1>
+        <p class="brand-tagline">AI-Powered Project Management</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button (click)="viewAllProjects()" class="action-btn">
+        <mat-icon>folder_open</mat-icon>
+        <span>Projects</span>
+      </button>
+    </div>
+  </header>
 
   <!-- Main Dashboard Content - Always Show Action Cards -->
   <div class="dashboard-content">
     <div class="empty-state-icon">
-      <mat-icon>code</mat-icon>
+      <mat-icon>rocket_launch</mat-icon>
     </div>
-
-    <h2>Manage ORG Virtual Team And Projects</h2>
+    <h2>Get Started with Your AI Team</h2>
     <p class="empty-state-description">Choose an action below to begin managing your projects</p>
     
     <div class="getting-started-cards">
@@ -80,20 +99,6 @@
           </button>
         </mat-card-actions>
       </mat-card>
-
-        <mat-card class="action-card">
-            <mat-card-header>
-                <h3>Prompt My LLM</h3>
-            </mat-card-header>
-            <mat-card-content>
-                <p>wirte something in here</p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="viewUserProjects()">
-                    View by User
-                </button>
-            </mat-card-actions>
-        </mat-card>
     </div>
 
     <div class="quick-tips">
