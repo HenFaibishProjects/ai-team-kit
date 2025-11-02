@@ -182,16 +182,23 @@ export class AuthService {
   }
 
   async getUserProjects(userId: string): Promise<any[]> {
+    console.log('getUserProjects called with userId:', userId);
+    
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
+      console.log('User not found for userId:', userId);
       throw new UnauthorizedException('User not found');
     }
+
+    console.log('Found user:', user.email);
 
     const projects = await this.projectRepository.find({
       where: { userId },
       order: { updatedAt: 'DESC' },
     });
+
+    console.log(`Found ${projects.length} projects for userId:`, userId);
 
     return projects.map((project) => ({
       id: project.id,

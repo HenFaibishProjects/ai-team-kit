@@ -35,8 +35,17 @@ export class ConfigController {
     },
   ): Promise<{ id: string; project: Project }> {
     try {
+      // Log the received body for debugging
+      console.log('Received save config request:', {
+        hasTeamConfig: !!body.teamConfig,
+        userId: body.userId,
+        projectName: body.teamConfig?.projectName
+      });
+
       // TODO: Get userId from authenticated session/token
       const userId = body.userId || 'temp-user-id';
+      
+      console.log('Using userId:', userId);
 
       const project = await this.configService.saveConfig(
         userId,
@@ -48,8 +57,11 @@ export class ConfigController {
         },
       );
 
+      console.log('Project saved with ID:', project.id, 'for userId:', project.userId);
+
       return { id: project.id, project };
     } catch (error) {
+      console.error('Error saving config:', error);
       throw new HttpException(
         'Failed to save configuration',
         HttpStatus.INTERNAL_SERVER_ERROR,
