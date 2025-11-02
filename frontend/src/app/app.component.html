@@ -1,5 +1,5 @@
 <div class="app-container">
-    <mat-toolbar color="primary" class="app-toolbar">
+    <mat-toolbar color="primary" class="app-toolbar" *ngIf="showToolbar$ | async">
         <div class="brand-section">
             <img src="assets/lida-logo.png" alt="Lida Software" class="company-logo">
             <div class="brand-text">
@@ -71,7 +71,7 @@
                 <span>About</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item class="logout-item">
+            <button mat-menu-item class="logout-item" (click)="logout()">
                 <mat-icon>logout</mat-icon>
                 <span>Logout</span>
             </button>
