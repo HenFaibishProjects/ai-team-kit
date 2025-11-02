@@ -71,7 +71,14 @@ export class FeatureSetupComponent implements OnInit {
   skipGithubLinking(): void {
     this.githubProjectUrl = 'N/A';
     this.teamService.setGithubProjectUrl('');
-    this.addFeature();
+    
+    // Hide GitHub auth screens
+    this.showGithubAuth = false;
+    
+    // Add initial feature to show the form
+    if (this.features.length === 0) {
+      this.addFeature();
+    }
   }
 
   confirmGithubUrl(): void {
