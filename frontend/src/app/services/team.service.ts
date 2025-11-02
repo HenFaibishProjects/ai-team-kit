@@ -97,8 +97,11 @@ export class TeamService {
   /**
    * Save configuration to backend
    */
-  saveConfig(teamConfig: TeamConfig): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(`${this.apiUrl}/config/save`, teamConfig);
+  saveConfig(teamConfig: TeamConfig, userId: string): Observable<{ id: string }> {
+    return this.http.post<{ id: string }>(`${this.apiUrl}/config/save`, {
+      teamConfig,
+      userId
+    });
   }
 
   /**

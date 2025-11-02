@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TeamService } from '../../services/team.service';
+import { AuthService } from '../../services/auth.service';
 import { ClipboardService } from '../../services/clipboard.service';
 import type { TeamConfig } from '../../../../../shared/types';
 
@@ -20,7 +22,9 @@ export class ExportComponent implements OnInit {
 
   constructor(
     private teamService: TeamService,
-    private clipboardService: ClipboardService
+    private authService: AuthService,
+    private clipboardService: ClipboardService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -65,10 +69,17 @@ export class ExportComponent implements OnInit {
       return;
     }
 
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      this.error = 'You must be logged in to save configuration';
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.loading = true;
     this.error = null;
 
-    this.teamService.saveConfig(this.teamConfig).subscribe({
+    this.teamService.saveConfig(this.teamConfig, currentUser.id).subscribe({
       next: (response) => {
         alert(`Configuration saved with ID: ${response.id}`);
         this.loading = false;
