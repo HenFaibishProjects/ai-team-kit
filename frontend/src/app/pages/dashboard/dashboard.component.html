@@ -1,22 +1,29 @@
 <div class="dashboard-container">
-  <div class="dashboard-header">
-    <div class="header-content">
-      <div class="header-left">
-        <h1>Welcome to Virtual Team Kit!</h1>
-        <p class="subtitle">Your AI-powered project management platform</p>
+  <!-- Professional Header with Logo -->
+  <header class="professional-header">
+    <div class="header-brand">
+      <div class="logo-container">
+        <!-- Replace this div with your logo image -->
+        <div class="logo-placeholder">
+          <mat-icon>business</mat-icon>
+        </div>
       </div>
-      <div class="header-right">
-        <button mat-raised-button color="primary" (click)="viewAllProjects()" class="view-all-btn">
-          <mat-icon>view_list</mat-icon>
-          View All Projects
-        </button>
-        <button mat-button (click)="logout()" class="logout-btn">
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
+      <div class="brand-text">
+        <h1 class="brand-title">Virtual Team Kit</h1>
+        <p class="brand-tagline">AI-Powered Project Management</p>
       </div>
     </div>
-  </div>
+    <div class="header-actions">
+      <button mat-stroked-button (click)="viewAllProjects()" class="action-btn">
+        <mat-icon>folder_open</mat-icon>
+        <span>Projects</span>
+      </button>
+      <button mat-stroked-button (click)="logout()" class="action-btn logout">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </header>
 
   <!-- Main Dashboard Content - Always Show Action Cards -->
   <div class="dashboard-content">
