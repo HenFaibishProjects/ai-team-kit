@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Get the auth token from localStorage
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
 
     // Clone the request and add the authorization header if token exists
     if (token) {
@@ -32,8 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         // If we get a 401 Unauthorized error, redirect to login
         if (error.status === 401) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          localStorage.removeItem('access_token');
           this.router.navigate(['/login']);
         }
         return throwError(() => error);
