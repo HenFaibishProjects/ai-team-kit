@@ -1,4 +1,12 @@
 <div class="wizard-container">
+  <div class="wizard-header">
+    <h1>Project Setup Wizard</h1>
+    <button mat-stroked-button color="warn" (click)="exitWizard()" class="exit-btn">
+      <mat-icon>exit_to_app</mat-icon>
+      Exit Wizard
+    </button>
+  </div>
+  
   <mat-horizontal-stepper #stepper linear>
     <!-- Step 1: Team Setup -->
     <mat-step [completed]="isTeamSetupValid()">

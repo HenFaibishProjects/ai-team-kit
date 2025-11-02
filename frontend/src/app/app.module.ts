@@ -21,9 +21,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
-import { WizardComponent } from './pages/wizard/wizard.component';
+import { WizardComponent, ExitWizardDialogComponent } from './pages/wizard/wizard.component';
 import { TeamSetupComponent } from './pages/team-setup/team-setup.component';
 import { FeatureSetupComponent } from './pages/feature-setup/feature-setup.component';
 import { FeaturePlanningComponent } from './pages/sprint-planning/sprint-planning.component';
@@ -59,6 +60,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     WizardComponent,
+    ExitWizardDialogComponent,
     TeamSetupComponent,
     FeatureSetupComponent,
     FeaturePlanningComponent,
@@ -94,7 +96,8 @@ const routes: Routes = [
     MatToolbarModule,
     MatChipsModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

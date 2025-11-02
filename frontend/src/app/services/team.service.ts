@@ -155,6 +155,13 @@ export class TeamService {
   }
 
   /**
+   * Clear team configuration (alias for resetConfig)
+   */
+  clearTeamConfig(): void {
+    this.resetConfig();
+  }
+
+  /**
    * Check if configuration is complete
    */
   isConfigComplete(): boolean {
