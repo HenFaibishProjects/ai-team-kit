@@ -2,8 +2,8 @@
   <div class="dashboard-header">
     <div class="header-content">
       <div class="header-left">
-        <h1>My Projects</h1>
-        <p class="subtitle">Manage your AI team projects</p>
+        <h1>Welcome to Virtual Team Kit!</h1>
+        <p class="subtitle">Your AI-powered project management platform</p>
       </div>
       <div class="header-right">
         <button mat-raised-button color="primary" (click)="viewAllProjects()" class="view-all-btn">
@@ -18,29 +18,13 @@
     </div>
   </div>
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="loading-container">
-    <mat-spinner diameter="50"></mat-spinner>
-    <p>Loading projects...</p>
-  </div>
-
-  <!-- Error State -->
-  <div *ngIf="error && !loading" class="error-container">
-    <mat-icon>error_outline</mat-icon>
-    <p>{{ error }}</p>
-    <button mat-stroked-button (click)="loadProjects()">
-      <mat-icon>refresh</mat-icon>
-      Try Again
-    </button>
-  </div>
-
-  <!-- Empty State -->
-  <div *ngIf="!loading && projects.length === 0" class="empty-state">
+  <!-- Main Dashboard Content - Always Show Action Cards -->
+  <div class="dashboard-content">
     <div class="empty-state-icon">
       <mat-icon>rocket_launch</mat-icon>
     </div>
-    <h2>Welcome to Virtual Team Kit!</h2>
-    <p class="empty-state-description">No projects available right now. Let's get you started!</p>
+    <h2>Get Started with Your AI Team</h2>
+    <p class="empty-state-description">Choose an action below to begin managing your projects</p>
     
     <div class="getting-started-cards">
       <mat-card class="action-card">
@@ -122,56 +106,5 @@
         <li>Use sprints to manage tasks and track progress effectively</li>
       </ul>
     </div>
-  </div>
-
-  <!-- Projects Grid -->
-  <div *ngIf="!loading && !error && projects.length > 0" class="projects-grid">
-    <mat-card *ngFor="let project of projects" class="project-card" (click)="openProject(project.id)">
-      <mat-card-header>
-        <div class="project-header">
-          <h3>{{ project.projectName }}</h3>
-          <button mat-icon-button 
-                  (click)="deleteProject(project.id, $event)"
-                  class="delete-btn"
-                  matTooltip="Delete project">
-          </button>
-        </div>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div class="status-badge" [ngClass]="getStatusColor(project.status)">
-          <mat-icon>{{ getStatusIcon(project.status) }}</mat-icon>
-          <span>{{ getStatusLabel(project.status) }}</span>
-        </div>
-
-        <div class="project-stats">
-          <div class="stat">
-            <span>{{ project.teamMemberCount }} Team Members</span>
-          </div>
-          <div class="stat">
-            <mat-icon>featured_play_list</mat-icon>
-            <span>{{ project.featureCount }} Features</span>
-          </div>
-        </div>
-
-        <div class="project-dates">
-          <div class="date-item">
-            <span class="label">Created:</span>
-            <span>{{ formatDate(project.createdAt) }}</span>
-          </div>
-          <div class="date-item">
-            <span class="label">Updated:</span>
-            <span>{{ formatDate(project.updatedAt) }}</span>
-          </div>
-        </div>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="openProject(project.id); $event.stopPropagation()">
-          <mat-icon>open_in_new</mat-icon>
-          Open Project
-        </button>
-      </mat-card-actions>
-    </mat-card>
   </div>
 </div>
