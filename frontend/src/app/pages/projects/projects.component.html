@@ -14,8 +14,24 @@
     </button>
   </div>
 
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading projects...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon>error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-stroked-button (click)="loadProjects()">
+      <mat-icon>refresh</mat-icon>
+      Try Again
+    </button>
+  </div>
+
   <!-- Filters and Search -->
-  <mat-card class="filters-card">
+  <mat-card class="filters-card" *ngIf="!loading && !error">
     <div class="filters-container">
       <!-- Status Filter Chips -->
       <div class="status-filters">
@@ -52,7 +68,7 @@
   </mat-card>
 
   <!-- Projects Grid -->
-  <div class="projects-grid" *ngIf="filteredProjects.length > 0">
+  <div class="projects-grid" *ngIf="!loading && !error && filteredProjects.length > 0">
     <mat-card *ngFor="let project of filteredProjects" class="project-card" (click)="viewProject(project)">
       <mat-card-header>
         <div class="project-header">
@@ -114,7 +130,7 @@
   </div>
 
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="filteredProjects.length === 0">
+  <div class="empty-state" *ngIf="!loading && !error && filteredProjects.length === 0">
     <mat-icon>folder_open</mat-icon>
     <h2>No projects found</h2>
     <p *ngIf="searchTerm || filterStatus !== 'all'">
@@ -130,7 +146,7 @@
   </div>
 
   <!-- Summary Stats -->
-  <mat-card class="stats-card" *ngIf="projects.length > 0">
+  <mat-card class="stats-card" *ngIf="!loading && !error && projects.length > 0">
     <h3>Project Statistics</h3>
     <div class="stats-grid">
       <div class="stat-item">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 interface Project {
   id: string;
@@ -24,80 +25,59 @@ export class ProjectsComponent implements OnInit {
   filteredProjects: Project[] = [];
   filterStatus: string = 'all';
   searchTerm: string = '';
+  loading: boolean = false;
+  error: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadProjects();
   }
 
-  private loadProjects(): void {
-    // TODO: Replace with actual API call
-    // For now, load from localStorage or use mock data
-    const savedProjects = localStorage.getItem('projects');
-    
-    if (savedProjects) {
-      this.projects = JSON.parse(savedProjects);
-    } else {
-      // Mock data for demonstration
-      this.projects = [
-        {
-          id: '1',
-          name: 'Virtual Team Kit',
-          description: 'AI-powered team management and project planning tool',
-          status: 'in_progress',
-          githubUrl: 'https://github.com/example/ai-team-kit',
-          teamSize: 5,
-          startDate: new Date('2024-01-15'),
-          lastUpdated: new Date(),
-          progress: 65
-        },
-        {
-          id: '2',
-          name: 'E-Commerce Platform',
-          description: 'Modern e-commerce solution with AI recommendations',
-          status: 'in_progress',
-          githubUrl: 'https://github.com/example/ecommerce',
-          teamSize: 8,
-          startDate: new Date('2024-02-01'),
-          lastUpdated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-          progress: 45
-        },
-        {
-          id: '3',
-          name: 'Mobile App Redesign',
-          description: 'Complete redesign of mobile application UI/UX',
-          status: 'completed',
-          teamSize: 4,
-          startDate: new Date('2023-11-01'),
-          lastUpdated: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-          progress: 100
-        },
-        {
-          id: '4',
-          name: 'Data Analytics Dashboard',
-          description: 'Real-time analytics and reporting dashboard',
-          status: 'on_hold',
-          githubUrl: 'https://github.com/example/analytics',
-          teamSize: 3,
-          startDate: new Date('2024-03-01'),
-          lastUpdated: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
-          progress: 30
-        },
-        {
-          id: '5',
-          name: 'API Gateway Service',
-          description: 'Microservices API gateway with authentication',
-          status: 'not_started',
-          teamSize: 6,
-          startDate: new Date('2024-04-01'),
-          lastUpdated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-          progress: 0
-        }
-      ];
-    }
-    
-    this.filteredProjects = [...this.projects];
+  loadProjects(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.authService.getUserProjects().subscribe({
+      next: (response: any) => {
+        // Transform backend data to match our interface
+        this.projects = response.map((project: any) => ({
+          id: project.id,
+          name: project.projectName,
+          description: `${project.teamMemberCount} team members, ${project.featureCount} features`,
+          status: project.status || 'not_started',
+          githubUrl: project.githubUrl,
+          teamSize: project.teamMemberCount,
+          startDate: new Date(project.createdAt),
+          lastUpdated: new Date(project.updatedAt),
+          progress: this.calculateProgress(project.status)
+        }));
+        
+        this.filteredProjects = [...this.projects];
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('Error loading projects:', error);
+        this.error = 'Failed to load projects. Please try again.';
+        this.loading = false;
+        this.projects = [];
+        this.filteredProjects = [];
+      }
+    });
+  }
+
+  private calculateProgress(status: string): number {
+    // Calculate progress based on status
+    const progressMap: { [key: string]: number } = {
+      'not_started': 0,
+      'in_progress': 50,
+      'on_hold': 30,
+      'completed': 100
+    };
+    return progressMap[status] || 0;
   }
 
   filterProjects(status: string): void {
