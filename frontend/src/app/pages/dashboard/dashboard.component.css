@@ -7,138 +7,6 @@
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
-/* Professional Header */
-.professional-header {
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
-}
-
-.dark-theme .professional-header {
-  background: rgba(26, 26, 46, 0.95);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.logo-container {
-  position: relative;
-}
-
-.logo-placeholder {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.logo-placeholder:hover {
-  transform: scale(1.05);
-}
-
-.logo-placeholder mat-icon {
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
-  color: white;
-}
-
-/* To use your own logo, replace .logo-placeholder with: */
-/*
-.logo-container img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 12px;
-}
-*/
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.brand-title {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-}
-
-.brand-tagline {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #64748b;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.dark-theme .brand-tagline {
-  color: #94a3b8;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-}
-
-.action-btn mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-.action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.action-btn.logout {
-  color: #ef4444;
-  border-color: #ef4444;
-}
-
-.action-btn.logout:hover {
-  background: #fef2f2;
-  border-color: #dc2626;
-}
-
-.dark-theme .action-btn.logout:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
-
 /* Dashboard Content */
 .dashboard-content {
   max-width: 1400px;
@@ -346,10 +214,6 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .professional-header {
-    padding: 1.25rem 2rem;
-  }
-
   .getting-started-cards {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
@@ -357,29 +221,6 @@
 }
 
 @media (max-width: 768px) {
-  .professional-header {
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-
-  .header-brand {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .header-actions {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .action-btn {
-    flex: 1;
-    min-width: 140px;
-    justify-content: center;
-  }
-
   .dashboard-content {
     padding: 2rem 1rem;
   }
@@ -399,46 +240,6 @@
 
   .quick-tips {
     padding: 1.5rem;
-  }
-
-  .logo-placeholder {
-    width: 50px;
-    height: 50px;
-  }
-
-  .logo-placeholder mat-icon {
-    font-size: 30px;
-    width: 30px;
-    height: 30px;
-  }
-
-  .brand-title {
-    font-size: 1.5rem;
-  }
-
-  .brand-tagline {
-    font-size: 0.8125rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-brand {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .brand-text {
-    align-items: center;
-  }
-
-  .action-btn span {
-    display: none;
-  }
-
-  .action-btn {
-    min-width: auto;
-    padding: 0.75rem;
   }
 }
 
