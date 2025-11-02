@@ -255,7 +255,7 @@
   </div>
 
   <!-- Features Form (shown after project type selection and GitHub setup) -->
-  <form *ngIf="(projectType === 'new' && githubProjectUrl) || (projectType === 'existing' && selectedRepository)" 
+  <form *ngIf="(projectType === 'new' && githubProjectUrl) || (projectType === 'existing' && (selectedRepository || githubProjectUrl))" 
         [formGroup]="featureForm" 
         (ngSubmit)="onSubmit()">
     
