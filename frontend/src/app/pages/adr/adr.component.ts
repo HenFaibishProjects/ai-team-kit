@@ -576,8 +576,27 @@ Thank you for your detailed analysis and recommendations!`;
     if (this.adrForm.valid) {
       const adrData = this.adrForm.value;
       console.log('Architecture Decision:', adrData);
-      // Store the decision
-      this.complete.emit();
+      
+      // Get the complete team config
+      const teamConfig = this.teamService.getTeamConfig();
+      
+      // Save the project to the database
+      if (teamConfig.projectName && teamConfig.agents && teamConfig.features) {
+        this.teamService.saveConfig(teamConfig as any).subscribe({
+          next: (response) => {
+            console.log('Project saved successfully with ID:', response.id);
+            // Store the decision and emit complete
+            this.complete.emit();
+          },
+          error: (error) => {
+            console.error('Error saving project:', error);
+            alert('Failed to save project. Please try again.');
+          }
+        });
+      } else {
+        console.error('Incomplete team config:', teamConfig);
+        alert('Project configuration is incomplete. Please go back and fill in all required fields.');
+      }
     }
   }
 
