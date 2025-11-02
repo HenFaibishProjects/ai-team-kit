@@ -3,26 +3,111 @@
     <div class="header-content">
       <h1 class="project-title">
         <mat-icon class="title-icon">folder_open</mat-icon>
-        {{ projectName }}
+        <span *ngIf="!isEditMode">{{ projectName }}</span>
+        <mat-form-field *ngIf="isEditMode" class="inline-edit">
+          <input matInput [(ngModel)]="editedProjectName" placeholder="Project Name">
+        </mat-form-field>
       </h1>
       <div class="project-meta">
         <mat-chip class="project-type-chip">
           <mat-icon>{{ projectType === 'new' ? 'fiber_new' : 'update' }}</mat-icon>
           {{ projectType === 'new' ? 'New Project' : 'Existing Project' }}
         </mat-chip>
-        <a *ngIf="githubUrl" [href]="githubUrl" target="_blank" class="github-link">
+        <div class="status-badge" [ngClass]="getStatusClass(isEditMode ? editedStatus : projectStatus)" *ngIf="!isEditMode">
+          <mat-icon>{{ getStatusIcon(projectStatus) }}</mat-icon>
+          <span>{{ getStatusLabel(projectStatus) }}</span>
+        </div>
+        <mat-form-field *ngIf="isEditMode" class="status-select">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="editedStatus">
+            <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+              <mat-icon>{{ option.icon }}</mat-icon>
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <a *ngIf="githubUrl && !isEditMode" [href]="githubUrl" target="_blank" class="github-link">
           <mat-icon>link</mat-icon>
           View on GitHub
         </a>
+        <mat-form-field *ngIf="isEditMode" class="inline-edit">
+          <input matInput [(ngModel)]="editedGithubUrl" placeholder="GitHub URL (optional)">
+        </mat-form-field>
       </div>
     </div>
     <div class="header-actions">
-      <button mat-raised-button color="primary" (click)="editProject()">
+      <button *ngIf="!isEditMode" mat-raised-button color="primary" (click)="enableEditMode()">
         <mat-icon>edit</mat-icon>
-        Edit Project
+        Edit Details
+      </button>
+      <button *ngIf="isEditMode" mat-raised-button color="primary" (click)="saveChanges()">
+        <mat-icon>save</mat-icon>
+        Save Changes
+      </button>
+      <button *ngIf="isEditMode" mat-button (click)="cancelEdit()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+      <button *ngIf="!isEditMode" mat-button (click)="navigateToProjects()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Projects
       </button>
     </div>
   </div>
+
+  <!-- Project Info Card -->
+  <mat-card class="info-card project-info-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar class="card-icon">info</mat-icon>
+      <mat-card-title>Project Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Project Name:</span>
+          <span class="info-value">{{ projectName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Status:</span>
+          <span class="info-value">
+            <div class="status-badge" [ngClass]="getStatusClass(projectStatus)">
+              <mat-icon>{{ getStatusIcon(projectStatus) }}</mat-icon>
+              <span>{{ getStatusLabel(projectStatus) }}</span>
+            </div>
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Project Type:</span>
+          <span class="info-value">{{ projectType === 'new' ? 'New Project' : 'Existing Project' }}</span>
+        </div>
+        <div class="info-item" *ngIf="githubUrl">
+          <span class="info-label">GitHub URL:</span>
+          <span class="info-value">
+            <a [href]="githubUrl" target="_blank" class="github-link-inline">
+              {{ githubUrl }}
+              <mat-icon>open_in_new</mat-icon>
+            </a>
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Created:</span>
+          <span class="info-value">{{ formatDate(createdAt) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Last Updated:</span>
+          <span class="info-value">{{ formatDate(updatedAt) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Team Members:</span>
+          <span class="info-value">{{ agents.length }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Features:</span>
+          <span class="info-value">{{ features.length }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
   <div class="content-grid">
     <!-- Team Section -->

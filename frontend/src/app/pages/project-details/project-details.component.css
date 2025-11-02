@@ -77,12 +77,120 @@
   height: 1.25rem;
 }
 
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.status-not-started {
+  background-color: #e0e0e0;
+  color: #616161;
+}
+
+.status-in-progress {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-on-hold {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.status-completed {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+/* Edit Mode */
+.inline-edit {
+  margin: 0 0.5rem;
+}
+
+.inline-edit input {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.status-select {
+  min-width: 200px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .header-actions button {
   min-width: 150px;
 }
 
 .header-actions button mat-icon {
   margin-right: 0.5rem;
+}
+
+/* Project Info Card */
+.project-info-card {
+  margin-bottom: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #1a237e;
+  font-weight: 500;
+}
+
+.github-link-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #3f51b5;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.github-link-inline:hover {
+  color: #1a237e;
+  text-decoration: underline;
+}
+
+.github-link-inline mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 /* Content Grid */
