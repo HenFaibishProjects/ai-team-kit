@@ -69,17 +69,10 @@ export class ExportComponent implements OnInit {
       return;
     }
 
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
-      this.error = 'You must be logged in to save configuration';
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.loading = true;
     this.error = null;
 
-    this.teamService.saveConfig(this.teamConfig, currentUser.id).subscribe({
+    this.teamService.saveConfig(this.teamConfig).subscribe({
       next: (response) => {
         alert(`Configuration saved with ID: ${response.id}`);
         this.loading = false;
