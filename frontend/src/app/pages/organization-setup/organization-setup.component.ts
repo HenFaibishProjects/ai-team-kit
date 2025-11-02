@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 export class OrganizationSetupComponent implements OnInit {
   organizationForm!: FormGroup;
   saving = false;
+  isNewOrganization = true;
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +42,7 @@ export class OrganizationSetupComponent implements OnInit {
       try {
         const orgData = JSON.parse(savedOrg);
         this.organizationForm.patchValue(orgData);
+        this.isNewOrganization = false;
       } catch (error) {
         console.error('Error loading organization:', error);
       }
@@ -52,6 +54,7 @@ export class OrganizationSetupComponent implements OnInit {
       this.saving = true;
       
       const organizationData = this.organizationForm.value;
+      const isNew = this.isNewOrganization;
       
       // TODO: Replace with actual API call
       // For now, save to localStorage
@@ -60,7 +63,14 @@ export class OrganizationSetupComponent implements OnInit {
       // Simulate API call
       setTimeout(() => {
         this.saving = false;
-        alert('Organization saved successfully!\n\nYou can now proceed to create teams and add team members.');
+        const message = isNew 
+          ? 'Organization saved successfully!\n\nYou can now proceed to create teams and add team members.'
+          : 'Organization updated successfully!';
+        alert(message);
+        
+        // Mark as no longer new after first save
+        this.isNewOrganization = false;
+        
         this.router.navigate(['/dashboard']);
       }, 1000);
     }

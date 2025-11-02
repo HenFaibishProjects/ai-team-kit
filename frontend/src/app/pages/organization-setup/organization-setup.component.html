@@ -88,8 +88,8 @@
             Cancel
           </button>
           <button mat-raised-button color="primary" type="submit" [disabled]="!organizationForm.valid || saving">
-            <mat-icon>save</mat-icon>
-            {{ saving ? 'Saving...' : 'Save Organization' }}
+            <mat-icon>{{ isNewOrganization ? 'save' : 'update' }}</mat-icon>
+            {{ saving ? (isNewOrganization ? 'Saving...' : 'Updating...') : (isNewOrganization ? 'Save' : 'Update') }}
           </button>
         </div>
       </form>
