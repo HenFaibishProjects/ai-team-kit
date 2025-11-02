@@ -8,14 +8,11 @@ import {
   Param,
   HttpStatus,
   HttpException,
-  UseGuards,
-  Request,
 } from '@nestjs/common';
 import { ConfigService } from './config.service';
 import type { TeamConfig } from '../../shared/types';
 import { Project } from '../../entities/project.entity';
 import { ProjectStatus } from '../../entities/project-status.enum';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('config')
 export class ConfigController {
@@ -25,19 +22,19 @@ export class ConfigController {
    * Save a new configuration
    */
   @Post('save')
-  @UseGuards(JwtAuthGuard)
   async saveConfig(
-    @Request() req: any,
     @Body()
     body: {
       teamConfig: TeamConfig;
       sprintPlan?: string;
       raciChart?: string;
       adrDocument?: string;
+      userId?: string;
     },
   ): Promise<{ id: string; project: Project }> {
     try {
-      const userId = req.user.userId;
+      // Use provided userId or default to 'default-user' for single-user mode
+      const userId = body.userId || 'default-user';
 
       console.log('Received save config request:', {
         hasTeamConfig: !!body.teamConfig,
@@ -98,22 +95,20 @@ export class ConfigController {
   }
 
   /**
-   * Get all projects for the authenticated user
+   * Get all projects for a user
    */
-  @Get('user/projects')
-  @UseGuards(JwtAuthGuard)
-  async getUserProjects(@Request() req: any): Promise<Project[]> {
-    const userId = req.user.userId;
-    return await this.configService.getUserProjects(userId);
+  @Get('user/:userId/projects')
+  async getUserProjects(@Param('userId') userId: string): Promise<Project[]> {
+    // Use provided userId or default to 'default-user'
+    const effectiveUserId = userId || 'default-user';
+    return await this.configService.getUserProjects(effectiveUserId);
   }
 
   /**
    * Update an existing project
    */
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
   async updateConfig(
-    @Request() req: any,
     @Param('id') id: string,
     @Body()
     body: {
@@ -122,10 +117,12 @@ export class ConfigController {
       raciChart?: string;
       adrDocument?: string;
       status?: ProjectStatus;
+      userId?: string;
     },
   ): Promise<Project> {
     try {
-      const userId = req.user.userId;
+      // Use provided userId or default to 'default-user'
+      const userId = body.userId || 'default-user';
 
       return await this.configService.updateConfig(id, userId, {
         teamConfig: body.teamConfig,
@@ -148,15 +145,15 @@ export class ConfigController {
   /**
    * Delete a project
    */
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @Delete(':id/:userId')
   async deleteConfig(
-    @Request() req: any,
     @Param('id') id: string,
+    @Param('userId') userId: string,
   ): Promise<{ success: boolean }> {
     try {
-      const userId = req.user.userId;
-      const success = await this.configService.deleteConfig(id, userId);
+      // Use provided userId or default to 'default-user'
+      const effectiveUserId = userId || 'default-user';
+      const success = await this.configService.deleteConfig(id, effectiveUserId);
 
       if (!success) {
         throw new HttpException(
