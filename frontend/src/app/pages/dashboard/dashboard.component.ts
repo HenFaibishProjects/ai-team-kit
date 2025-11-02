@@ -45,18 +45,10 @@ export class DashboardComponent implements OnInit {
   }
 
   loadProjects(): void {
-    const currentUser = this.authService.getCurrentUser();
-    
-    if (!currentUser) {
-      this.error = 'User not authenticated';
-      this.loading = false;
-      return;
-    }
-    
     this.loading = true;
     this.error = null;
 
-    this.teamService.getUserProjects(currentUser.id).subscribe({
+    this.teamService.getUserProjects().subscribe({
       next: (projects) => {
         this.projects = projects.map(p => ({
           id: p.id,
@@ -137,14 +129,8 @@ export class DashboardComponent implements OnInit {
   deleteProject(projectId: string, event: Event): void {
     event.stopPropagation();
     
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
-      this.error = 'User not authenticated';
-      return;
-    }
-    
     if (confirm('Are you sure you want to delete this project?')) {
-      this.teamService.deleteProject(projectId, currentUser.id).subscribe({
+      this.teamService.deleteProject(projectId).subscribe({
         next: () => {
           this.projects = this.projects.filter(p => p.id !== projectId);
         },

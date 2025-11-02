@@ -6,14 +6,16 @@ import {
   Delete,
   Body,
   Param,
-  Query,
   HttpStatus,
   HttpException,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ConfigService } from './config.service';
 import type { TeamConfig } from '../../shared/types';
 import { Project } from '../../entities/project.entity';
 import { ProjectStatus } from '../../entities/project-status.enum';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('config')
 export class ConfigController {
@@ -21,31 +23,27 @@ export class ConfigController {
 
   /**
    * Save a new configuration
-   * TODO: Replace hardcoded userId with actual user from auth token
    */
   @Post('save')
+  @UseGuards(JwtAuthGuard)
   async saveConfig(
+    @Request() req: any,
     @Body()
     body: {
       teamConfig: TeamConfig;
-      userId?: string;
       sprintPlan?: string;
       raciChart?: string;
       adrDocument?: string;
     },
   ): Promise<{ id: string; project: Project }> {
     try {
-      // Log the received body for debugging
+      const userId = req.user.userId;
+
       console.log('Received save config request:', {
         hasTeamConfig: !!body.teamConfig,
-        userId: body.userId,
-        projectName: body.teamConfig?.projectName
+        userId,
+        projectName: body.teamConfig?.projectName,
       });
-
-      // TODO: Get userId from authenticated session/token
-      const userId = body.userId || 'temp-user-id';
-      
-      console.log('Using userId:', userId);
 
       const project = await this.configService.saveConfig(
         userId,
@@ -57,7 +55,12 @@ export class ConfigController {
         },
       );
 
-      console.log('Project saved with ID:', project.id, 'for userId:', project.userId);
+      console.log(
+        'Project saved with ID:',
+        project.id,
+        'for userId:',
+        project.userId,
+      );
 
       return { id: project.id, project };
     } catch (error) {
@@ -95,31 +98,25 @@ export class ConfigController {
   }
 
   /**
-   * Get all projects for a user
-   * TODO: Replace query param with actual user from auth token
+   * Get all projects for the authenticated user
    */
-  @Get('user/:userId')
-  async getUserProjects(@Param('userId') userId: string): Promise<Project[]> {
-    try {
-      return await this.configService.getUserProjects(userId);
-    } catch (error) {
-      throw new HttpException(
-        'Failed to retrieve user projects',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  @Get('user/projects')
+  @UseGuards(JwtAuthGuard)
+  async getUserProjects(@Request() req: any): Promise<Project[]> {
+    const userId = req.user.userId;
+    return await this.configService.getUserProjects(userId);
   }
 
   /**
    * Update an existing project
-   * TODO: Replace body.userId with actual user from auth token
    */
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   async updateConfig(
+    @Request() req: any,
     @Param('id') id: string,
     @Body()
     body: {
-      userId?: string;
       teamConfig?: TeamConfig;
       sprintPlan?: string;
       raciChart?: string;
@@ -128,8 +125,7 @@ export class ConfigController {
     },
   ): Promise<Project> {
     try {
-      // TODO: Get userId from authenticated session/token
-      const userId = body.userId || 'temp-user-id';
+      const userId = req.user.userId;
 
       return await this.configService.updateConfig(id, userId, {
         teamConfig: body.teamConfig,
@@ -151,17 +147,16 @@ export class ConfigController {
 
   /**
    * Delete a project
-   * TODO: Replace query param with actual user from auth token
    */
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteConfig(
+    @Request() req: any,
     @Param('id') id: string,
-    @Query('userId') userId?: string,
   ): Promise<{ success: boolean }> {
     try {
-      // TODO: Get userId from authenticated session/token
-      const user = userId || 'temp-user-id';
-      const success = await this.configService.deleteConfig(id, user);
+      const userId = req.user.userId;
+      const success = await this.configService.deleteConfig(id, userId);
 
       if (!success) {
         throw new HttpException(

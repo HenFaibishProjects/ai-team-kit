@@ -95,12 +95,11 @@ export class TeamService {
   }
 
   /**
-   * Save configuration to backend
+   * Save configuration to backend (now uses JWT authentication)
    */
-  saveConfig(teamConfig: TeamConfig, userId: string): Observable<{ id: string }> {
+  saveConfig(teamConfig: TeamConfig): Observable<{ id: string }> {
     return this.http.post<{ id: string }>(`${this.apiUrl}/config/save`, {
-      teamConfig,
-      userId
+      teamConfig
     });
   }
 
@@ -179,23 +178,23 @@ export class TeamService {
   }
 
   /**
-   * Get all projects for a user
+   * Get all projects for the authenticated user
    */
-  getUserProjects(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/config/user/${userId}`);
+  getUserProjects(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/config/user/projects`);
   }
 
   /**
-   * Delete a project
+   * Delete a project (now uses JWT authentication)
    */
-  deleteProject(projectId: string, userId: string): Observable<{ success: boolean }> {
-    return this.http.delete<{ success: boolean }>(`${this.apiUrl}/config/${projectId}?userId=${userId}`);
+  deleteProject(projectId: string): Observable<{ success: boolean }> {
+    return this.http.delete<{ success: boolean }>(`${this.apiUrl}/config/${projectId}`);
   }
 
   /**
-   * Update project status
+   * Update project status (now uses JWT authentication)
    */
-  updateProjectStatus(projectId: string, userId: string, status: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/config/${projectId}`, { userId, status });
+  updateProjectStatus(projectId: string, status: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/config/${projectId}`, { status });
   }
 }

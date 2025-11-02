@@ -64,13 +64,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   private loadProjectById(projectId: string): void {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.teamService.getUserProjects(currentUser.id).subscribe({
+    this.teamService.getUserProjects().subscribe({
       next: (projects) => {
         const project = projects.find(p => p.id === projectId);
         if (project) {
