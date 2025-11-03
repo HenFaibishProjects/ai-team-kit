@@ -470,15 +470,8 @@ export class AiCommandCenterComponent implements OnInit {
         this.generatedPrompt = this.generatedPrompt.substring(0, markerIndex);
       }
       
-      // Check if the prompt already has variable placeholders filled
-      const hasFilledVariables = !this.generatedPrompt.includes('[Your Project Name]') && 
-                                  !this.generatedPrompt.includes('[Team Size]') &&
-                                  !this.generatedPrompt.includes('[Technology Stack]');
-      
-      if (!hasFilledVariables) {
-        // Template has placeholders, fill them first
-        this.generatePrompt(); // Fill in the variables
-      }
+      // ALWAYS fill in the template variables with form data
+      this.generatePrompt();
       
       // Always add the custom query section when using a template
       this.generatedPrompt += `\n\n**Additional Custom Requirements:**\n${this.customQuery || '(No additional requirements specified)'}`;
