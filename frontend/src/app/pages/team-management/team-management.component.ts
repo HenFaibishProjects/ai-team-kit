@@ -136,7 +136,7 @@ export class TeamManagementComponent implements OnInit {
         this.saving = false;
         this.showAddForm = false;
         this.editingIndex = null;
-        this.memberForm.reset({ avatar: 'person' });
+        this.memberForm.reset();
         this.resetFormArrays();
       }, 500);
     }

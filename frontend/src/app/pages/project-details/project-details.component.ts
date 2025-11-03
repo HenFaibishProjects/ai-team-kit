@@ -78,12 +78,20 @@ export class ProjectDetailsComponent implements OnInit {
           this.createdAt = project.createdAt;
           this.updatedAt = project.updatedAt;
         } else {
+          console.warn('Project not found:', projectId);
+          alert('Project not found. Redirecting to dashboard.');
           this.router.navigate(['/dashboard']);
         }
       },
       error: (err) => {
         console.error('Error loading project:', err);
-        this.router.navigate(['/dashboard']);
+        if (err.status === 401) {
+          alert('Authentication error. Please log in again.');
+          this.router.navigate(['/login']);
+        } else {
+          alert(`Failed to load project: ${err.message || 'Unknown error'}. Redirecting to dashboard.`);
+          this.router.navigate(['/dashboard']);
+        }
       }
     });
   }
