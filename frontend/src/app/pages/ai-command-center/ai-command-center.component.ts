@@ -480,8 +480,8 @@ export class AiCommandCenterComponent implements OnInit {
         this.generatePrompt(); // Fill in the variables
       }
       
-      // Now add custom query if provided
-      if (this.customQuery && this.customQuery.trim()) {
+      // ONLY add custom query section if there's actual content
+      if (this.customQuery && this.customQuery.trim().length > 0) {
         this.generatedPrompt += `\n\n**Additional Custom Requirements:**\n${this.customQuery}`;
       }
     } else {
