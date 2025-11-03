@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ai-team-kit": {
+    "virtual-team-kit": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ai-team-kit",
+            "outputPath": "dist/virtual-team-kit",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [],
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ai-team-kit:build:production"
+              "buildTarget": "virtual-team-kit:build:production"
             },
             "development": {
-              "buildTarget": "ai-team-kit:build:development"
+              "buildTarget": "virtual-team-kit:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ai-team-kit:build"
+            "buildTarget": "virtual-team-kit:build"
           }
         },
         "test": {
