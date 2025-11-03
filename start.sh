@@ -100,13 +100,13 @@ start_containers() {
     
     # Build images separately using docker build to avoid buildx
     print_message "Building backend image..." "$YELLOW"
-    if ! docker build -t ai-team-kit-backend:latest ./backend; then
+    if ! docker build -t virtual-team-kit-backend:latest ./backend; then
         print_message "ERROR: Failed to build backend!" "$RED"
         exit 1
     fi
     
     print_message "Building frontend image..." "$YELLOW"
-    if ! docker build -t ai-team-kit-frontend:latest \
+    if ! docker build -t virtual-team-kit-frontend:latest \
         --build-arg API_URL=http://lida.virtualteam.software/api \
         ./frontend; then
         print_message "ERROR: Failed to build frontend!" "$RED"

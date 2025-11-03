@@ -2,7 +2,7 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: ai-team-kit-postgres
+    container_name: virtual-team-kit-postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - ai-team-kit-network
+      - virtual-team-kit-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -19,8 +19,8 @@ services:
 
   # Backend API
   backend:
-    image: ai-team-kit-backend:latest
-    container_name: ai-team-kit-backend
+    image: virtual-team-kit-backend:latest
+    container_name: virtual-team-kit-backend
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -30,38 +30,38 @@ services:
       - DB_PASSWORD=postgres
       - DB_DATABASE=ai_team_kit
     networks:
-      - ai-team-kit-network
+      - virtual-team-kit-network
     depends_on:
       postgres:
         condition: service_healthy
 
   # Frontend Application
   frontend:
-    image: ai-team-kit-frontend:latest
-    container_name: ai-team-kit-frontend
+    image: virtual-team-kit-frontend:latest
+    container_name: virtual-team-kit-frontend
     networks:
-      - ai-team-kit-network
+      - virtual-team-kit-network
     depends_on:
       - backend
 
   # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
-    container_name: ai-team-kit-nginx
+    container_name: virtual-team-kit-nginx
     ports:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
     networks:
-      - ai-team-kit-network
+      - virtual-team-kit-network
     depends_on:
       - frontend
       - backend
     restart: unless-stopped
 
 networks:
-  ai-team-kit-network:
+  virtual-team-kit-network:
     driver: bridge
 
 volumes:
