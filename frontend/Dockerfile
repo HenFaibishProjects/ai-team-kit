@@ -25,7 +25,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built application
-COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/ai-team-kit/browser /usr/share/nginx/html
 
 # Expose port
 EXPOSE 80
