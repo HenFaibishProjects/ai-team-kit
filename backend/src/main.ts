@@ -6,10 +6,10 @@ async function bootstrap() {
   
   // Enable CORS for frontend
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'http://lida.virtualteam.software'],
     credentials: true,
   });
   
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3005);
 }
 bootstrap();
