@@ -480,10 +480,8 @@ export class AiCommandCenterComponent implements OnInit {
         this.generatePrompt(); // Fill in the variables
       }
       
-      // ONLY add custom query section if there's actual content
-      if (this.customQuery && this.customQuery.trim().length > 0) {
-        this.generatedPrompt += `\n\n**Additional Custom Requirements:**\n${this.customQuery}`;
-      }
+      // Always add the custom query section when using a template
+      this.generatedPrompt += `\n\n**Additional Custom Requirements:**\n${this.customQuery || '(No additional requirements specified)'}`;
     } else {
       // No template selected, create prompt from scratch with custom query
       this.generatedPrompt = `${contextPrefix}\n\n${this.customQuery}`;
