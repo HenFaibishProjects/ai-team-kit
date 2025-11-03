@@ -88,8 +88,21 @@ check_hosts() {
 # Stop existing containers
 stop_existing() {
     print_message "Stopping existing containers..." "$YELLOW"
+    
+    # First, try docker-compose down
     docker-compose down 2>/dev/null || true
-    print_message "✓ Existing containers stopped" "$GREEN"
+    
+    # Then, ensure all virtual-team-kit containers are stopped
+    # This handles cases where containers might be running outside docker-compose
+    local containers=$(docker ps --format '{{.ID}} {{.Names}}' | grep 'virtual-team-kit-' | awk '{print $1}')
+    
+    if [ -n "$containers" ]; then
+        print_message "Found running virtual-team-kit containers, stopping them..." "$YELLOW"
+        echo "$containers" | xargs -r docker stop
+        print_message "✓ All virtual-team-kit containers stopped" "$GREEN"
+    else
+        print_message "✓ No running virtual-team-kit containers found" "$GREEN"
+    fi
 }
 
 # Build and start containers
