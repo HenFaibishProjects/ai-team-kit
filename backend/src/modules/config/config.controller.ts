@@ -11,8 +11,20 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from './config.service';
 import type { TeamConfig } from '../../shared/types';
-import { Project } from '../../entities/project.entity';
-import { ProjectStatus } from '../../entities/project-status.enum';
+
+// Simple project interface for no-auth mode
+interface StoredProject {
+  id: string;
+  userId: string;
+  projectName: string;
+  teamConfig: TeamConfig;
+  sprintPlan?: string;
+  raciChart?: string;
+  adrDocument?: string;
+  status?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 @Controller('config')
 export class ConfigController {
@@ -31,7 +43,7 @@ export class ConfigController {
       adrDocument?: string;
       userId?: string;
     },
-  ): Promise<{ id: string; project: Project }> {
+  ): Promise<{ id: string; project: StoredProject }> {
     try {
       // Use provided userId or default to 'default-user' for single-user mode
       const userId = body.userId || 'default-user';
@@ -73,7 +85,7 @@ export class ConfigController {
    * Get a specific project by ID
    */
   @Get(':id')
-  async getConfig(@Param('id') id: string): Promise<Project> {
+  async getConfig(@Param('id') id: string): Promise<StoredProject | null> {
     try {
       const config = await this.configService.getConfig(id);
       if (!config) {
@@ -98,7 +110,7 @@ export class ConfigController {
    * Get all projects for a user
    */
   @Get('user/:userId/projects')
-  async getUserProjects(@Param('userId') userId: string): Promise<Project[]> {
+  async getUserProjects(@Param('userId') userId: string): Promise<StoredProject[]> {
     // Use provided userId or default to 'default-user'
     const effectiveUserId = userId || 'default-user';
     return await this.configService.getUserProjects(effectiveUserId);
@@ -116,10 +128,10 @@ export class ConfigController {
       sprintPlan?: string;
       raciChart?: string;
       adrDocument?: string;
-      status?: ProjectStatus;
+      status?: string;
       userId?: string;
     },
-  ): Promise<Project> {
+  ): Promise<StoredProject> {
     try {
       // Use provided userId or default to 'default-user'
       const userId = body.userId || 'default-user';

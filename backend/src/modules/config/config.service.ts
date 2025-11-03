@@ -1,18 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Project } from '../../entities/project.entity';
-import { User } from '../../entities/user.entity';
 import type { TeamConfig } from '../../shared/types';
+
+// In-memory storage for no-auth mode
+interface StoredProject {
+  id: string;
+  userId: string;
+  projectName: string;
+  teamConfig: TeamConfig;
+  sprintPlan?: string;
+  raciChart?: string;
+  adrDocument?: string;
+  status?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 @Injectable()
 export class ConfigService {
-  constructor(
-    @InjectRepository(Project)
-    private projectRepository: Repository<Project>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-  ) {}
+  private projects: Map<string, StoredProject> = new Map();
+  private projectCounter = 1;
+
+  constructor() {}
 
   /**
    * Save a team configuration for a user
@@ -29,32 +37,25 @@ export class ConfigService {
       raciChart?: string;
       adrDocument?: string;
     },
-  ): Promise<Project> {
-    // Ensure user exists (in production, this would be validated by auth middleware)
-    let user = await this.userRepository.findOne({ where: { id: userId } });
-
-    if (!user) {
-      // For now, create a temporary user if not exists
-      // In production, this would be handled by your auth system
-      user = this.userRepository.create({
-        id: userId,
-        email: `user-${userId}@temp.com`,
-        username: `user-${userId}`,
-      });
-      await this.userRepository.save(user);
-    }
-
-    const projectData = {
+  ): Promise<StoredProject> {
+    const id = `project-${this.projectCounter++}`;
+    const now = new Date();
+    
+    const project: StoredProject = {
+      id,
       userId,
       projectName: teamConfig.projectName,
       teamConfig,
       sprintPlan: additionalData?.sprintPlan,
       raciChart: additionalData?.raciChart,
       adrDocument: additionalData?.adrDocument,
+      status: 'active',
+      createdAt: now,
+      updatedAt: now,
     };
 
-    const project = this.projectRepository.create(projectData);
-    return await this.projectRepository.save(project);
+    this.projects.set(id, project);
+    return project;
   }
 
   /**
@@ -62,11 +63,8 @@ export class ConfigService {
    * @param projectId - The project ID
    * @returns The project or null if not found
    */
-  async getConfig(projectId: string): Promise<Project | null> {
-    return await this.projectRepository.findOne({
-      where: { id: projectId },
-      relations: ['user'],
-    });
+  async getConfig(projectId: string): Promise<StoredProject | null> {
+    return this.projects.get(projectId) || null;
   }
 
   /**
@@ -74,11 +72,15 @@ export class ConfigService {
    * @param userId - The user ID
    * @returns Array of projects
    */
-  async getUserProjects(userId: string): Promise<Project[]> {
-    return await this.projectRepository.find({
-      where: { userId },
-      order: { updatedAt: 'DESC' },
-    });
+  async getUserProjects(userId: string): Promise<StoredProject[]> {
+    const userProjects: StoredProject[] = [];
+    for (const project of this.projects.values()) {
+      if (project.userId === userId) {
+        userProjects.push(project);
+      }
+    }
+    // Sort by updatedAt descending
+    return userProjects.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
   }
 
   /**
@@ -98,17 +100,21 @@ export class ConfigService {
       adrDocument: string;
       status: string;
     }>,
-  ): Promise<Project> {
-    const project = await this.projectRepository.findOne({
-      where: { id: projectId, userId },
-    });
+  ): Promise<StoredProject> {
+    const project = this.projects.get(projectId);
 
-    if (!project) {
+    if (!project || project.userId !== userId) {
       throw new NotFoundException('Project not found or unauthorized');
     }
 
-    Object.assign(project, updates);
-    return await this.projectRepository.save(project);
+    const updatedProject = {
+      ...project,
+      ...updates,
+      updatedAt: new Date(),
+    };
+
+    this.projects.set(projectId, updatedProject);
+    return updatedProject;
   }
 
   /**
@@ -118,11 +124,13 @@ export class ConfigService {
    * @returns True if deleted, false if not found
    */
   async deleteConfig(projectId: string, userId: string): Promise<boolean> {
-    const result = await this.projectRepository.delete({
-      id: projectId,
-      userId,
-    });
-    return (result.affected ?? 0) > 0;
+    const project = this.projects.get(projectId);
+    
+    if (!project || project.userId !== userId) {
+      return false;
+    }
+
+    return this.projects.delete(projectId);
   }
 
   /**
@@ -131,10 +139,12 @@ export class ConfigService {
    * @returns Array of project IDs
    */
   async getAllConfigIds(userId: string): Promise<string[]> {
-    const projects = await this.projectRepository.find({
-      where: { userId },
-      select: ['id'],
-    });
-    return projects.map((p) => p.id);
+    const ids: string[] = [];
+    for (const project of this.projects.values()) {
+      if (project.userId === userId) {
+        ids.push(project.id);
+      }
+    }
+    return ids;
   }
 }

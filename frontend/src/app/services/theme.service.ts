@@ -11,8 +11,8 @@ export class ThemeService {
   constructor() {
     // Check for saved theme preference or default to light mode
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    // Always default to light mode unless explicitly set to dark
+    const isDark = savedTheme === 'dark';
     this.setDarkMode(isDark);
   }
 
