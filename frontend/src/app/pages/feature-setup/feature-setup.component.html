@@ -1,395 +1,100 @@
 <div class="feature-setup-container">
-  <h2 class="page-title">
-    <mat-icon class="title-icon">featured_play_list</mat-icon>
-    Feature Setup
-  </h2>
-  <p class="page-subtitle">Define features and their acceptance criteria for your project</p>
+  <h2>Feature Setup</h2>
+  <p class="description">Define the features you want to build for your project</p>
 
-  <!-- Project Type Selection -->
-  <div *ngIf="!projectType" class="project-type-selection">
-    <h3>Select Project Type</h3>
-    <div class="project-type-cards">
-      <mat-card class="project-type-card" (click)="selectProjectType('new')">
-        <mat-card-content>
-          <mat-icon class="project-type-icon">add_circle</mat-icon>
-          <h4>New Project</h4>
-          <p>Start a new project from scratch</p>
-        </mat-card-content>
-      </mat-card>
-      
-      <mat-card class="project-type-card" (click)="selectProjectType('existing')">
-        <mat-card-content>
-          <mat-icon class="project-type-icon">folder_open</mat-icon>
-          <h4>Existing Project</h4>
-          <p>Connect to an existing GitHub repository</p>
-        </mat-card-content>
-      </mat-card>
+  <!-- Features Form -->
+  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()" class="feature-form">
+    <div formArrayName="features">
+      <div *ngFor="let feature of features.controls; let i = index" class="feature-card" [formGroupName]="i">
+        <div class="feature-header">
+          <h3>Feature {{ i + 1 }}</h3>
+          <button type="button" mat-icon-button color="warn" (click)="removeFeature(i)" 
+                  [disabled]="features.length === 1" class="remove-feature-btn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Feature Name</mat-label>
+          <input matInput formControlName="name" placeholder="e.g., User Authentication">
+          <mat-error *ngIf="feature.get('name')?.hasError('required')">
+            Feature name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Feature Scope</mat-label>
+          <textarea matInput formControlName="scope" rows="3" 
+                    placeholder="Describe what this feature will do"></textarea>
+          <mat-error *ngIf="feature.get('scope')?.hasError('required')">
+            Feature scope is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Acceptance Criteria -->
+        <div class="criteria-section">
+          <h4>Acceptance Criteria</h4>
+          <div formArrayName="acceptanceCriteria">
+            <div *ngFor="let criterion of getCriteria(i).controls; let j = index" class="criterion-item">
+              <mat-form-field appearance="outline" class="criterion-field">
+                <mat-label>Criterion {{ j + 1 }}</mat-label>
+                <input matInput [formControlName]="j" placeholder="e.g., User can log in with email and password">
+                <mat-error *ngIf="criterion.hasError('required')">
+                  Criterion is required
+                </mat-error>
+              </mat-form-field>
+              <button type="button" mat-icon-button color="warn" (click)="removeCriterion(i, j)"
+                      [disabled]="getCriteria(i).length === 1" class="remove-criterion-btn">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+          <button type="button" mat-stroked-button (click)="addCriterion(i)" class="add-criterion-btn">
+            <mat-icon>add</mat-icon>
+            Add Criterion
+          </button>
+        </div>
+
+        <!-- Team Member Assignment -->
+        <div class="assignment-section" *ngIf="teamMembers.length > 0">
+          <h4>Assign Team Members</h4>
+          <p class="assignment-hint">Select team members to work on this feature</p>
+          <div class="team-members-grid">
+            <mat-chip-listbox>
+              <mat-chip-option 
+                *ngFor="let agent of teamMembers"
+                [selected]="isAgentAssigned(i, agent.id)"
+                (click)="toggleAgentAssignment(i, agent.id)"
+                class="agent-chip">
+                <div class="agent-chip-content">
+                  <span class="agent-name">{{ agent.name }}</span>
+                  <span class="agent-role">{{ formatOrientation(agent.orientation) }}</span>
+                </div>
+              </mat-chip-option>
+            </mat-chip-listbox>
+          </div>
+          <div *ngIf="getAssignedAgents(i).length > 0" class="assigned-summary">
+            <mat-icon>people</mat-icon>
+            <span>Assigned: {{ getAssignedAgentsNames(i) }}</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- New Project Instructions -->
-  <div *ngIf="projectType === 'new' && !githubProjectUrl" class="github-instructions">
-    <mat-card class="instruction-card mat-elevation-z2">
-      <mat-card-header>
-        <mat-icon class="header-icon">info</mat-icon>
-        <mat-card-title>Create GitHub Repository</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Before continuing, please create a new repository on GitHub:</p>
-        <ol class="instruction-list">
-          <li>Go to <a href="https://github.com/new" target="_blank" rel="noopener">GitHub</a> and create a new repository</li>
-          <li>Choose a name for your repository</li>
-          <li>Set it to Public or Private based on your preference</li>
-          <li>Initialize with a README (recommended)</li>
-          <li>Copy the repository URL</li>
-        </ol>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>GitHub Repository URL</mat-label>
-          <mat-icon matPrefix>link</mat-icon>
-          <input matInput 
-                 [(ngModel)]="githubProjectUrl" 
-                 [ngModelOptions]="{standalone: true}"
-                 placeholder="https://github.com/username/repo">
-        </mat-form-field>
-
-        <div class="button-group">
-          <button mat-button type="button" (click)="projectType = null">
-            <mat-icon>arrow_back</mat-icon>
-            Back
-          </button>
-          <button mat-button type="button" (click)="skipGithubLinking()">
-            Skip GitHub
-          </button>
-          <button mat-raised-button color="primary" type="button"
-                  (click)="confirmGithubUrl()" 
-                  [disabled]="!githubProjectUrl">
-            Continue
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Existing Project - GitHub Authentication -->
-  <div *ngIf="projectType === 'existing' && showGithubAuth && !githubConnected" class="github-auth">
-    <mat-card class="auth-card mat-elevation-z2">
-      <mat-card-header>
-        <mat-icon class="header-icon">vpn_key</mat-icon>
-        <mat-card-title>Connect to GitHub</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>To connect to your existing GitHub repository, you need a Personal Access Token:</p>
-        
-        <div class="token-instructions">
-          <h4>How to get your token:</h4>
-          <ol>
-            <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Settings → Developer settings → Personal access tokens</a></li>
-            <li>Click "Generate new token (classic)"</li>
-            <li>Give it a name (e.g., "Virtual Team Kit")</li>
-            <li>Select the <strong>repo</strong> scope</li>
-            <li>Click "Generate token"</li>
-            <li>Copy the token and paste it below</li>
-          </ol>
-        </div>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>GitHub Personal Access Token</mat-label>
-          <mat-icon matPrefix>key</mat-icon>
-          <input matInput type="password" 
-                 [(ngModel)]="githubToken" 
-                 [ngModelOptions]="{standalone: true}"
-                 placeholder="ghp_...">
-          <mat-hint>Your token will be stored securely in your browser</mat-hint>
-        </mat-form-field>
-
-        <div class="button-group">
-          <button mat-button type="button" (click)="projectType = null">
-            <mat-icon>arrow_back</mat-icon>
-            Back
-          </button>
-          <button mat-button type="button" (click)="skipGithubLinking()">
-            Skip GitHub
-          </button>
-          <button mat-raised-button color="primary" type="button"
-                  (click)="connectGithub()" 
-                  [disabled]="!githubToken || loadingRepositories">
-            <mat-icon>link</mat-icon>
-            Connect to GitHub
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Repository Selection -->
-  <div *ngIf="projectType === 'existing' && githubConnected && !selectedRepository" class="repository-selection">
-    <mat-card class="repos-card mat-elevation-z2">
-      <mat-card-header>
-        <div class="header-with-user">
-          <div class="header-left">
-            <mat-icon class="header-icon">folder_special</mat-icon>
-            <mat-card-title>Select Repository</mat-card-title>
-          </div>
-          <div class="github-user">
-            <img [src]="githubUser?.avatar_url" alt="Avatar" class="user-avatar">
-            <span class="user-name">{{ githubUser?.login }}</span>
-            <button mat-icon-button (click)="disconnectGithub()" matTooltip="Disconnect">
-              <mat-icon>logout</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div *ngIf="loadingRepositories" class="loading-state">
-          <mat-spinner diameter="40"></mat-spinner>
-          <p>Loading repositories...</p>
-        </div>
-
-        <div *ngIf="!loadingRepositories && repositories.length === 0" class="empty-state">
-          <mat-icon>inbox</mat-icon>
-          <p>No repositories found</p>
-        </div>
-
-        <div *ngIf="!loadingRepositories && repositories.length > 0" class="repositories-list">
-          <mat-card *ngFor="let repo of repositories" 
-                    class="repo-card" 
-                    (click)="selectRepository(repo)">
-            <div class="repo-header">
-              <h4>{{ repo.name }}</h4>
-              <mat-chip [class.private-chip]="repo.private">
-                {{ repo.private ? 'Private' : 'Public' }}
-              </mat-chip>
-            </div>
-            <p class="repo-description">{{ repo.description || 'No description' }}</p>
-            <div class="repo-meta">
-              <span *ngIf="repo.language" class="meta-item">
-                <mat-icon>code</mat-icon>
-                {{ repo.language }}
-              </span>
-              <span class="meta-item">
-                <mat-icon>update</mat-icon>
-                Updated {{ repo.updated_at | date:'short' }}
-              </span>
-            </div>
-          </mat-card>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Repository Details -->
-  <div *ngIf="selectedRepository && repositoryDetails" class="repository-details">
-    <mat-card class="details-card mat-elevation-z2">
-      <mat-card-header>
-        <div class="header-with-close">
-          <div class="header-left">
-            <mat-icon class="header-icon">info</mat-icon>
-            <mat-card-title>{{ selectedRepository.name }}</mat-card-title>
-          </div>
-          <button mat-icon-button (click)="selectedRepository = null; repositoryDetails = null">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div *ngIf="loadingDetails" class="loading-state">
-          <mat-spinner diameter="40"></mat-spinner>
-          <p>Loading repository details...</p>
-        </div>
-
-        <div *ngIf="!loadingDetails" class="details-grid">
-          <div class="detail-section">
-            <h4><mat-icon>info_outline</mat-icon> Repository Info</h4>
-            <p><strong>Description:</strong> {{ repositoryDetails.repository.description || 'N/A' }}</p>
-            <p><strong>Language:</strong> {{ repositoryDetails.repository.language || 'N/A' }}</p>
-            <p><strong>Size:</strong> {{ repositoryDetails.repository.size }} KB</p>
-            <p><strong>Stars:</strong> {{ repositoryDetails.repository.stargazers_count }}</p>
-          </div>
-
-          <div class="detail-section">
-            <h4><mat-icon>code</mat-icon> Languages Used</h4>
-            <div class="languages">
-              <mat-chip *ngFor="let lang of repositoryDetails.languages | keyvalue">
-                {{ lang.key }}: {{ lang.value }}
-              </mat-chip>
-            </div>
-          </div>
-
-          <div class="detail-section">
-            <h4><mat-icon>commit</mat-icon> Recent Commits ({{ repositoryDetails.commits.length }})</h4>
-            <div class="commits-list">
-              <div *ngFor="let commit of repositoryDetails.commits" class="commit-item">
-                <p class="commit-message">{{ commit.message }}</p>
-                <p class="commit-meta">{{ commit.author }} - {{ commit.date | date:'short' }}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="detail-section">
-            <h4><mat-icon>people</mat-icon> Contributors ({{ repositoryDetails.contributors.length }})</h4>
-            <div class="contributors">
-              <div *ngFor="let contributor of repositoryDetails.contributors" class="contributor">
-                <img [src]="contributor.avatar_url" [alt]="contributor.login" class="contributor-avatar">
-                <span>{{ contributor.login }} ({{ contributor.contributions }})</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="button-group" *ngIf="!loadingDetails">
-          <button mat-button (click)="selectedRepository = null; repositoryDetails = null">
-            <mat-icon>arrow_back</mat-icon>
-            Back to Repositories
-          </button>
-          <button mat-raised-button color="primary" (click)="confirmRepository()">
-            Use This Repository
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Features Form (shown after project type selection and GitHub setup) -->
-  <form *ngIf="(projectType === 'new' && githubProjectUrl) || (projectType === 'existing' && (selectedRepository || githubProjectUrl))" 
-        [formGroup]="featureForm" 
-        (ngSubmit)="onSubmit()">
-    
-    <!-- Features Section -->
-    <div class="section-header">
-      <h3>Features</h3>
-      <button mat-raised-button color="accent" type="button" (click)="addFeature()">
-        <mat-icon>add</mat-icon> Add Feature
+    <div class="action-buttons">
+      <button type="button" mat-stroked-button (click)="addFeature()" class="add-feature-btn">
+        <mat-icon>add</mat-icon>
+        Add Another Feature
       </button>
     </div>
 
-    <div formArrayName="features" class="features-grid">
-      <mat-card *ngFor="let feature of features.controls; let i = index" 
-                [formGroupName]="i" 
-                class="feature-card mat-elevation-z2">
-        
-        <!-- Card Header -->
-        <div class="card-header">
-          <div class="header-content">
-            <div class="feature-icon">
-              <mat-icon>lightbulb</mat-icon>
-            </div>
-            <div class="header-text">
-              <h4>{{ feature.get('name')?.value || 'New Feature' }}</h4>
-              <span class="feature-count">{{ getCriteria(i).length }} acceptance {{ getCriteria(i).length === 1 ? 'criterion' : 'criteria' }}</span>
-            </div>
-          </div>
-          <button mat-icon-button 
-                  type="button" 
-                  color="warn" 
-                  (click)="removeFeature(i)"
-                  [disabled]="features.length <= 1"
-                  matTooltip="Remove feature">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-
-        <mat-divider></mat-divider>
-
-        <!-- Card Content -->
-        <mat-card-content>
-          <!-- Feature Name -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Feature Name</mat-label>
-            <mat-icon matPrefix>label</mat-icon>
-            <input matInput formControlName="name" placeholder="E.g., User Authentication" required>
-            <mat-error *ngIf="feature.get('name')?.hasError('required')">
-              Feature name is required
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Scope -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Scope</mat-label>
-            <mat-icon matPrefix>description</mat-icon>
-            <textarea matInput formControlName="scope" rows="3" 
-                      placeholder="Describe the feature scope and requirements..." required></textarea>
-            <mat-error *ngIf="feature.get('scope')?.hasError('required')">
-              Scope is required
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Acceptance Criteria -->
-          <div class="criteria-section" formArrayName="acceptanceCriteria">
-            <label class="field-label">
-              <mat-icon>check_circle</mat-icon>
-              Acceptance Criteria
-            </label>
-            
-            <div class="criteria-list">
-              <div *ngFor="let criterion of getCriteria(i).controls; let j = index" class="criterion-item">
-                <div class="criterion-number">{{ j + 1 }}</div>
-                <mat-form-field appearance="outline" class="criterion-field">
-                  <input matInput [formControlName]="j" 
-                         placeholder="E.g., User can log in with email and password" required>
-                  <mat-error *ngIf="criterion.hasError('required')">
-                    Criterion is required
-                  </mat-error>
-                </mat-form-field>
-                <button mat-icon-button type="button" 
-                        (click)="removeCriterion(i, j)"
-                        [disabled]="getCriteria(i).length <= 1"
-                        matTooltip="Remove criterion">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-            </div>
-
-            <button mat-button type="button" (click)="addCriterion(i)" class="add-criterion-btn">
-              <mat-icon>add_circle_outline</mat-icon> Add Criterion
-            </button>
-          </div>
-
-          <!-- Team Assignment -->
-          <div class="assignment-section" *ngIf="teamMembers.length > 0">
-            <label class="field-label">
-              <mat-icon>people</mat-icon>
-              Assign Team Members
-            </label>
-            
-            <div class="team-members-list">
-              <mat-chip-listbox>
-                <mat-chip-option 
-                  *ngFor="let agent of teamMembers"
-                  [selected]="isAgentAssigned(i, agent.id)"
-                  (click)="toggleAgentAssignment(i, agent.id)">
-                  <mat-icon *ngIf="isAgentAssigned(i, agent.id)">check</mat-icon>
-                  {{ agent.name }}
-                  <span class="agent-role">({{ formatOrientation(agent.orientation) }})</span>
-                </mat-chip-option>
-              </mat-chip-listbox>
-            </div>
-
-            <div class="assigned-summary" *ngIf="getAssignedAgents(i).length > 0">
-              <p class="summary-text">
-                <strong>Assigned to:</strong> 
-                {{ getAssignedAgentsNames(i) }}
-              </p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Form Actions -->
     <div class="form-actions">
-      <button mat-raised-button 
-              type="button" 
-              (click)="onBack()">
+      <button type="button" mat-button (click)="onBack()">
         <mat-icon>arrow_back</mat-icon>
         Back
       </button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!isFormValid()">
-        Next Step
+      <button type="submit" mat-raised-button color="primary" [disabled]="!isFormValid()">
+        Continue
         <mat-icon>arrow_forward</mat-icon>
       </button>
     </div>

@@ -14,19 +14,6 @@ export class FeatureSetupComponent implements OnInit {
   @Output() complete = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
   featureForm: FormGroup;
-  projectType: 'new' | 'existing' | null = null;
-  githubProjectUrl: string = '';
-
-  // GitHub integration properties
-  showGithubAuth = false;
-  githubToken = '';
-  githubConnected = false;
-  githubUser: any = null;
-  repositories: GitHubRepository[] = [];
-  selectedRepository: GitHubRepository | null = null;
-  repositoryDetails: RepositoryDetails | null = null;
-  loadingRepositories = false;
-  loadingDetails = false;
 
   // Team members for assignment
   teamMembers: Agent[] = [];
@@ -42,146 +29,13 @@ export class FeatureSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check if already connected to GitHub
-    if (this.githubService.isAuthenticated()) {
-      this.githubConnected = true;
-      this.githubUser = this.githubService.getUser();
-    }
-
     // Load team members for assignment
     this.teamMembers = this.teamService.getAgents();
-  }
-
-  selectProjectType(type: 'new' | 'existing'): void {
-    this.projectType = type;
-    this.teamService.setProjectType(type);
-
-    if (type === 'new') {
-      // For new projects, show GitHub URL input
-      // Don't add feature yet - wait for URL confirmation
-    } else {
-      // For existing projects, show GitHub authentication
-      this.showGithubAuth = true;
-    }
-  }
-
-  /**
-   * Skip GitHub linking and continue without repository
-   */
-  skipGithubLinking(): void {
-    this.githubProjectUrl = 'N/A';
-    this.teamService.setGithubProjectUrl('');
     
-    // Hide GitHub auth screens
-    this.showGithubAuth = false;
-    
-    // Add initial feature to show the form
+    // Add initial feature to show the form immediately
     if (this.features.length === 0) {
       this.addFeature();
     }
-  }
-
-  confirmGithubUrl(): void {
-    if (this.githubProjectUrl.trim()) {
-      this.teamService.setGithubProjectUrl(this.githubProjectUrl);
-      this.addFeature();
-    }
-  }
-
-  /**
-   * Connect to GitHub with Personal Access Token
-   */
-  connectGithub(): void {
-    if (!this.githubToken.trim()) {
-      return;
-    }
-
-    this.loadingRepositories = true;
-    this.githubService.verifyToken(this.githubToken).subscribe({
-      next: (response) => {
-        this.githubConnected = true;
-        this.githubUser = response.user;
-        this.loadRepositories();
-      },
-      error: (error) => {
-        console.error('GitHub connection error:', error);
-        const errorMessage = error.error?.message || error.message || 'Failed to connect to GitHub';
-        alert(`Failed to connect to GitHub: ${errorMessage}\n\nPlease check:\n- Token is valid and not expired\n- Token has 'repo' scope\n- You're using a classic token or fine-grained token with repository permissions`);
-        this.loadingRepositories = false;
-      },
-    });
-  }
-
-  /**
-   * Load user's repositories
-   */
-  loadRepositories(): void {
-    this.loadingRepositories = true;
-    this.githubService.getRepositories().subscribe({
-      next: (repos) => {
-        this.repositories = repos;
-        this.loadingRepositories = false;
-      },
-      error: (error) => {
-        console.error('Failed to load repositories:', error);
-        const errorMessage = error.error?.message || error.message || 'Failed to load repositories';
-        alert(`Failed to load repositories: ${errorMessage}`);
-        this.loadingRepositories = false;
-      },
-    });
-  }
-
-  /**
-   * Select a repository
-   */
-  selectRepository(repo: GitHubRepository): void {
-    this.selectedRepository = repo;
-    this.loadRepositoryDetails(repo);
-  }
-
-  /**
-   * Load repository details
-   */
-  loadRepositoryDetails(repo: GitHubRepository): void {
-    this.loadingDetails = true;
-    const [owner, repoName] = repo.full_name.split('/');
-
-    this.githubService.getRepositoryDetails(owner, repoName).subscribe({
-      next: (details) => {
-        this.repositoryDetails = details;
-        this.loadingDetails = false;
-      },
-      error: (error) => {
-        console.error('Failed to load repository details:', error);
-        const errorMessage = error.error?.message || error.message || 'Failed to load repository details';
-        alert(`Failed to load repository details: ${errorMessage}`);
-        this.loadingDetails = false;
-      },
-    });
-  }
-
-  /**
-   * Confirm repository selection and continue
-   */
-  confirmRepository(): void {
-    if (this.selectedRepository) {
-      this.teamService.setGithubProjectUrl(this.selectedRepository.html_url);
-      this.githubProjectUrl = this.selectedRepository.html_url;
-      this.addFeature();
-    }
-  }
-
-  /**
-   * Disconnect from GitHub
-   */
-  disconnectGithub(): void {
-    this.githubService.logout();
-    this.githubConnected = false;
-    this.githubUser = null;
-    this.repositories = [];
-    this.selectedRepository = null;
-    this.repositoryDetails = null;
-    this.githubToken = '';
   }
 
 
@@ -278,27 +132,13 @@ export class FeatureSetupComponent implements OnInit {
   onSubmit(): void {
     if (this.featureForm.valid) {
       const features: FeatureConfig[] = this.featureForm.value.features;
-      
-      // Store GitHub project URL if it's an existing project
-      if (this.projectType === 'existing' && this.githubProjectUrl) {
-        this.teamService.setGithubProjectUrl(this.githubProjectUrl);
-      }
-      
       this.teamService.setFeatures(features);
       this.complete.emit();
     }
   }
 
   isFormValid(): boolean {
-    if (!this.projectType) {
-      return false;
-    }
-    
-    if (this.projectType === 'existing' && !this.githubProjectUrl.trim()) {
-      return false;
-    }
-    
-    return this.featureForm.valid;
+    return this.featureForm.valid && this.features.length > 0;
   }
 
   onBack(): void {

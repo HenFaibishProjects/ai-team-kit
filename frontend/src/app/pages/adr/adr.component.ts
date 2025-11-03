@@ -421,33 +421,20 @@ export class AdrComponent implements OnInit {
   }
 
   generateAIPrompt(): void {
-    const githubUrl = this.teamService.getGithubProjectUrl();
-    const projectType = this.teamService.getProjectType(); // 'new' or 'existing'
-    
     let prompt = `# Architecture Decision Request for AI Assistant
 
 ## Context & Purpose
 
-I am ${projectType === 'new' ? 'starting a NEW project' : 'adding NEW FEATURES to an EXISTING project'} and need your expert guidance on architectural decisions.
-
-${projectType === 'existing' ? `**IMPORTANT:** This is an existing project with an established codebase. Your recommendations should consider:
-- Integration with existing architecture
-- Minimal disruption to current functionality
-- Migration strategies if architectural changes are needed
-- Backward compatibility considerations
-` : ''}
+I am starting a new project and need your expert guidance on architectural decisions.
 
 ## Project Information
 
 **Project Name:** ${this.projectName}
-**Project Type:** ${projectType === 'new' ? 'New Project (Starting from scratch)' : 'Existing Project (Adding features)'}
-${githubUrl ? `**GitHub Repository:** ${githubUrl}
-**Note:** Please review the existing codebase structure, current architecture, and technology stack from the repository to provide context-aware recommendations.
-` : ''}
 
-## ${projectType === 'new' ? 'Features to Implement' : 'New Features to Add'}
+## Features to Implement
 
-${projectType === 'existing' ? 'The following features need to be integrated into the existing project:\n' : 'The project will include the following features:\n'}`;
+The project will include the following features:
+`;
 
     this.features.forEach((feature, index) => {
       prompt += `\n### Feature ${index + 1}: ${feature.name}
@@ -479,12 +466,7 @@ Please provide a comprehensive architectural analysis and recommendation that in
 
 ### 1. Architecture Pattern Recommendation
 
-${projectType === 'existing' ? 
-`Analyze the existing project structure (if GitHub URL provided) and recommend:
-- Whether to maintain the current architecture or evolve it
-- How to integrate the new features with minimal disruption
-- If architectural changes are needed, provide a migration strategy` :
-`Recommend the most suitable architecture pattern from options such as:
+Recommend the most suitable architecture pattern from options such as:
 - Microservices
 - Monolithic
 - Modular Monolith
@@ -493,7 +475,7 @@ ${projectType === 'existing' ?
 - Clean Architecture
 - Event-Driven
 - Serverless
-- Or suggest a hybrid approach`}
+- Or suggest a hybrid approach
 
 ### 2. Detailed Rationale
 
@@ -502,7 +484,6 @@ Explain your recommendation by addressing:
 - **Team Fit:** How does it align with our team's strengths and expertise?
 - **Scalability:** How will it handle growth in users, data, and features?
 - **Maintainability:** How easy will it be to maintain and extend?
-${projectType === 'existing' ? '- **Integration:** How will new features integrate with existing code?\n- **Migration Path:** If changes are needed, what\'s the step-by-step approach?' : ''}
 
 ### 3. Technology Stack Recommendation
 
@@ -517,7 +498,6 @@ Ensure recommendations align with:
 - The chosen architecture pattern
 - Team expertise and strengths
 - Feature requirements
-${projectType === 'existing' ? '- Existing technology stack (if GitHub URL provided)' : ''}
 
 ### 4. Implementation Considerations
 
@@ -526,7 +506,6 @@ Address:
 - **Trade-offs:** Potential challenges or limitations
 - **Best Practices:** Critical patterns and practices to follow
 - **Risk Mitigation:** How to address potential issues
-${projectType === 'existing' ? '- **Rollout Strategy:** How to deploy new features safely\n- **Testing Strategy:** How to test without breaking existing functionality' : ''}
 
 ### 5. Project Structure
 
@@ -534,22 +513,14 @@ Provide a recommended:
 - Directory/folder structure
 - Module organization
 - Separation of concerns
-${projectType === 'existing' ? '- How new features fit into existing structure' : ''}
 
 ## Additional Context
 
-${projectType === 'existing' ? 
-`Since this is an existing project, please:
-1. If a GitHub URL is provided, analyze the current codebase first
-2. Identify the current architecture pattern
-3. Assess whether it can accommodate the new features
-4. Recommend evolution strategies rather than complete rewrites when possible
-5. Prioritize backward compatibility and incremental improvements` :
-`Since this is a new project, please:
+Since this is a new project, please:
 1. Consider modern best practices and patterns
 2. Focus on long-term maintainability and scalability
 3. Recommend proven technologies with good community support
-4. Suggest a structure that supports future growth`}
+4. Suggest a structure that supports future growth
 
 ## Expected Output Format
 
