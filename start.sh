@@ -112,14 +112,15 @@ start_containers() {
     echo ""
     
     # Build images separately using docker build to avoid buildx
-    print_message "Building backend image..." "$YELLOW"
-    if ! docker build -t virtual-team-kit-backend:latest ./backend; then
+    # Use --no-cache to ensure fresh builds with latest code changes
+    print_message "Building backend image (no cache)..." "$YELLOW"
+    if ! docker build --no-cache -t virtual-team-kit-backend:latest ./backend; then
         print_message "ERROR: Failed to build backend!" "$RED"
         exit 1
     fi
     
-    print_message "Building frontend image..." "$YELLOW"
-    if ! docker build -t virtual-team-kit-frontend:latest \
+    print_message "Building frontend image (no cache)..." "$YELLOW"
+    if ! docker build --no-cache -t virtual-team-kit-frontend:latest \
         --build-arg API_URL=http://lida.virtualteam.software/api \
         ./frontend; then
         print_message "ERROR: Failed to build frontend!" "$RED"
