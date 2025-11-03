@@ -1,57 +1,77 @@
 version: '3.8'
 
 services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-team-kit-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ai_team_kit
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-team-kit-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: ai-team-kit-backend
-    ports:
-      - "3000:3000"
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
+      - NODE_ENV=production
       - PORT=3000
-      - DATABASE_URL=${DATABASE_URL}
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    command: npm run start:dev
-    depends_on:
-      - postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=ai_team_kit
     networks:
       - ai-team-kit-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
+  # Frontend Application
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - API_URL=http://lida.virtualteam.software/api
     container_name: ai-team-kit-frontend
-    ports:
-      - "4200:4200"
-    environment:
-      - NODE_ENV=${NODE_ENV:-development}
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: npm start
+    networks:
+      - ai-team-kit-network
     depends_on:
       - backend
-    networks:
-      - ai-team-kit-network
 
-  postgres:
-    image: postgres:15-alpine
-    container_name: ai-team-kit-postgres
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: ai-team-kit-nginx
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_DB=${POSTGRES_DB:-ai_team_kit}
+      - "80:80"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
     networks:
       - ai-team-kit-network
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
 
 networks:
   ai-team-kit-network:
@@ -59,3 +79,4 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
