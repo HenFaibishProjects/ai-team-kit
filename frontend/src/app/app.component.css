@@ -350,3 +350,58 @@
     filter: drop-shadow(0 0 6px rgba(156, 39, 176, 0.8));
   }
  }
+
+ /* Home Button - Special styling */
+ .home-button {
+  margin-left: 24px;
+  padding: 8px 20px !important;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+  transition: all 0.3s ease !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+ }
+
+ .home-button:hover {
+  background: linear-gradient(135deg, #66bb6a 0%, #81c784 100%) !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.5) !important;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4) !important;
+ }
+
+ .home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4) !important;
+ }
+
+ .home-button mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+ }
+
+ .home-button span {
+  display: inline-flex;
+  align-items: center;
+ }
+
+ /* Responsive - hide text on smaller screens */
+ @media (max-width: 900px) {
+  .home-button span {
+    display: none;
+  }
+  
+  .home-button {
+    padding: 8px 12px !important;
+    min-width: auto;
+  }
+  
+  .home-button mat-icon {
+    margin-right: 0;
+  }
+ }

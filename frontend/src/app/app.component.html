@@ -31,7 +31,10 @@
                 </button>
             </nav>
         </div>
- 
+        <button mat-raised-button class="home-button" (click)="goToHome()">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </button>
  
         <span class="spacer"></span>
         <button mat-icon-button [matMenuTriggerFor]="settingsMenu" class="settings-button">

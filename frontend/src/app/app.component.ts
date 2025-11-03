@@ -100,4 +100,8 @@ export class AppComponent {
  openAiCenterGuide() {
    this.openHelpDialog('ai-center');
  }
+
+ goToHome() {
+   this.router.navigate(['/']);
+ }
 }
