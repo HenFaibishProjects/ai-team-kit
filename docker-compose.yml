@@ -24,11 +24,11 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DATABASE_HOST=postgres
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=ai_team_kit
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=ai_team_kit
     networks:
       - ai-team-kit-network
     depends_on:
