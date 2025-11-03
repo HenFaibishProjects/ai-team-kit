@@ -101,6 +101,36 @@ export class AppComponent {
    this.openHelpDialog('ai-center');
  }
 
+ async openHelpSupportModal() {
+   const { HelpSupportComponent } = await import('./pages/help-support/help-support.component');
+   
+   this.dialog.open(HelpDialogComponent, {
+     data: { 
+       component: HelpSupportComponent, 
+       title: 'Help & Support' 
+     },
+     width: '90vw',
+     maxWidth: '1400px',
+     height: '90vh',
+     panelClass: 'help-dialog-panel'
+   });
+ }
+
+ async openAboutModal() {
+   const { AboutComponent } = await import('./pages/about/about.component');
+   
+   this.dialog.open(HelpDialogComponent, {
+     data: { 
+       component: AboutComponent, 
+       title: 'About Virtual Team Kit' 
+     },
+     width: '90vw',
+     maxWidth: '1400px',
+     height: '90vh',
+     panelClass: 'help-dialog-panel'
+   });
+ }
+
  goToHome() {
    this.router.navigate(['/']);
  }

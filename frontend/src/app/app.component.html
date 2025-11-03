@@ -45,11 +45,11 @@
         <mat-menu #settingsMenu="matMenu" class="settings-menu">
             <mat-divider></mat-divider>
             <mat-divider></mat-divider>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="openHelpSupportModal()">
                 <mat-icon>help_outline</mat-icon>
                 <span>Help & Support</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="openAboutModal()">
                 <mat-icon>info</mat-icon>
                 <span>About</span>
             </button>
