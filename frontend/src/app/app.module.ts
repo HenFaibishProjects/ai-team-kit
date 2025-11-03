@@ -38,6 +38,7 @@ import { TeamManagementComponent } from './pages/team-management/team-management
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { UserProjectsComponent } from './pages/user-projects/user-projects.component';
+import { AiCommandCenterComponent } from './pages/ai-command-center/ai-command-center.component';
 import {MatMenuModule} from "@angular/material/menu";
 
 const routes: Routes = [
@@ -46,6 +47,23 @@ const routes: Routes = [
   { path: 'teams/manage', component: TeamManagementComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'user-projects', component: UserProjectsComponent },
+  { path: 'ai-command-center', component: AiCommandCenterComponent },
+  { 
+    path: 'help/ai-center-guide', 
+    loadComponent: () => import('./pages/ai-center-guide/ai-center-guide.component').then(m => m.AiCenterGuideComponent)
+  },
+  { 
+    path: 'help/add-team-members', 
+    loadComponent: () => import('./pages/help-team-members/help-team-members.component').then(m => m.HelpTeamMembersComponent)
+  },
+  { 
+    path: 'help/start-project', 
+    loadComponent: () => import('./pages/help-start-project/help-start-project.component').then(m => m.HelpStartProjectComponent)
+  },
+  { 
+    path: 'help/view-projects', 
+    loadComponent: () => import('./pages/help-view-projects/help-view-projects.component').then(m => m.HelpViewProjectsComponent)
+  },
   { path: 'wizard', component: WizardComponent },
   { path: 'project-details', component: ProjectDetailsComponent },
   { path: 'sprint-planning', component: FeaturePlanningComponent },
@@ -71,7 +89,8 @@ const routes: Routes = [
     TeamManagementComponent,
     ProjectDetailsComponent,
     ProjectsComponent,
-    UserProjectsComponent
+    UserProjectsComponent,
+    AiCommandCenterComponent
   ],
   imports: [
     BrowserModule,

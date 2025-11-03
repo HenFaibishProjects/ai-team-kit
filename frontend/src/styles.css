@@ -166,3 +166,26 @@ body {
   box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4) !important;
   border-radius: 8px !important;
 }
+
+/* Help Dialog Styles */
+.help-dialog-panel {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.help-dialog-panel .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.help-dialog-panel .mat-mdc-dialog-surface {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Backdrop overlay */
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px);
+}

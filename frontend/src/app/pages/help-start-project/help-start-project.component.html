@@ -1,0 +1,356 @@
+<div class="help-guide-container">
+  <div class="guide-header">
+    <button mat-icon-button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>
+      <mat-icon class="header-icon">add_circle_outline</mat-icon>
+      How to Start a New Project
+    </h1>
+    <p class="subtitle">Complete guide to creating and configuring your first project</p>
+  </div>
+
+  <div class="guide-content">
+    <!-- Quick Start Section -->
+    <mat-card class="guide-section quick-start">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>rocket_launch</mat-icon>
+        <mat-card-title>Quick Start</mat-card-title>
+        <mat-card-subtitle>Get your project up and running in minutes</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="quick-steps">
+          <div class="quick-step">
+            <span class="step-number">1</span>
+            <span class="step-text">Click "Start New Project" from dashboard</span>
+          </div>
+          <div class="quick-step">
+            <span class="step-number">2</span>
+            <span class="step-text">Enter project details and goals</span>
+          </div>
+          <div class="quick-step">
+            <span class="step-number">3</span>
+            <span class="step-text">Configure team and features</span>
+          </div>
+          <div class="quick-step">
+            <span class="step-number">4</span>
+            <span class="step-text">Review and launch your project</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Detailed Steps -->
+    <mat-card class="guide-section">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>list_alt</mat-icon>
+        <mat-card-title>Step-by-Step Guide</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <!-- Step 1 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_one</mat-icon>
+                Access Project Creation
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>From the Dashboard:</strong></p>
+              <ol>
+                <li>Navigate to your dashboard</li>
+                <li>Look for the "Start New Project" button</li>
+                <li>Click to begin the project creation wizard</li>
+              </ol>
+              <div class="tip-box">
+                <mat-icon>lightbulb</mat-icon>
+                <p><strong>Tip:</strong> You can also start a project from the Projects page by clicking the "+" button.</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Step 2 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_two</mat-icon>
+                Enter Project Information
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>Required Information:</strong></p>
+              <ul>
+                <li><strong>Project Name:</strong> Choose a clear, descriptive name</li>
+                <li><strong>Description:</strong> Explain the project's purpose and goals</li>
+                <li><strong>Start Date:</strong> When the project begins</li>
+                <li><strong>Target End Date:</strong> Expected completion date</li>
+                <li><strong>Budget:</strong> Allocated resources (optional)</li>
+              </ul>
+              <div class="example-box">
+                <h4>Example:</h4>
+                <p><strong>Name:</strong> "E-Commerce Platform Redesign"</p>
+                <p><strong>Description:</strong> "Modernize our online store with improved UX, mobile responsiveness, and faster checkout process"</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Step 3 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_3</mat-icon>
+                Configure Team Settings
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>Team Configuration:</strong></p>
+              <ol>
+                <li>Select team members from your organization</li>
+                <li>Assign roles (Product Owner, Scrum Master, Developers, etc.)</li>
+                <li>Set team capacity and availability</li>
+                <li>Define communication channels</li>
+              </ol>
+              <div class="warning-box">
+                <mat-icon>warning</mat-icon>
+                <p><strong>Important:</strong> Ensure all team members have been added to your organization before starting the project.</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Step 4 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_4</mat-icon>
+                Define Features & Requirements
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>Feature Planning:</strong></p>
+              <ul>
+                <li>List all major features and user stories</li>
+                <li>Prioritize using MoSCoW method (Must have, Should have, Could have, Won't have)</li>
+                <li>Estimate effort for each feature</li>
+                <li>Group related features into epics</li>
+              </ul>
+              <div class="tip-box">
+                <mat-icon>lightbulb</mat-icon>
+                <p><strong>Pro Tip:</strong> Use the AI Command Center to generate user stories and acceptance criteria automatically!</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Step 5 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_5</mat-icon>
+                Set Up Sprint Planning
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>Sprint Configuration:</strong></p>
+              <ol>
+                <li>Define sprint duration (typically 1-4 weeks)</li>
+                <li>Set sprint goals and objectives</li>
+                <li>Allocate features to sprints</li>
+                <li>Establish sprint ceremonies (daily standups, reviews, retrospectives)</li>
+              </ol>
+              <div class="example-box">
+                <h4>Recommended Sprint Structure:</h4>
+                <ul>
+                  <li><strong>Sprint Duration:</strong> 2 weeks</li>
+                  <li><strong>Daily Standup:</strong> 15 minutes, same time daily</li>
+                  <li><strong>Sprint Review:</strong> Last day of sprint, 1 hour</li>
+                  <li><strong>Sprint Retrospective:</strong> After review, 45 minutes</li>
+                </ul>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Step 6 -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="step-icon">looks_6</mat-icon>
+                Review & Launch
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="step-content">
+              <p><strong>Final Checklist:</strong></p>
+              <mat-checkbox class="checklist-item" disabled>Project information complete</mat-checkbox>
+              <mat-checkbox class="checklist-item" disabled>Team members assigned</mat-checkbox>
+              <mat-checkbox class="checklist-item" disabled>Features defined and prioritized</mat-checkbox>
+              <mat-checkbox class="checklist-item" disabled>Sprint schedule configured</mat-checkbox>
+              <mat-checkbox class="checklist-item" disabled>Communication channels set up</mat-checkbox>
+              <mat-checkbox class="checklist-item" disabled>Stakeholders notified</mat-checkbox>
+              
+              <div class="action-box">
+                <p><strong>Ready to launch?</strong></p>
+                <p>Click "Create Project" to finalize and start your project!</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Best Practices -->
+    <mat-card class="guide-section best-practices">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>star</mat-icon>
+        <mat-card-title>Best Practices</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="practice-grid">
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Start Small</h4>
+            <p>Begin with a minimal viable product (MVP) and iterate based on feedback</p>
+          </div>
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Clear Goals</h4>
+            <p>Define SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound)</p>
+          </div>
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Regular Communication</h4>
+            <p>Establish daily standups and weekly reviews to keep everyone aligned</p>
+          </div>
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Document Everything</h4>
+            <p>Maintain clear documentation for decisions, requirements, and processes</p>
+          </div>
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Risk Management</h4>
+            <p>Identify potential risks early and create mitigation strategies</p>
+          </div>
+          <div class="practice-item">
+            <mat-icon>check_circle</mat-icon>
+            <h4>Celebrate Wins</h4>
+            <p>Acknowledge milestones and team achievements to maintain motivation</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Common Mistakes -->
+    <mat-card class="guide-section mistakes">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>error_outline</mat-icon>
+        <mat-card-title>Common Mistakes to Avoid</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="mistake-list">
+          <div class="mistake-item">
+            <mat-icon>close</mat-icon>
+            <div>
+              <h4>Scope Creep</h4>
+              <p>Don't add features mid-sprint without proper evaluation and re-planning</p>
+            </div>
+          </div>
+          <div class="mistake-item">
+            <mat-icon>close</mat-icon>
+            <div>
+              <h4>Unclear Requirements</h4>
+              <p>Vague requirements lead to misunderstandings and rework</p>
+            </div>
+          </div>
+          <div class="mistake-item">
+            <mat-icon>close</mat-icon>
+            <div>
+              <h4>Overcommitting</h4>
+              <p>Be realistic about team capacity and don't overload sprints</p>
+            </div>
+          </div>
+          <div class="mistake-item">
+            <mat-icon>close</mat-icon>
+            <div>
+              <h4>Skipping Retrospectives</h4>
+              <p>Regular retrospectives are crucial for continuous improvement</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- FAQ -->
+    <mat-card class="guide-section faq">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>help_outline</mat-icon>
+        <mat-card-title>Frequently Asked Questions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>How long should my first sprint be?</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>For new teams, we recommend starting with 2-week sprints. This provides enough time to complete meaningful work while maintaining frequent feedback cycles. You can adjust the duration based on your team's experience and project needs.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Can I modify project details after creation?</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Yes! You can edit project information, add/remove team members, and adjust features at any time. Navigate to the project settings to make changes.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>What if I don't have all features defined yet?</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>That's perfectly fine! Start with the features you know and add more as they become clear. Agile methodology embraces evolving requirements. You can use the AI Command Center to help brainstorm and define features.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>How do I integrate with GitHub?</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>After creating your project, go to Project Settings > Integrations > GitHub. Follow the authentication flow to connect your repository. This enables automatic issue creation and progress tracking.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Can I use templates for common project types?</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Yes! The AI Command Center provides templates for various project types (web apps, mobile apps, APIs, etc.). These templates include pre-defined features, user stories, and best practices specific to each project type.</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Next Steps -->
+    <mat-card class="guide-section next-steps">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>arrow_forward</mat-icon>
+        <mat-card-title>Next Steps</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Now that you know how to start a project, here are some helpful resources:</p>
+        <div class="resource-links">
+          <button mat-raised-button color="primary" routerLink="/wizard">
+            <mat-icon>add</mat-icon>
+            Start New Project
+          </button>
+          <button mat-raised-button routerLink="/ai-command-center">
+            <mat-icon>psychology</mat-icon>
+            Use AI Command Center
+          </button>
+          <button mat-raised-button routerLink="/how1">
+            <mat-icon>person_add</mat-icon>
+            Add Team Members
+          </button>
+          <button mat-raised-button routerLink="/how4">
+            <mat-icon>analytics</mat-icon>
+            View All Projects
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,358 @@
+<div class="help-container">
+  <!-- Header -->
+  <div class="help-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1><mat-icon>folder_open</mat-icon> How to View All Projects</h1>
+    <p class="subtitle">Learn how to browse, search, and manage all projects in your organization</p>
+  </div>
+
+  <!-- Quick Start -->
+  <mat-card class="quick-start-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>rocket_launch</mat-icon>
+      <mat-card-title>Quick Start</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>The "View All Projects" page gives you a comprehensive overview of all projects across your organization. You can search, filter, and access detailed information about each project.</p>
+      <div class="quick-actions">
+        <a mat-raised-button color="primary" routerLink="/projects">
+          <mat-icon>folder_open</mat-icon>
+          Go to All Projects
+        </a>
+        <a mat-stroked-button routerLink="/user-projects">
+          <mat-icon>person</mat-icon>
+          My Projects Only
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Main Features -->
+  <div class="features-grid">
+    <mat-card class="feature-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="icon-search">search</mat-icon>
+        <mat-card-title>Search & Filter</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Search by name:</strong> Use the search bar to quickly find projects by name or description.</p>
+        <p><strong>Filter by status:</strong> View projects by their current status (Planning, Active, On Hold, Completed).</p>
+        <p><strong>Sort options:</strong> Sort projects by name, date created, or last updated.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="icon-info">info</mat-icon>
+        <mat-card-title>Project Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Project cards:</strong> Each project is displayed as a card showing key information.</p>
+        <p><strong>Status indicators:</strong> Color-coded badges show project status at a glance.</p>
+        <p><strong>Quick stats:</strong> See team size, sprint count, and progress indicators.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="icon-action">touch_app</mat-icon>
+        <mat-card-title>Quick Actions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>View details:</strong> Click on any project card to see full project details.</p>
+        <p><strong>Edit project:</strong> Access project settings and configuration.</p>
+        <p><strong>Manage team:</strong> Add or remove team members directly from the project card.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Step-by-Step Guide -->
+  <mat-card class="guide-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>list</mat-icon>
+      <mat-card-title>Step-by-Step Guide</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>looks_one</mat-icon>
+              Accessing the Projects Page
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="step-content">
+            <p><strong>From the navigation menu:</strong></p>
+            <ol>
+              <li>Click on "Projects" in the main navigation menu</li>
+              <li>Or click "View All Projects" from the dashboard</li>
+              <li>The page will load showing all projects in your organization</li>
+            </ol>
+            <div class="tip-box">
+              <mat-icon>lightbulb</mat-icon>
+              <p><strong>Tip:</strong> You can also access your personal projects by clicking "My Projects" which shows only projects you're a member of.</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>looks_two</mat-icon>
+              Searching for Projects
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="step-content">
+            <p><strong>Using the search functionality:</strong></p>
+            <ol>
+              <li>Locate the search bar at the top of the projects page</li>
+              <li>Type the project name or keywords from the description</li>
+              <li>Results will filter automatically as you type</li>
+              <li>Clear the search to see all projects again</li>
+            </ol>
+            <div class="example-box">
+              <mat-icon>code</mat-icon>
+              <p><strong>Example:</strong> Type "mobile" to find all mobile app projects, or "2024" to find projects created this year.</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>looks_3</mat-icon>
+              Filtering by Status
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="step-content">
+            <p><strong>Filter projects by their current status:</strong></p>
+            <ul>
+              <li><span class="status-badge planning">Planning</span> - Projects in the planning phase</li>
+              <li><span class="status-badge active">Active</span> - Currently active projects</li>
+              <li><span class="status-badge on-hold">On Hold</span> - Temporarily paused projects</li>
+              <li><span class="status-badge completed">Completed</span> - Finished projects</li>
+            </ul>
+            <p>Click on any status filter to show only projects with that status.</p>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>looks_4</mat-icon>
+              Viewing Project Details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="step-content">
+            <p><strong>Access detailed project information:</strong></p>
+            <ol>
+              <li>Click on any project card to open the project details page</li>
+              <li>View comprehensive information including:
+                <ul>
+                  <li>Project description and goals</li>
+                  <li>Team members and their roles</li>
+                  <li>Sprint information and progress</li>
+                  <li>Tasks and assignments</li>
+                  <li>Project timeline and milestones</li>
+                </ul>
+              </li>
+              <li>Use the tabs to navigate between different sections</li>
+              <li>Click the back button to return to the projects list</li>
+            </ol>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>looks_5</mat-icon>
+              Managing Projects
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="step-content">
+            <p><strong>Project management actions:</strong></p>
+            <ul>
+              <li><strong>Edit Project:</strong> Click the edit icon to modify project details</li>
+              <li><strong>Add Team Members:</strong> Use the team management button to add or remove members</li>
+              <li><strong>Update Status:</strong> Change project status as it progresses</li>
+              <li><strong>Archive Project:</strong> Move completed projects to archive</li>
+            </ul>
+            <div class="warning-box">
+              <mat-icon>warning</mat-icon>
+              <p><strong>Note:</strong> Some actions may require admin or project owner permissions.</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Understanding Project Cards -->
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>credit_card</mat-icon>
+      <mat-card-title>Understanding Project Cards</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Each project card displays important information at a glance:</p>
+      <div class="card-info-grid">
+        <div class="card-info-item">
+          <mat-icon>label</mat-icon>
+          <div>
+            <strong>Project Name</strong>
+            <p>The title of the project</p>
+          </div>
+        </div>
+        <div class="card-info-item">
+          <mat-icon>description</mat-icon>
+          <div>
+            <strong>Description</strong>
+            <p>Brief overview of the project</p>
+          </div>
+        </div>
+        <div class="card-info-item">
+          <mat-icon>flag</mat-icon>
+          <div>
+            <strong>Status Badge</strong>
+            <p>Current project status with color coding</p>
+          </div>
+        </div>
+        <div class="card-info-item">
+          <mat-icon>group</mat-icon>
+          <div>
+            <strong>Team Size</strong>
+            <p>Number of team members</p>
+          </div>
+        </div>
+        <div class="card-info-item">
+          <mat-icon>event</mat-icon>
+          <div>
+            <strong>Sprint Count</strong>
+            <p>Total number of sprints</p>
+          </div>
+        </div>
+        <div class="card-info-item">
+          <mat-icon>schedule</mat-icon>
+          <div>
+            <strong>Last Updated</strong>
+            <p>When the project was last modified</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Tips & Best Practices -->
+  <mat-card class="tips-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>tips_and_updates</mat-icon>
+      <mat-card-title>Tips & Best Practices</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="tips-grid">
+        <div class="tip-item">
+          <mat-icon>star</mat-icon>
+          <div>
+            <strong>Use Filters Effectively</strong>
+            <p>Combine search and status filters to quickly find specific projects.</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <mat-icon>update</mat-icon>
+          <div>
+            <strong>Keep Status Updated</strong>
+            <p>Regularly update project status to maintain accurate overview.</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <mat-icon>bookmark</mat-icon>
+          <div>
+            <strong>Bookmark Important Projects</strong>
+            <p>Use browser bookmarks to quickly access frequently viewed projects.</p>
+          </div>
+        </div>
+        <div class="tip-item">
+          <mat-icon>visibility</mat-icon>
+          <div>
+            <strong>Regular Reviews</strong>
+            <p>Periodically review all projects to identify those needing attention.</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Common Questions -->
+  <mat-card class="faq-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>help</mat-icon>
+      <mat-card-title>Common Questions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              What's the difference between "All Projects" and "My Projects"?
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>"All Projects" shows every project in your organization, while "My Projects" only displays projects where you are a team member.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Can I see archived projects?
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Yes, use the status filter and select "Completed" or look for an "Archived" filter option to view archived projects.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              How do I export the project list?
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Look for an export button (usually in the top right) to download the project list as CSV or Excel format.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Why can't I see some projects?
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>You may not have permission to view certain projects. Contact your organization admin if you need access to specific projects.</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Next Steps -->
+  <mat-card class="next-steps-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>arrow_forward</mat-icon>
+      <mat-card-title>Next Steps</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Now that you know how to view all projects, explore these related features:</p>
+      <div class="next-steps-grid">
+        <a mat-raised-button routerLink="/how3" class="next-step-button">
+          <mat-icon>add_circle</mat-icon>
+          <span>Learn How to Start a New Project</span>
+        </a>
+        <a mat-raised-button routerLink="/how1" class="next-step-button">
+          <mat-icon>group_add</mat-icon>
+          <span>Learn How to Add Team Members</span>
+        </a>
+        <a mat-raised-button routerLink="/projects" color="primary" class="next-step-button">
+          <mat-icon>folder_open</mat-icon>
+          <span>Go to All Projects</span>
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

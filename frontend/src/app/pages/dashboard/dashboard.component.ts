@@ -36,4 +36,8 @@ export class DashboardComponent implements OnInit {
   viewUserProjects(): void {
     this.router.navigate(['/user-projects']);
   }
+
+  openAiCommandCenter(): void {
+    this.router.navigate(['/ai-command-center']);
+  }
 }

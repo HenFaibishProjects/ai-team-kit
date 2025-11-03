@@ -4,10 +4,24 @@
     <div class="empty-state-icon">
       <mat-icon>rocket_launch</mat-icon>
     </div>
-    <h2>Get Started with Your AI Team</h2>
+    <h2>Get Started with Your Virtual Team</h2>
     <p class="empty-state-description">Choose an action below to begin managing your projects</p>
     
     <div class="getting-started-cards">
+      <mat-card class="action-card">
+        <mat-card-header>
+          <h3>AI Command Center</h3>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Access smart AI prompts to boost your team's productivity and creativity</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="accent" (click)="openAiCommandCenter()">
+            Open AI Center
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
       <mat-card class="action-card">
         <mat-card-header>
           <h3>Set Up Organization</h3>

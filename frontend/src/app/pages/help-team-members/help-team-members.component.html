@@ -1,0 +1,407 @@
+<div class="guide-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <mat-icon class="hero-icon">person_add</mat-icon>
+      <h1>Adding Team Members</h1>
+      <p class="hero-subtitle">Learn how to build and manage your virtual team effectively</p>
+    </div>
+  </div>
+
+  <!-- Quick Overview -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">info</mat-icon>
+      <mat-card-title>Overview</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>The Virtual Team Kit allows you to create and manage virtual team members with specific roles, skills, and expertise. These AI-powered team members can help you plan, execute, and manage your projects effectively.</p>
+      
+      <div class="highlight-box">
+        <mat-icon>lightbulb</mat-icon>
+        <div>
+          <strong>Key Benefit:</strong> Build a complete team without hiring constraints. Add specialists exactly when you need them, with the precise skills your project requires.
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Step-by-Step Guide -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">list_alt</mat-icon>
+      <mat-card-title>Step-by-Step Guide</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-vertical-stepper linear>
+        <mat-step>
+          <ng-template matStepLabel>Navigate to Team Management</ng-template>
+          <div class="step-content">
+            <p><strong>How to get there:</strong></p>
+            <ol>
+              <li>From the Dashboard, click on <strong>"Team Management"</strong> in the navigation</li>
+              <li>Or use the direct link in the main menu</li>
+            </ol>
+            <div class="tip-box">
+              <mat-icon>tips_and_updates</mat-icon>
+              <p>You can also access team management from within any project by clicking the team icon.</p>
+            </div>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Click "Add Team Member"</ng-template>
+          <div class="step-content">
+            <p><strong>What you'll see:</strong></p>
+            <ul>
+              <li>A button labeled <strong>"Add Team Member"</strong> or <strong>"+ New Member"</strong></li>
+              <li>Your existing team members (if any) displayed in cards</li>
+            </ul>
+            <p>Click the button to open the team member creation form.</p>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Fill in Basic Information</ng-template>
+          <div class="step-content">
+            <p><strong>Required fields:</strong></p>
+            <div class="field-list">
+              <div class="field-item">
+                <mat-icon>badge</mat-icon>
+                <div>
+                  <strong>Name:</strong> Give your team member a professional name (e.g., "Sarah Chen", "Alex Rodriguez")
+                </div>
+              </div>
+              <div class="field-item">
+                <mat-icon>work</mat-icon>
+                <div>
+                  <strong>Role:</strong> Define their primary role (e.g., "Senior Developer", "UX Designer", "Project Manager")
+                </div>
+              </div>
+              <div class="field-item">
+                <mat-icon>email</mat-icon>
+                <div>
+                  <strong>Email:</strong> Provide a unique email address for identification
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Define Skills & Expertise</ng-template>
+          <div class="step-content">
+            <p><strong>Add relevant skills:</strong></p>
+            <ul>
+              <li><strong>Technical Skills:</strong> Programming languages, frameworks, tools</li>
+              <li><strong>Domain Expertise:</strong> Industry knowledge, specialized areas</li>
+              <li><strong>Soft Skills:</strong> Leadership, communication, problem-solving</li>
+            </ul>
+            <div class="example-box">
+              <strong>Example for a Frontend Developer:</strong>
+              <div class="skill-tags">
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">CSS/SASS</span>
+                <span class="skill-tag">UI/UX Design</span>
+                <span class="skill-tag">Responsive Design</span>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Set Experience Level</ng-template>
+          <div class="step-content">
+            <p><strong>Choose the appropriate level:</strong></p>
+            <div class="experience-levels">
+              <div class="level-card">
+                <mat-icon>school</mat-icon>
+                <h4>Junior (0-2 years)</h4>
+                <p>Learning fundamentals, needs guidance</p>
+              </div>
+              <div class="level-card">
+                <mat-icon>work</mat-icon>
+                <h4>Mid-Level (2-5 years)</h4>
+                <p>Independent worker, solid skills</p>
+              </div>
+              <div class="level-card">
+                <mat-icon>star</mat-icon>
+                <h4>Senior (5+ years)</h4>
+                <p>Expert, can lead and mentor</p>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Save & Assign to Projects</ng-template>
+          <div class="step-content">
+            <p><strong>Final steps:</strong></p>
+            <ol>
+              <li>Review all information for accuracy</li>
+              <li>Click <strong>"Save"</strong> or <strong>"Create Team Member"</strong></li>
+              <li>Assign them to relevant projects immediately or later</li>
+            </ol>
+            <div class="success-box">
+              <mat-icon>check_circle</mat-icon>
+              <p>Your team member is now ready to contribute to projects!</p>
+            </div>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Common Team Roles -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">groups</mat-icon>
+      <mat-card-title>Common Team Roles</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="roles-grid">
+        <div class="role-card">
+          <mat-icon>code</mat-icon>
+          <h4>Software Developer</h4>
+          <p><strong>Skills:</strong> Programming languages, frameworks, version control</p>
+          <p><strong>Responsibilities:</strong> Write code, implement features, fix bugs</p>
+        </div>
+
+        <div class="role-card">
+          <mat-icon>design_services</mat-icon>
+          <h4>UI/UX Designer</h4>
+          <p><strong>Skills:</strong> Design tools, user research, prototyping</p>
+          <p><strong>Responsibilities:</strong> Create designs, user flows, mockups</p>
+        </div>
+
+        <div class="role-card">
+          <mat-icon>account_tree</mat-icon>
+          <h4>Project Manager</h4>
+          <p><strong>Skills:</strong> Planning, communication, risk management</p>
+          <p><strong>Responsibilities:</strong> Coordinate team, track progress, manage timeline</p>
+        </div>
+
+        <div class="role-card">
+          <mat-icon>bug_report</mat-icon>
+          <h4>QA Engineer</h4>
+          <p><strong>Skills:</strong> Testing methodologies, automation, attention to detail</p>
+          <p><strong>Responsibilities:</strong> Test features, report bugs, ensure quality</p>
+        </div>
+
+        <div class="role-card">
+          <mat-icon>architecture</mat-icon>
+          <h4>System Architect</h4>
+          <p><strong>Skills:</strong> System design, scalability, best practices</p>
+          <p><strong>Responsibilities:</strong> Design architecture, technical decisions</p>
+        </div>
+
+        <div class="role-card">
+          <mat-icon>security</mat-icon>
+          <h4>DevOps Engineer</h4>
+          <p><strong>Skills:</strong> CI/CD, cloud platforms, automation</p>
+          <p><strong>Responsibilities:</strong> Deploy, monitor, maintain infrastructure</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Best Practices -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">verified</mat-icon>
+      <mat-card-title>Best Practices</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>balance</mat-icon>
+              Balance Your Team Composition
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <ul>
+              <li>Include a mix of experience levels (junior, mid, senior)</li>
+              <li>Ensure coverage of all necessary skill areas</li>
+              <li>Don't overload with too many specialists in one area</li>
+              <li>Consider team dynamics and complementary skills</li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>description</mat-icon>
+              Be Specific with Roles & Skills
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <ul>
+              <li>Use clear, descriptive role titles</li>
+              <li>List specific technologies and tools</li>
+              <li>Include both technical and soft skills</li>
+              <li>Be realistic about experience levels</li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>update</mat-icon>
+              Keep Team Information Updated
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <ul>
+              <li>Update skills as team members "learn" new technologies</li>
+              <li>Adjust experience levels for long-running projects</li>
+              <li>Remove team members who are no longer needed</li>
+              <li>Document any special expertise or certifications</li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>assignment_ind</mat-icon>
+              Assign Clear Responsibilities
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <ul>
+              <li>Define what each team member is responsible for</li>
+              <li>Avoid overlapping responsibilities without clear coordination</li>
+              <li>Ensure someone owns each critical area</li>
+              <li>Document decision-making authority</li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Tips & Tricks -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">emoji_objects</mat-icon>
+      <mat-card-title>Tips & Tricks</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="tips-grid">
+        <div class="tip-item">
+          <mat-icon>content_copy</mat-icon>
+          <h4>Clone Team Members</h4>
+          <p>Need similar roles? Clone an existing team member and modify the details instead of starting from scratch.</p>
+        </div>
+
+        <div class="tip-item">
+          <mat-icon>folder</mat-icon>
+          <h4>Create Team Templates</h4>
+          <p>Build standard team compositions for common project types (e.g., "Web App Team", "Mobile Team").</p>
+        </div>
+
+        <div class="tip-item">
+          <mat-icon>swap_horiz</mat-icon>
+          <h4>Rotate Responsibilities</h4>
+          <p>For learning projects, rotate team members through different roles to explore various perspectives.</p>
+        </div>
+
+        <div class="tip-item">
+          <mat-icon>trending_up</mat-icon>
+          <h4>Scale Gradually</h4>
+          <p>Start with a small core team and add specialists as needed rather than building a large team upfront.</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Common Questions -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-icon class="section-icon">help_outline</mat-icon>
+      <mat-card-title>Common Questions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>How many team members should I add?</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <p>It depends on your project scope:</p>
+            <ul>
+              <li><strong>Small projects:</strong> 3-5 team members</li>
+              <li><strong>Medium projects:</strong> 6-10 team members</li>
+              <li><strong>Large projects:</strong> 10+ team members</li>
+            </ul>
+            <p>Focus on quality over quantity. A well-defined small team is better than a large unfocused one.</p>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Can I use the same team member across multiple projects?</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <p>Yes! Team members can be assigned to multiple projects. This is useful for:</p>
+            <ul>
+              <li>Specialists who contribute to multiple initiatives</li>
+              <li>Leadership roles that oversee several projects</li>
+              <li>Shared resources across related projects</li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>What if I need to change a team member's role?</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <p>You can edit team members at any time:</p>
+            <ol>
+              <li>Go to Team Management</li>
+              <li>Find the team member</li>
+              <li>Click "Edit" or the pencil icon</li>
+              <li>Update their information</li>
+              <li>Save changes</li>
+            </ol>
+            <p>Changes will be reflected across all projects they're assigned to.</p>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Can I delete team members?</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">
+            <p>Yes, but be careful:</p>
+            <ul>
+              <li>Deleting removes them from all projects</li>
+              <li>Historical data may be affected</li>
+              <li>Consider "archiving" instead if they might be needed later</li>
+            </ul>
+            <div class="warning-box">
+              <mat-icon>warning</mat-icon>
+              <p>Always review project assignments before deleting a team member.</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- CTA Section -->
+  <div class="cta-section">
+    <h2>Ready to Build Your Team?</h2>
+    <p>Start adding team members and bring your project to life!</p>
+    <button mat-raised-button color="primary" class="cta-button" routerLink="/teams/manage">
+      <mat-icon>person_add</mat-icon>
+      Go to Team Management
+    </button>
+  </div>
+</div>

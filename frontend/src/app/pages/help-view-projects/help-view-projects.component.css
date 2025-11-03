@@ -1,0 +1,369 @@
+.help-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.help-header {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.help-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 8px 0;
+  font-size: 2.5em;
+  color: #1976d2;
+}
+
+.help-header h1 mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  color: #666;
+  margin: 0;
+}
+
+/* Cards */
+mat-card {
+  margin-bottom: 24px;
+}
+
+mat-card-header {
+  margin-bottom: 16px;
+}
+
+mat-card-header mat-icon[mat-card-avatar] {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  background: none;
+  color: #1976d2;
+}
+
+/* Quick Start Card */
+.quick-start-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.quick-start-card mat-card-title,
+.quick-start-card mat-card-content p {
+  color: white;
+}
+
+.quick-start-card mat-icon {
+  color: white;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.quick-actions a {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.feature-card {
+  height: 100%;
+}
+
+.icon-search {
+  color: #4caf50 !important;
+}
+
+.icon-info {
+  color: #2196f3 !important;
+}
+
+.icon-action {
+  color: #ff9800 !important;
+}
+
+/* Step Content */
+.step-content {
+  padding: 16px 0;
+}
+
+.step-content ol,
+.step-content ul {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.step-content li {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+mat-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+mat-panel-title mat-icon {
+  color: #1976d2;
+}
+
+/* Info Boxes */
+.tip-box,
+.example-box,
+.warning-box {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  align-items: flex-start;
+}
+
+.tip-box {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+}
+
+.tip-box mat-icon {
+  color: #2196f3;
+}
+
+.example-box {
+  background-color: #f3e5f5;
+  border-left: 4px solid #9c27b0;
+}
+
+.example-box mat-icon {
+  color: #9c27b0;
+}
+
+.warning-box {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff9800;
+}
+
+.warning-box mat-icon {
+  color: #ff9800;
+}
+
+.tip-box p,
+.example-box p,
+.warning-box p {
+  margin: 0;
+  flex: 1;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.status-badge.planning {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.active {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-badge.on-hold {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.status-badge.completed {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Card Info Grid */
+.card-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-info-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.card-info-item mat-icon {
+  color: #1976d2;
+  margin-top: 4px;
+}
+
+.card-info-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.card-info-item p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Tips Grid */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.tip-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.tip-item mat-icon {
+  color: #ffc107;
+  margin-top: 4px;
+}
+
+.tip-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.tip-item p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Next Steps */
+.next-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.next-step-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px !important;
+  height: auto !important;
+  text-align: center;
+}
+
+.next-step-button mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.next-step-button span {
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .help-container {
+    padding: 16px;
+  }
+
+  .help-header h1 {
+    font-size: 1.8em;
+  }
+
+  .help-header h1 mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .features-grid,
+  .card-info-grid,
+  .tips-grid,
+  .next-steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions {
+    flex-direction: column;
+  }
+
+  .quick-actions a {
+    width: 100%;
+  }
+}
+
+/* Accordion Styling */
+mat-expansion-panel {
+  margin-bottom: 8px;
+}
+
+mat-expansion-panel-header {
+  font-weight: 500;
+}
+
+/* Card Specific Styles */
+.guide-card,
+.info-card,
+.tips-card,
+.faq-card,
+.next-steps-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guide-card mat-card-header mat-icon {
+  color: #4caf50 !important;
+}
+
+.info-card mat-card-header mat-icon {
+  color: #2196f3 !important;
+}
+
+.tips-card mat-card-header mat-icon {
+  color: #ffc107 !important;
+}
+
+.faq-card mat-card-header mat-icon {
+  color: #9c27b0 !important;
+}
+
+.next-steps-card mat-card-header mat-icon {
+  color: #ff5722 !important;
+}
