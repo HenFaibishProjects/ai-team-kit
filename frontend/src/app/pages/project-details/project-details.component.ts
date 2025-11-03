@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TeamService } from '../../services/team.service';
 import { AuthService } from '../../services/auth.service';
-import type { TeamConfig, Agent, FeatureConfig } from '../../../../../shared/types';
+import type { TeamConfig, Agent, FeatureConfig } from '../../shared/types';
 
 export enum ProjectStatus {
   NOT_STARTED = 'not_started',

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
-import type { Agent, Orientation } from '../../../../../shared/types';
+import type { Agent, Orientation } from '../../shared/types';
 
 interface AvailableTeamMember {
   name: string;

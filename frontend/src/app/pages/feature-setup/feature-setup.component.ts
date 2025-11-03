@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
 import { GithubService, GitHubRepository, RepositoryDetails } from '../../services/github.service';
-import type { FeatureConfig, Agent } from '../../../../../shared/types';
+import type { FeatureConfig, Agent } from '../../shared/types';
 
 @Component({
   selector: 'app-feature-setup',

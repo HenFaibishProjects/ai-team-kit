@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
 import { ClipboardService } from '../../services/clipboard.service';
-import type { Agent, FeatureConfig } from '../../../../../shared/types';
+import type { Agent, FeatureConfig } from '../../shared/types';
 
 interface ArchitecturePattern {
   id: string;
@@ -456,7 +456,7 @@ ${projectType === 'existing' ? 'The following features need to be integrated int
 
 **Acceptance Criteria:**
 `;
-      feature.acceptanceCriteria.forEach(criterion => {
+      feature.acceptanceCriteria.forEach((criterion: string) => {
         prompt += `- ${criterion}\n`;
       });
     });

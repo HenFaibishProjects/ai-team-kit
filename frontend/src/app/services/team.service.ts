@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import type { TeamConfig, Agent, FeatureConfig } from '../../../../shared/types';
+import type { TeamConfig, Agent, FeatureConfig } from '../shared/types';
 
 @Injectable({
   providedIn: 'root',

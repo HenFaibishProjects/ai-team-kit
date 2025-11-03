@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TeamService } from '../../services/team.service';
 import { AuthService } from '../../services/auth.service';
 import { ClipboardService } from '../../services/clipboard.service';
-import type { TeamConfig } from '../../../../../shared/types';
+import type { TeamConfig } from '../../shared/types';
 
 @Component({
   selector: 'app-export',

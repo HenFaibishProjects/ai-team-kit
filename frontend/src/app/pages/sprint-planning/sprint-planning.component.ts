@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { TeamService } from '../../services/team.service';
-import type { Agent, FeatureConfig } from '../../../../../shared/types';
+import type { Agent, FeatureConfig } from '../../shared/types';
 
 interface Task {
   name: string;

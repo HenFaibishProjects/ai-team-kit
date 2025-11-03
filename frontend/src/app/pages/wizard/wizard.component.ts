@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { TeamService } from '../../services/team.service';
-import type { TeamConfig } from '../../../../../shared/types';
+import type { TeamConfig } from '../../shared/types';
 
 @Component({
   selector: 'app-wizard',
