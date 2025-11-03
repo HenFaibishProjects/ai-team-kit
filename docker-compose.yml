@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
@@ -21,9 +19,7 @@ services:
 
   # Backend API
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ai-team-kit-backend:latest
     container_name: ai-team-kit-backend
     environment:
       - NODE_ENV=production
@@ -41,11 +37,7 @@ services:
 
   # Frontend Application
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        - API_URL=http://lida.virtualteam.software/api
+    image: ai-team-kit-frontend:latest
     container_name: ai-team-kit-frontend
     networks:
       - ai-team-kit-network

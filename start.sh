@@ -98,7 +98,23 @@ start_containers() {
     print_message "This may take several minutes on first run..." "$YELLOW"
     echo ""
     
-    if docker-compose up --build -d; then
+    # Build images separately using docker build to avoid buildx
+    print_message "Building backend image..." "$YELLOW"
+    if ! docker build -t ai-team-kit-backend:latest ./backend; then
+        print_message "ERROR: Failed to build backend!" "$RED"
+        exit 1
+    fi
+    
+    print_message "Building frontend image..." "$YELLOW"
+    if ! docker build -t ai-team-kit-frontend:latest \
+        --build-arg API_URL=http://lida.virtualteam.software/api \
+        ./frontend; then
+        print_message "ERROR: Failed to build frontend!" "$RED"
+        exit 1
+    fi
+    
+    print_message "Starting containers..." "$YELLOW"
+    if docker-compose up -d; then
         print_message "✓ Containers started successfully" "$GREEN"
     else
         print_message "ERROR: Failed to start containers!" "$RED"
