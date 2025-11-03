@@ -37,35 +37,44 @@ export class AuthController {
   }
 
   @Get('profile')
-  @UseGuards(JwtAuthGuard)
   getProfile(@Request() req: any) {
-    return this.authService.getProfile(req.user.userId);
+    // Return mock user for no-auth mode
+    return {
+      id: '1',
+      email: 'demo@example.com',
+      username: 'Demo User',
+      organizationName: 'Demo Organization'
+    };
   }
 
   @Post('logout')
-  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   logout() {
-    // With JWT, logout is handled client-side by removing the token
     return { message: 'Logged out successfully' };
   }
 
   @Get('projects')
-  @UseGuards(JwtAuthGuard)
-  async getUserProjects(@Request() req: any) {
-    return this.authService.getUserProjects(req.user.userId);
+  async getUserProjects() {
+    // Return empty array for no-auth mode
+    return [];
   }
 
   @Get('organization/users')
-  @UseGuards(JwtAuthGuard)
-  async getOrganizationUsers(@Request() req: any) {
-    return this.authService.getOrganizationUsers(req.user.userId);
+  async getOrganizationUsers() {
+    // Return mock users for no-auth mode
+    return [
+      {
+        id: '1',
+        email: 'demo@example.com',
+        username: 'Demo User',
+        organizationName: 'Demo Organization'
+      }
+    ];
   }
 
   @Get('users/:userId/projects')
-  @UseGuards(JwtAuthGuard)
-  async getUserProjectsById(@Request() req: any, @Query('userId') userId: string) {
-    // Verify the requesting user is from the same organization
-    return this.authService.getUserProjectsById(req.user.userId, userId);
+  async getUserProjectsById(@Query('userId') userId: string) {
+    // Return empty array for no-auth mode
+    return [];
   }
 }
