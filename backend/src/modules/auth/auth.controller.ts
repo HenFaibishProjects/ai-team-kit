@@ -4,7 +4,6 @@ import {
   Get,
   Body,
   Query,
-  UseGuards,
   Request,
   HttpCode,
   HttpStatus,
@@ -12,11 +11,14 @@ import {
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { ConfigService } from '../config/config.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
@@ -55,8 +57,8 @@ export class AuthController {
 
   @Get('projects')
   async getUserProjects() {
-    // Return empty array for no-auth mode
-    return [];
+    // Return projects from config service for default user
+    return await this.configService.getUserProjects('default-user');
   }
 
   @Get('organization/users')
@@ -74,7 +76,8 @@ export class AuthController {
 
   @Get('users/:userId/projects')
   async getUserProjectsById(@Query('userId') userId: string) {
-    // Return empty array for no-auth mode
-    return [];
+    // Return projects from config service for specified user
+    const effectiveUserId = userId || 'default-user';
+    return await this.configService.getUserProjects(effectiveUserId);
   }
 }

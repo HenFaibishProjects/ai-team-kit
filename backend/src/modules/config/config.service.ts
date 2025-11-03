@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import type { TeamConfig } from '../../shared/types';
 
 // In-memory storage for no-auth mode
-interface StoredProject {
+export interface StoredProject {
   id: string;
   userId: string;
   projectName: string;
