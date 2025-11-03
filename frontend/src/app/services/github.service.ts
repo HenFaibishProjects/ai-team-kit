@@ -35,7 +35,7 @@ export interface RepositoryDetails {
   providedIn: 'root',
 })
 export class GithubService {
-  private apiUrl = 'http://localhost:3000/github';
+  private apiUrl = '/api/github';
   private tokenSubject = new BehaviorSubject<string | null>(null);
   private userSubject = new BehaviorSubject<GitHubUser | null>(null);
 
